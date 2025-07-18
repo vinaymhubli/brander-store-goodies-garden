@@ -12,9 +12,11 @@ export const Navigation = () => {
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <h1 className="text-3xl font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              brander<span className="text-gray-900">.store</span>
-            </h1>
+            <img 
+              src="/lovable-uploads/a7e71e82-81bb-47bd-baf0-7c00f71b9133.png" 
+              alt="Brandter E-commerce Store" 
+              className="h-12 w-auto"
+            />
           </div>
 
           {/* Desktop Navigation */}
