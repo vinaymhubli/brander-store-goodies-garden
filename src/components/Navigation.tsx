@@ -45,9 +45,9 @@ export const Navigation = () => {
             </div>
           </div>
 
-          {/* Right side icons */}
-          <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="icon" className="hidden md:flex hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full">
+          {/* Desktop Right side icons */}
+          <div className="hidden lg:flex items-center space-x-3">
+            <Button variant="ghost" size="icon" className="hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full">
               <Search className="h-5 w-5" />
             </Button>
             <Button variant="ghost" size="icon" className="hover:bg-pink-50 hover:text-pink-600 transition-all duration-300 rounded-full relative">
@@ -73,23 +73,24 @@ export const Navigation = () => {
                 )}
               </Button>
             </Link>
-            
-            {/* Mobile menu button */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="lg:hidden hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <Menu className="h-5 w-5" />
-            </Button>
           </div>
+
+          {/* Mobile menu button */}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            className="lg:hidden hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Menu className="h-5 w-5" />
+          </Button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 bg-white/98 backdrop-blur-xl shadow-lg rounded-b-2xl">
             <div className="px-4 py-6 space-y-4">
+              {/* Navigation Links */}
               <Link to="/shop" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 Shop
               </Link>
@@ -102,6 +103,48 @@ export const Navigation = () => {
               <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 About Us
               </a>
+              
+              {/* Divider */}
+              <div className="border-t border-gray-200 my-4"></div>
+              
+              {/* Mobile Action Items */}
+              <div className="space-y-2">
+                <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-xl">
+                  <Search className="h-5 w-5 mr-3" />
+                  Search
+                </Button>
+                
+                <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-pink-50 hover:text-pink-600 transition-all duration-300 rounded-xl relative">
+                  <Heart className="h-5 w-5 mr-3" />
+                  Wishlist
+                  <span className="absolute right-4 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                    3
+                  </span>
+                </Button>
+                
+                <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-xl relative">
+                  <Bell className="h-5 w-5 mr-3" />
+                  Notifications
+                  <span className="absolute right-4 bg-blue-500 text-white text-xs rounded-full h-2 w-2"></span>
+                </Button>
+                
+                <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-xl">
+                  <User className="h-5 w-5 mr-3" />
+                  Profile
+                </Button>
+                
+                <Link to="/cart" className="block">
+                  <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-xl relative">
+                    <ShoppingCart className="h-5 w-5 mr-3" />
+                    Cart
+                    {cartItemsCount > 0 && (
+                      <span className="absolute right-4 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                        {cartItemsCount}
+                      </span>
+                    )}
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         )}
