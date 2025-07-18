@@ -1,5 +1,5 @@
 
-import { ShoppingCart, Search, User, Menu, Heart, Bell, Crown, Sparkles } from "lucide-react";
+import { ShoppingCart, Search, User, Menu, Heart, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
@@ -22,21 +22,19 @@ export const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="flex items-center space-x-8">
-              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-semibold transition-all duration-300 group">
-                <Crown className="inline h-4 w-4 mr-2 text-yellow-500" />
+              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
                 Kitchen & Food
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </a>
-              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-semibold transition-all duration-300 group">
-                <Sparkles className="inline h-4 w-4 mr-2 text-purple-500" />
+              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
                 Luxury Jewelry
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </a>
-              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-semibold transition-all duration-300 group">
+              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
                 Collections
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </a>
-              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-semibold transition-all duration-300 group">
+              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
                 About Us
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </a>
@@ -84,18 +82,16 @@ export const Navigation = () => {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 bg-white/98 backdrop-blur-xl shadow-lg rounded-b-2xl">
             <div className="px-4 py-6 space-y-4">
-              <a href="#" className="flex items-center px-4 py-3 font-semibold text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
-                <Crown className="h-5 w-5 mr-3 text-yellow-500" />
+              <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 Kitchen & Food
               </a>
-              <a href="#" className="flex items-center px-4 py-3 font-semibold text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
-                <Sparkles className="h-5 w-5 mr-3 text-purple-500" />
+              <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 Luxury Jewelry
               </a>
-              <a href="#" className="flex items-center px-4 py-3 font-semibold text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
+              <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 Collections
               </a>
-              <a href="#" className="flex items-center px-4 py-3 font-semibold text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
+              <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 About Us
               </a>
             </div>
