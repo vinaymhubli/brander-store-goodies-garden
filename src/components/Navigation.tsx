@@ -2,30 +2,34 @@
 import { ShoppingCart, Search, User, Menu, Heart, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { useCartStore } from "@/store/cartStore";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { items } = useCartStore();
+  const cartItemsCount = items.reduce((total, item) => total + item.quantity, 0);
 
   return (
     <nav className="bg-white sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <div className="flex-shrink-0 group">
+          <Link to="/" className="flex-shrink-0 group">
             <img 
               src="/lovable-uploads/a7e71e82-81bb-47bd-baf0-7c00f71b9133.png" 
               alt="Brandter E-commerce Store" 
               className="h-12 w-auto group-hover:scale-105 transition-transform duration-300 filter drop-shadow-md"
             />
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="flex items-center space-x-8">
-              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
-                Kitchen & Food
+              <Link to="/shop" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
+                Shop
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </a>
+              </Link>
               <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
                 Luxury Jewelry
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
@@ -59,12 +63,16 @@ export const Navigation = () => {
             <Button variant="ghost" size="icon" className="hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-full">
               <User className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="relative hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full">
-              <ShoppingCart className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                2
-              </span>
-            </Button>
+            <Link to="/cart">
+              <Button variant="ghost" size="icon" className="relative hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full">
+                <ShoppingCart className="h-5 w-5" />
+                {cartItemsCount > 0 && (
+                  <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </Button>
+            </Link>
             
             {/* Mobile menu button */}
             <Button 
@@ -82,9 +90,9 @@ export const Navigation = () => {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-gray-200 bg-white/98 backdrop-blur-xl shadow-lg rounded-b-2xl">
             <div className="px-4 py-6 space-y-4">
-              <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
-                Kitchen & Food
-              </a>
+              <Link to="/shop" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
+                Shop
+              </Link>
               <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 Luxury Jewelry
               </a>
