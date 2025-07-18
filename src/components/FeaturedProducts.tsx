@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap, ArrowRight, Crown, Sparkles, Award, Diamond } from "lucide-react";
@@ -12,7 +11,7 @@ export const FeaturedProducts = () => {
       originalPrice: 799.99,
       rating: 5.0,
       reviews: 487,
-      image: "https://images.unsplash.com/photo-1618160702438-9b02ab6515c9?auto=format&fit=crop&w=800&q=80",
+      image: "/lovable-uploads/f3cff865-b598-4bb1-9049-99b64a31c5d1.png",
       badge: "PREMIUM",
       badgeColor: "bg-orange-500",
       category: "Professional Kitchen",
@@ -27,7 +26,7 @@ export const FeaturedProducts = () => {
       originalPrice: 3199.99,
       rating: 5.0,
       reviews: 203,
-      image: "https://images.unsplash.com/photo-1721322800607-8c38375eef04?auto=format&fit=crop&w=800&q=80",
+      image: "/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png",
       badge: "EXCLUSIVE",
       badgeColor: "bg-purple-600",
       category: "Royal Jewelry",
@@ -42,7 +41,7 @@ export const FeaturedProducts = () => {
       originalPrice: 519.99,
       rating: 4.9,
       reviews: 356,
-      image: "https://images.unsplash.com/photo-1582562124811-c09040d0a901?auto=format&fit=crop&w=800&q=80",
+      image: "/lovable-uploads/d27ef0bf-b53c-4275-a245-4a25eeb7c8e4.png",
       badge: "POPULAR",
       badgeColor: "bg-blue-600",
       category: "Luxury Tableware",
@@ -57,7 +56,7 @@ export const FeaturedProducts = () => {
       originalPrice: 1699.99,
       rating: 5.0,
       reviews: 142,
-      image: "https://images.unsplash.com/photo-1500673922987-e212871fec22?auto=format&fit=crop&w=800&q=80",
+      image: "/lovable-uploads/fd729123-23d2-4374-b4df-1a186593e99b.png",
       badge: "MASTERPIECE",
       badgeColor: "bg-amber-600",
       category: "Luxury Jewelry", 
