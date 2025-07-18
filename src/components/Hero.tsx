@@ -65,7 +65,7 @@ export const Hero = () => {
                 Explore Collection
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button variant="outline" size="lg" className="px-8 py-3 rounded-full border-white/40 text-white hover:bg-white/10 backdrop-blur-sm transition-all duration-300">
+              <Button variant="outline" size="lg" className="px-8 py-3 rounded-full border-white/60 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm transition-all duration-300 font-semibold">
                 <Sparkles className="mr-2 h-5 w-5" />
                 Our Story
               </Button>
