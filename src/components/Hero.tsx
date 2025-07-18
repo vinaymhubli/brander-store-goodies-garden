@@ -1,11 +1,27 @@
 
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, Sparkles, Award, Shield, Crown, Gem, Zap } from "lucide-react";
 
 export const Hero = () => {
   return (
     <section className="relative min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
+      {/* Background Video */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden">
+        <video
+          autoPlay
+          muted
+          loop
+          className="w-full h-full object-cover opacity-30"
+          poster="/lovable-uploads/b9939234-d571-4c99-9503-c34008224ce6.png"
+        >
+          <source src="https://videos.pexels.com/video-files/6774237/6774237-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* Video overlay */}
+        <div className="absolute inset-0 bg-slate-900/60"></div>
+      </div>
+
       {/* Simplified background elements */}
       <div className="absolute inset-0 opacity-20">
         <div className="absolute top-10 left-10 md:top-20 md:left-20 w-48 h-48 md:w-72 md:h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl animate-pulse"></div>
@@ -55,8 +71,8 @@ export const Hero = () => {
               
               <p className="text-base md:text-lg text-gray-200 leading-relaxed max-w-2xl mx-auto lg:mx-0">
                 Experience the pinnacle of craftsmanship with our exclusive collection of 
-                <span className="text-yellow-400 font-medium"> premium kitchenware</span> and 
-                <span className="text-purple-400 font-medium"> exquisite jewelry</span>. 
+                <span className="text-yellow-400 font-medium"> premium jewelry</span> and 
+                <span className="text-purple-400 font-medium"> luxury accessories</span>. 
                 Where every piece tells a story of unparalleled luxury.
               </p>
             </div>
@@ -90,20 +106,20 @@ export const Hero = () => {
             </div>
           </div>
 
-          {/* Right Content - Mobile optimized */}
+          {/* Right Content - Mobile optimized with updated product showcase */}
           <div className="relative animate-fade-in animation-delay-300 mt-8 lg:mt-0">
             <div className="relative group">
               {/* Product card - Mobile optimized */}
               <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-white/20 shadow-xl transform hover:scale-105 transition-all duration-500">
                 <img 
-                  src="/lovable-uploads/b9939234-d571-4c99-9503-c34008224ce6.png" 
-                  alt="Premium Kitchen Collection" 
+                  src="/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png" 
+                  alt="Premium Jewelry Collection" 
                   className="w-full h-auto rounded-xl shadow-lg"
                 />
                 <div className="mt-4 md:mt-6 space-y-3 md:space-y-4">
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg md:text-xl font-bold text-white">
-                      Royal Elite Cookware
+                      Royal Diamond Necklace
                     </h3>
                     <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full border border-green-400/40">
                       <Shield className="h-3 w-3 md:h-4 md:w-4 text-green-400" />
@@ -111,12 +127,12 @@ export const Hero = () => {
                     </div>
                   </div>
                   <p className="text-sm md:text-base text-gray-200 leading-relaxed">
-                    Master chef's choice featuring premium materials and lifetime craftsmanship warranty.
+                    Exquisite handcrafted jewelry featuring premium materials and lifetime authenticity guarantee.
                   </p>
                   <div className="flex items-center justify-between pt-3 md:pt-4">
                     <div className="space-y-1">
-                      <div className="text-xl md:text-2xl font-bold text-yellow-400">$899.99</div>
-                      <div className="text-base md:text-lg text-gray-400 line-through">$1,299.99</div>
+                      <div className="text-xl md:text-2xl font-bold text-yellow-400">$2,299.99</div>
+                      <div className="text-base md:text-lg text-gray-400 line-through">$3,199.99</div>
                     </div>
                     <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-4 md:px-6 py-2 font-semibold text-sm md:text-base">
                       <Zap className="mr-1 h-3 w-3 md:h-4 md:w-4" />
@@ -128,7 +144,7 @@ export const Hero = () => {
               
               {/* Floating elements - Mobile optimized */}
               <div className="absolute -top-2 -left-2 md:-top-4 md:-left-4 bg-red-500 text-white px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">
-                50% OFF
+                28% OFF
               </div>
               <div className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-blue-600 text-white px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">
                 FREE SHIPPING
@@ -147,4 +163,3 @@ export const Hero = () => {
     </section>
   );
 };
-
