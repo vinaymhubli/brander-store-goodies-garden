@@ -5,6 +5,7 @@ import { Star, ShoppingCart } from "lucide-react";
 import { Product } from "@/data/products";
 import { useCartStore } from "@/store/cartStore";
 import { Link } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
   product: Product;
@@ -12,6 +13,7 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCartStore();
+  const { toast } = useToast();
 
   const handleAddToCart = () => {
     addItem({
@@ -19,6 +21,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       name: product.name,
       price: product.price,
       image: product.image,
+    });
+    
+    toast({
+      title: "Added to cart",
+      description: `${product.name} has been added to your cart.`,
     });
   };
 
