@@ -15,18 +15,26 @@ export const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCartStore();
   const { toast } = useToast();
 
+  console.log('ProductCard rendering for product:', product.name);
+
   const handleAddToCart = () => {
-    addItem({
-      id: product.id,
-      name: product.name,
-      price: product.price,
-      image: product.image,
-    });
-    
-    toast({
-      title: "Added to cart",
-      description: `${product.name} has been added to your cart.`,
-    });
+    console.log('Add to cart clicked for:', product.name);
+    try {
+      addItem({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      });
+      
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
+      });
+      console.log('Item successfully added to cart and toast shown');
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
   };
 
   return (
@@ -38,6 +46,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
               src={product.image}
               alt={product.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onError={(e) => {
+                console.error('Image failed to load:', product.image);
+                e.currentTarget.src = '/placeholder.svg';
+              }}
+              onLoad={() => console.log('Image loaded successfully:', product.image)}
             />
           </div>
         </Link>
@@ -66,7 +79,10 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
-        <Button onClick={handleAddToCart} className="w-full bg-purple-600 hover:bg-purple-700">
+        <Button 
+          onClick={handleAddToCart} 
+          className="w-full bg-purple-600 hover:bg-purple-700"
+        >
           <ShoppingCart className="w-4 h-4 mr-2" />
           Add to Cart
         </Button>
