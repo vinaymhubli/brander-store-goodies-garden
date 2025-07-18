@@ -1,7 +1,6 @@
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap } from "lucide-react";
+import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap, ArrowRight } from "lucide-react";
 
 export const FeaturedProducts = () => {
   const products = [
