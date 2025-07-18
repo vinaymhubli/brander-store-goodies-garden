@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, Sparkles, Award, Shield, Crown, Gem, Zap } from "lucide-react";
 
@@ -65,7 +66,7 @@ export const Hero = () => {
                 Explore Collection
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button variant="outline" size="lg" className="px-8 py-3 rounded-full border-white/60 text-white hover:bg-white/20 hover:text-white backdrop-blur-sm transition-all duration-300 font-semibold">
+              <Button variant="outline" size="lg" className="px-8 py-3 rounded-full bg-white/90 text-slate-900 hover:bg-white hover:text-slate-900 border-white shadow-lg transition-all duration-300 font-semibold">
                 <Sparkles className="mr-2 h-5 w-5" />
                 Our Story
               </Button>
