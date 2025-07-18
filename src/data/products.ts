@@ -1,4 +1,5 @@
 
+
 export interface Product {
   id: number;
   name: string;
@@ -15,7 +16,7 @@ export const products: Product[] = [
     id: 1,
     name: "Diamond Engagement Ring",
     price: 299.99,
-    image: "/lovable-uploads/60f61926-86cc-4be3-9cba-67af0112135b.png",
+    image: "/lovable-uploads/f3cff865-b598-4bb1-9049-99b64a31c5d1.png",
     category: "Rings",
     description: "Beautiful diamond engagement ring with classic design",
     rating: 4.8,
@@ -25,7 +26,7 @@ export const products: Product[] = [
     id: 2,
     name: "Gold Necklace",
     price: 199.99,
-    image: "/lovable-uploads/b9939234-d571-4c99-9503-c34008224ce6.png",
+    image: "/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png",
     category: "Necklaces",
     description: "Elegant gold necklace perfect for any occasion",
     rating: 4.6,
@@ -35,7 +36,7 @@ export const products: Product[] = [
     id: 3,
     name: "Pearl Earrings",
     price: 149.99,
-    image: "/lovable-uploads/60f61926-86cc-4be3-9cba-67af0112135b.png",
+    image: "/lovable-uploads/d27ef0bf-b53c-4275-a245-4a25eeb7c8e4.png",
     category: "Earrings",
     description: "Classic pearl earrings with silver backing",
     rating: 4.7,
@@ -45,7 +46,7 @@ export const products: Product[] = [
     id: 4,
     name: "Silver Bracelet",
     price: 89.99,
-    image: "/lovable-uploads/b9939234-d571-4c99-9503-c34008224ce6.png",
+    image: "/lovable-uploads/fd729123-23d2-4374-b4df-1a186593e99b.png",
     category: "Bracelets",
     description: "Modern silver bracelet with unique design",
     rating: 4.5,
@@ -55,7 +56,7 @@ export const products: Product[] = [
     id: 5,
     name: "Luxury Watch",
     price: 799.99,
-    image: "/lovable-uploads/60f61926-86cc-4be3-9cba-67af0112135b.png",
+    image: "/lovable-uploads/f3cff865-b598-4bb1-9049-99b64a31c5d1.png",
     category: "Watches",
     description: "Premium luxury watch with leather strap",
     rating: 4.9,
@@ -65,10 +66,11 @@ export const products: Product[] = [
     id: 6,
     name: "Tennis Bracelet",
     price: 399.99,
-    image: "/lovable-uploads/b9939234-d571-4c99-9503-c34008224ce6.png",
+    image: "/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png",
     category: "Bracelets",
     description: "Sparkling tennis bracelet with diamonds",
     rating: 4.8,
     reviews: 92
   }
 ];
+
