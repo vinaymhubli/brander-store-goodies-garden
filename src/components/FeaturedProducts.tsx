@@ -32,7 +32,7 @@ export const FeaturedProducts = () => {
       badge: "EXCLUSIVE",
       badgeColor: "bg-purple-600",
       category: "Royal Jewelry",
-      discount: "28% OFF",
+      discount: "44% OFF",
       features: ["24K Gold Plated", "Natural Diamonds", "Royal Heritage"],
       luxury: true,
       buttonColor: "bg-emerald-600 hover:bg-emerald-700",
