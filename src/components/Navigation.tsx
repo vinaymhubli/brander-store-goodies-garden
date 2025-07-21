@@ -38,10 +38,10 @@ export const Navigation = () => {
                 Collections
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </a>
-              <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
+              <Link to="/about" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
                 About Us
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -100,9 +100,9 @@ export const Navigation = () => {
               <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 Collections
               </a>
-              <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
+              <Link to="/about" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 About Us
-              </a>
+              </Link>
               
               {/* Divider */}
               <div className="border-t border-gray-200 my-4"></div>
