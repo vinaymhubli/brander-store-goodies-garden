@@ -163,9 +163,9 @@ export const FeaturedProducts = () => {
                 </div>
 
                 {/* Features */}
-                <div className="flex flex-wrap gap-1">
+                <div className="flex space-x-1 overflow-hidden">
                   {product.features.slice(0, 2).map((feature, idx) => (
-                    <span key={idx} className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full font-medium">
+                    <span key={idx} className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full font-medium whitespace-nowrap">
                       {feature}
                     </span>
                   ))}
