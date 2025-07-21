@@ -38,8 +38,8 @@ const ContactUs = () => {
                 <CardTitle className="text-xl">Email Us</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-gray-600 mb-2">hello@brandter.com</p>
-                <p className="text-gray-600">support@brandter.com</p>
+                <p className="text-gray-600 mb-2">info@brandter.store</p>
+                <p className="text-gray-600 text-sm">General Questions</p>
               </CardContent>
             </Card>
 
@@ -51,8 +51,8 @@ const ContactUs = () => {
                 <CardTitle className="text-xl">Call Us</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-gray-600 mb-2">+1 (555) 123-4567</p>
-                <p className="text-gray-600">+1 (555) 987-6543</p>
+                <p className="text-gray-600 mb-2">+91 9068007866</p>
+                <p className="text-gray-600 text-sm">Customer Support</p>
               </CardContent>
             </Card>
 
@@ -64,8 +64,9 @@ const ContactUs = () => {
                 <CardTitle className="text-xl">Visit Us</CardTitle>
               </CardHeader>
               <CardContent className="text-center">
-                <p className="text-gray-600 mb-2">123 Commerce Street</p>
-                <p className="text-gray-600">New York, NY 10001</p>
+                <p className="text-gray-600 mb-2">A 315 ERA GARDENIYA ESTATE</p>
+                <p className="text-gray-600 text-sm">NOOR NAGAR LISARI MEERUT</p>
+                <p className="text-gray-600 text-sm">250002 UTTAR PRADESH INDIA</p>
               </CardContent>
             </Card>
 
