@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap, ArrowRight, Crown, Sparkles, Award, Diamond } from "lucide-react";
@@ -152,10 +153,6 @@ export const FeaturedProducts = () => {
                     <span className="text-xs text-gray-600 uppercase tracking-wide font-semibold bg-gray-100 px-2 py-1 rounded-full">
                       {product.category}
                     </span>
-                    <div className="flex items-center space-x-1 text-green-600">
-                      <TrendingUp className="h-3 w-3" />
-                      <span className="text-xs font-semibold">TRENDING</span>
-                    </div>
                   </div>
                   <h3 className="font-bold text-gray-900 text-lg leading-tight group-hover:text-blue-600 transition-colors">
                     {product.name}
