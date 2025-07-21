@@ -14,8 +14,9 @@ export const Hero = () => {
           className="w-full h-full object-cover opacity-30"
           poster="/lovable-uploads/b9939234-d571-4c99-9503-c34008224ce6.png"
         >
-          <source src="https://videos.pexels.com/video-files/6774237/6774237-uhd_2560_1440_25fps.mp4" type="video/mp4" />
-          <source src="https://videos.pexels.com/video-files/3571264/3571264-uhd_2560_1440_30fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3195394/3195394-uhd_2560_1440_25fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/3298266/3298266-hd_1920_1080_30fps.mp4" type="video/mp4" />
+          <source src="https://videos.pexels.com/video-files/4099340/4099340-hd_1920_1080_25fps.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
         {/* Video overlay */}
@@ -59,33 +60,33 @@ export const Hero = () => {
               
               <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 <span className="block text-orange-400">
-                  LUXURY
+                  HEAT MAT
                 </span>
                 <span className="block text-purple-400">
-                  REDEFINED
+                  PRO
                 </span>
                 <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-200 font-normal mt-1 md:mt-2">
-                  Beyond Excellence
+                  Food Heating Pad
                 </span>
               </h1>
               
               <p className="text-base md:text-lg text-gray-200 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Experience the pinnacle of craftsmanship with our exclusive collection of 
-                <span className="text-yellow-400 font-medium"> premium jewelry</span> and 
-                <span className="text-purple-400 font-medium"> luxury accessories</span>. 
-                Where every piece tells a story of unparalleled luxury.
+                Experience the ultimate in 
+                <span className="text-yellow-400 font-medium"> food warming technology</span> with our 
+                <span className="text-purple-400 font-medium"> adjustable temperature control</span>. 
+                Compact, portable, and safe with built-in timer and child lock features.
               </p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-center justify-center lg:justify-start">
               <Button size="lg" className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 md:px-8 py-3 rounded-full shadow-lg transition-all duration-300">
                 <Crown className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-                Explore Collection
+                Shop Now
                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
               </Button>
               <Button variant="outline" size="lg" className="w-full sm:w-auto px-6 md:px-8 py-3 rounded-full bg-white/90 text-slate-900 hover:bg-white hover:text-slate-900 border-white shadow-lg transition-all duration-300 font-semibold">
                 <Sparkles className="mr-2 h-4 w-4 md:h-5 md:w-5" />
-                Our Story
+                Learn More
               </Button>
             </div>
 
@@ -93,11 +94,11 @@ export const Hero = () => {
             <div className="grid grid-cols-3 gap-4 md:gap-6 pt-6 md:pt-8 border-t border-white/20">
               <div className="text-center">
                 <div className="text-xl md:text-2xl font-bold text-yellow-400 mb-1">50K+</div>
-                <div className="text-xs md:text-sm text-gray-300">Customers</div>
+                <div className="text-xs md:text-sm text-gray-300">Happy Customers</div>
               </div>
               <div className="text-center">
-                <div className="text-xl md:text-2xl font-bold text-purple-400 mb-1">1000+</div>
-                <div className="text-xs md:text-sm text-gray-300">Products</div>
+                <div className="text-xl md:text-2xl font-bold text-purple-400 mb-1">5 Year</div>
+                <div className="text-xs md:text-sm text-gray-300">Warranty</div>
               </div>
               <div className="text-center">
                 <div className="text-xl md:text-2xl font-bold text-pink-400 mb-1">24/7</div>
@@ -113,26 +114,26 @@ export const Hero = () => {
               <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-white/20 shadow-xl transform hover:scale-105 transition-all duration-500">
                 <img 
                   src="/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png" 
-                  alt="Premium Jewelry Collection" 
+                  alt="Heat Mat Pro - Food Heating Pad" 
                   className="w-full h-auto rounded-xl shadow-lg"
                 />
                 <div className="mt-4 md:mt-6 space-y-3 md:space-y-4">
                   <div className="flex items-center justify-between">
                     <h3 className="text-lg md:text-xl font-bold text-white">
-                      Royal Diamond Necklace
+                      Heat Mat Pro - Food Heating Pad
                     </h3>
                     <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full border border-green-400/40">
                       <Shield className="h-3 w-3 md:h-4 md:w-4 text-green-400" />
-                      <span className="text-green-400 text-xs font-semibold">PREMIUM</span>
+                      <span className="text-green-400 text-xs font-semibold">SAFE</span>
                     </div>
                   </div>
                   <p className="text-sm md:text-base text-gray-200 leading-relaxed">
-                    Exquisite handcrafted jewelry featuring premium materials and lifetime authenticity guarantee.
+                    Adjustable temperature electric food warmer with compact portable design, built-in timer and child lock safety features.
                   </p>
                   <div className="flex items-center justify-between pt-3 md:pt-4">
                     <div className="space-y-1">
-                      <div className="text-xl md:text-2xl font-bold text-yellow-400">$2,299.99</div>
-                      <div className="text-base md:text-lg text-gray-400 line-through">$3,199.99</div>
+                      <div className="text-xl md:text-2xl font-bold text-yellow-400">$89.99</div>
+                      <div className="text-base md:text-lg text-gray-400 line-through">$129.99</div>
                     </div>
                     <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-4 md:px-6 py-2 font-semibold text-sm md:text-base">
                       <Zap className="mr-1 h-3 w-3 md:h-4 md:w-4" />
@@ -144,7 +145,7 @@ export const Hero = () => {
               
               {/* Floating elements - Mobile optimized */}
               <div className="absolute -top-2 -left-2 md:-top-4 md:-left-4 bg-red-500 text-white px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">
-                28% OFF
+                30% OFF
               </div>
               <div className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-blue-600 text-white px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">
                 FREE SHIPPING
