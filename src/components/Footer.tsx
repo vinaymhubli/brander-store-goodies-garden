@@ -1,4 +1,3 @@
-
 import { Facebook, Twitter, Instagram, Mail, Phone, MapPin, Award, Shield, Truck, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -60,7 +59,7 @@ export const Footer = () => {
             {/* Brand */}
             <div className="md:col-span-2 space-y-6">
               <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                brander<span className="text-white">.store</span>
+                brandter<span className="text-white">.store</span>
               </h3>
               <p className="text-gray-300 leading-relaxed text-lg">
                 Your premier destination for luxury kitchenware and exquisite jewelry. 
@@ -154,8 +153,10 @@ export const Footer = () => {
                 <MapPin className="h-5 w-5 text-white" />
               </div>
               <div>
-                <p className="text-white font-medium">Flagship Store</p>
-                <p className="text-gray-400">123 Luxury Avenue, Manhattan, NY 10001</p>
+                <p className="text-white font-medium">Visit Our Store</p>
+                <p className="text-gray-400 text-sm">A 315 ERA GARDENIYA ESTATE</p>
+                <p className="text-gray-400 text-sm">NOOR NAGAR LISARI MEERUT</p>
+                <p className="text-gray-400 text-sm">250002 UTTAR PRADESH INDIA</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -164,7 +165,7 @@ export const Footer = () => {
               </div>
               <div>
                 <p className="text-white font-medium">Customer Care</p>
-                <p className="text-gray-400">+1 (555) 123-LUXURY</p>
+                <p className="text-gray-400">+91 9068007866</p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -172,8 +173,8 @@ export const Footer = () => {
                 <Mail className="h-5 w-5 text-white" />
               </div>
               <div>
-                <p className="text-white font-medium">VIP Support</p>
-                <p className="text-gray-400">vip@brander.store</p>
+                <p className="text-white font-medium">General Questions</p>
+                <p className="text-gray-400">info@brandter.store</p>
               </div>
             </div>
           </div>
