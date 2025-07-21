@@ -8,7 +8,7 @@ export const FeaturedProducts = () => {
       id: 1,
       name: "Master Chef's Damascus Steel Collection",
       price: 399,
-      originalPrice: 799.99,
+      originalPrice: 799,
       rating: 5.0,
       reviews: 487,
       image: "/lovable-uploads/f3cff865-b598-4bb1-9049-99b64a31c5d1.png",
@@ -201,11 +201,11 @@ export const FeaturedProducts = () => {
                       {product.currency === "INR" ? "₹" : "$"}{product.price}
                     </span>
                     <span className="text-lg text-gray-500 line-through">
-                      ${product.originalPrice}
+                      {product.currency === "INR" ? "₹" : "$"}{product.originalPrice}
                     </span>
                   </div>
                   <div className="text-green-600 font-semibold">
-                    Save ${(product.originalPrice - product.price).toFixed(2)}
+                    Save {product.currency === "INR" ? "₹" : "$"}{(product.originalPrice - product.price).toFixed(2)}
                   </div>
                 </div>
 
