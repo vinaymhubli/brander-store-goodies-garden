@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { useCartStore } from "@/store/cartStore";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
-import { CreditCard, Lock, MapPin, User, Mail, Phone, CheckCircle } from "lucide-react";
+import { CreditCard, Lock, MapPin, CheckCircle, ArrowLeft } from "lucide-react";
 
 const Checkout = () => {
   const { items, getTotalPrice, clearCart } = useCartStore();
@@ -46,57 +46,65 @@ const Checkout = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">Checkout</h1>
+      {/* Back Button */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <Button variant="ghost" onClick={() => navigate("/cart")} className="mb-4">
+          <ArrowLeft className="h-4 w-4 mr-2" />
+          Back to Cart
+        </Button>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">Checkout</h1>
           <p className="text-gray-600">Complete your order securely</p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8">
           {/* Left Column - Forms */}
           <div className="space-y-6">
             {/* Shipping Information */}
             <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
               <CardHeader className="bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-t-lg">
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <MapPin className="h-5 w-5" />
                   Shipping Information
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <CardContent className="p-4 sm:p-6 space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="firstName">First Name</Label>
+                    <Label htmlFor="firstName" className="text-sm">First Name</Label>
                     <Input id="firstName" placeholder="John" className="mt-1" />
                   </div>
                   <div>
-                    <Label htmlFor="lastName">Last Name</Label>
+                    <Label htmlFor="lastName" className="text-sm">Last Name</Label>
                     <Input id="lastName" placeholder="Doe" className="mt-1" />
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="email">Email</Label>
+                  <Label htmlFor="email" className="text-sm">Email</Label>
                   <Input id="email" type="email" placeholder="john@example.com" className="mt-1" />
                 </div>
                 <div>
-                  <Label htmlFor="phone">Phone</Label>
+                  <Label htmlFor="phone" className="text-sm">Phone</Label>
                   <Input id="phone" placeholder="+91 98765 43210" className="mt-1" />
                 </div>
                 <div>
-                  <Label htmlFor="address">Address</Label>
+                  <Label htmlFor="address" className="text-sm">Address</Label>
                   <Input id="address" placeholder="123 Street Name" className="mt-1" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <div>
-                    <Label htmlFor="city">City</Label>
+                    <Label htmlFor="city" className="text-sm">City</Label>
                     <Input id="city" placeholder="Mumbai" className="mt-1" />
                   </div>
                   <div>
-                    <Label htmlFor="state">State</Label>
+                    <Label htmlFor="state" className="text-sm">State</Label>
                     <Input id="state" placeholder="Maharashtra" className="mt-1" />
                   </div>
                   <div>
-                    <Label htmlFor="pincode">PIN Code</Label>
+                    <Label htmlFor="pincode" className="text-sm">PIN Code</Label>
                     <Input id="pincode" placeholder="400001" className="mt-1" />
                   </div>
                 </div>
@@ -106,32 +114,32 @@ const Checkout = () => {
             {/* Payment Information */}
             <Card className="shadow-lg border-0 bg-white/80 backdrop-blur-sm">
               <CardHeader className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-t-lg">
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="flex items-center gap-2 text-lg sm:text-xl">
                   <CreditCard className="h-5 w-5" />
                   Payment Information
                 </CardTitle>
               </CardHeader>
-              <CardContent className="p-6 space-y-4">
+              <CardContent className="p-4 sm:p-6 space-y-4">
                 <div>
-                  <Label htmlFor="cardNumber">Card Number</Label>
+                  <Label htmlFor="cardNumber" className="text-sm">Card Number</Label>
                   <Input id="cardNumber" placeholder="1234 5678 9012 3456" className="mt-1" />
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="expiry">Expiry Date</Label>
+                    <Label htmlFor="expiry" className="text-sm">Expiry Date</Label>
                     <Input id="expiry" placeholder="MM/YY" className="mt-1" />
                   </div>
                   <div>
-                    <Label htmlFor="cvv">CVV</Label>
+                    <Label htmlFor="cvv" className="text-sm">CVV</Label>
                     <Input id="cvv" placeholder="123" className="mt-1" />
                   </div>
                 </div>
                 <div>
-                  <Label htmlFor="cardName">Name on Card</Label>
+                  <Label htmlFor="cardName" className="text-sm">Name on Card</Label>
                   <Input id="cardName" placeholder="John Doe" className="mt-1" />
                 </div>
-                <div className="flex items-center gap-2 text-sm text-gray-600 bg-green-50 p-3 rounded-lg">
-                  <Lock className="h-4 w-4 text-green-600" />
+                <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-600 bg-green-50 p-3 rounded-lg">
+                  <Lock className="h-4 w-4 text-green-600 flex-shrink-0" />
                   Your payment information is encrypted and secure
                 </div>
               </CardContent>
@@ -139,26 +147,26 @@ const Checkout = () => {
           </div>
 
           {/* Right Column - Order Summary */}
-          <div>
-            <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm sticky top-4">
+          <div className="lg:sticky lg:top-4 lg:self-start">
+            <Card className="shadow-xl border-0 bg-white/90 backdrop-blur-sm">
               <CardHeader className="bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-t-lg">
-                <CardTitle>Order Summary</CardTitle>
+                <CardTitle className="text-lg sm:text-xl">Order Summary</CardTitle>
               </CardHeader>
-              <CardContent className="p-6">
+              <CardContent className="p-4 sm:p-6">
                 {/* Order Items */}
-                <div className="space-y-4 mb-6">
+                <div className="space-y-3 sm:space-y-4 mb-6">
                   {items.map((item) => (
-                    <div key={item.id} className="flex items-center space-x-4 bg-gray-50 p-3 rounded-lg">
+                    <div key={item.id} className="flex items-center space-x-3 sm:space-x-4 bg-gray-50 p-3 rounded-lg">
                       <img
                         src={item.image}
                         alt={item.name}
-                        className="w-16 h-16 object-cover rounded-lg"
+                        className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg"
                       />
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">{item.name}</h4>
-                        <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
+                      <div className="flex-1 min-w-0">
+                        <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{item.name}</h4>
+                        <p className="text-xs sm:text-sm text-gray-600">Qty: {item.quantity}</p>
                       </div>
-                      <p className="font-bold text-purple-600">₹{(item.price * item.quantity).toFixed(2)}</p>
+                      <p className="font-bold text-purple-600 text-sm sm:text-base">₹{(item.price * item.quantity).toFixed(2)}</p>
                     </div>
                   ))}
                 </div>
@@ -166,7 +174,7 @@ const Checkout = () => {
                 <Separator className="my-4" />
 
                 {/* Price Breakdown */}
-                <div className="space-y-3">
+                <div className="space-y-3 text-sm sm:text-base">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
                     <span>₹{subtotal.toFixed(2)}</span>
@@ -180,7 +188,7 @@ const Checkout = () => {
                     <span>₹{tax.toFixed(2)}</span>
                   </div>
                   <Separator />
-                  <div className="flex justify-between text-xl font-bold text-gray-900">
+                  <div className="flex justify-between text-lg sm:text-xl font-bold text-gray-900">
                     <span>Total</span>
                     <span className="text-purple-600">₹{total.toFixed(2)}</span>
                   </div>

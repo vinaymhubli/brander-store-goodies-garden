@@ -1,3 +1,4 @@
+
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -37,17 +38,17 @@ const Wishlist = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">My Wishlist</h1>
           <p className="text-gray-600">Save items for later</p>
         </div>
 
         {items.length === 0 ? (
-          <div className="text-center py-16">
-            <Heart className="mx-auto h-16 w-16 text-gray-300 mb-4" />
-            <h3 className="text-xl font-medium text-gray-900 mb-2">Your wishlist is empty</h3>
-            <p className="text-gray-600 mb-6">Start adding items you love to your wishlist</p>
+          <div className="text-center py-12 sm:py-16">
+            <Heart className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-300 mb-4" />
+            <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-2">Your wishlist is empty</h3>
+            <p className="text-gray-600 mb-6 px-4">Start adding items you love to your wishlist</p>
             <Link to="/shop">
               <Button className="bg-purple-600 hover:bg-purple-700">
                 Continue Shopping
@@ -55,14 +56,14 @@ const Wishlist = () => {
             </Link>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {items.map((item) => (
               <div key={item.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-300">
                 <div className="relative">
                   <img 
                     src={item.image} 
                     alt={item.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-40 sm:h-48 object-cover"
                   />
                   <button
                     onClick={() => handleRemoveFromWishlist(item.id)}
@@ -72,21 +73,21 @@ const Wishlist = () => {
                   </button>
                 </div>
                 
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2">{item.name}</h3>
-                  <p className="text-xl font-bold text-purple-600 mb-4">${item.price}</p>
+                <div className="p-3 sm:p-4">
+                  <h3 className="font-semibold text-gray-900 mb-2 text-sm sm:text-base line-clamp-2">{item.name}</h3>
+                  <p className="text-lg sm:text-xl font-bold text-purple-600 mb-3 sm:mb-4">₹{item.price}</p>
                   
-                  <div className="flex gap-2">
+                  <div className="flex flex-col sm:flex-row gap-2">
                     <Button
                       onClick={() => handleAddToCart(item)}
-                      className="flex-1 bg-purple-600 hover:bg-purple-700"
+                      className="flex-1 bg-purple-600 hover:bg-purple-700 text-sm"
                     >
                       <ShoppingCart className="h-4 w-4 mr-2" />
                       Add to Cart
                     </Button>
                     <Link to={`/product/${item.id}`}>
-                      <Button variant="outline" size="icon">
-                        👁️
+                      <Button variant="outline" className="w-full sm:w-auto text-sm">
+                        View
                       </Button>
                     </Link>
                   </div>
