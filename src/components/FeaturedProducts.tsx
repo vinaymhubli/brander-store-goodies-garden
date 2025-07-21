@@ -7,7 +7,7 @@ export const FeaturedProducts = () => {
     {
       id: 1,
       name: "Master Chef's Damascus Steel Collection",
-      price: 399,
+      price: 499,
       originalPrice: 799,
       rating: 5.0,
       reviews: 487,
