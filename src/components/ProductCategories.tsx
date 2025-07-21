@@ -110,7 +110,7 @@ export const ProductCategories = () => {
                   {category.title}
                 </h3>
                 
-                <p className="text-gray-700 mb-6 leading-relaxed">
+                <p className="text-sm text-gray-700 mb-6 leading-relaxed">
                   {category.description}
                 </p>
 
