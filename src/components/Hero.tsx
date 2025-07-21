@@ -108,7 +108,7 @@ export const Hero = () => {
               {/* Product card */}
               <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-white/20 shadow-xl transform hover:scale-105 transition-all duration-500">
                 <img 
-                  src="/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png" 
+                  src="/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png" 
                   alt="Heat Mat Pro - Food Heating Pad" 
                   className="w-full h-auto rounded-xl shadow-lg"
                 />
