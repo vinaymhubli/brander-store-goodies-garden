@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap, ArrowRight, Crown, Sparkles, Award, Diamond } from "lucide-react";
@@ -130,6 +129,10 @@ export const FeaturedProducts = () => {
 
   const handleViewProduct = (productId: number) => {
     navigate(`/product/${productId}`);
+  };
+
+  const handleViewAllProducts = () => {
+    navigate('/shop');
   };
 
   return (
@@ -294,6 +297,7 @@ export const FeaturedProducts = () => {
 
           <div className="text-center mt-16">
             <Button 
+              onClick={handleViewAllProducts}
               size="lg" 
               className="bg-gray-900 hover:bg-gray-800 text-white px-12 py-4 rounded-full shadow-lg transition-all duration-300 text-lg font-semibold"
             >
