@@ -127,8 +127,8 @@ export const Hero = () => {
                   </p>
                   <div className="flex items-center justify-between pt-3 md:pt-4">
                     <div className="space-y-1">
-                      <div className="text-xl md:text-2xl font-bold text-yellow-400">$89.99</div>
-                      <div className="text-base md:text-lg text-gray-400 line-through">$129.99</div>
+                      <div className="text-xl md:text-2xl font-bold text-yellow-400">₹4999</div>
+                      <div className="text-base md:text-lg text-gray-400 line-through">₹7999</div>
                     </div>
                     <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-4 md:px-6 py-2 font-semibold text-sm md:text-base">
                       <Zap className="mr-1 h-3 w-3 md:h-4 md:w-4" />
