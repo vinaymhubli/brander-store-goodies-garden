@@ -35,7 +35,8 @@ export const FeaturedProducts = () => {
       discount: "28% OFF",
       features: ["24K Gold Plated", "Natural Diamonds", "Royal Heritage"],
       luxury: true,
-      buttonColor: "bg-emerald-600 hover:bg-emerald-700"
+      buttonColor: "bg-emerald-600 hover:bg-emerald-700",
+      currency: "INR"
     },
     {
       id: 3,
