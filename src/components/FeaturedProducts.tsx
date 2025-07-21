@@ -69,7 +69,8 @@ export const FeaturedProducts = () => {
       discount: "29% OFF",
       features: ["18K Pure Gold", "Diamond Accents", "Master Crafted"],
       luxury: true,
-      buttonColor: "bg-indigo-600 hover:bg-indigo-700"
+      buttonColor: "bg-indigo-600 hover:bg-indigo-700",
+      currency: "INR"
     }
   ];
 
