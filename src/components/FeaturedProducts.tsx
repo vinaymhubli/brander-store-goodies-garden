@@ -52,7 +52,8 @@ export const FeaturedProducts = () => {
       discount: "33% OFF",
       features: ["Hand-Painted", "Museum Quality", "Limited Edition"],
       luxury: false,
-      buttonColor: "bg-rose-600 hover:bg-rose-700"
+      buttonColor: "bg-rose-600 hover:bg-rose-700",
+      currency: "INR"
     },
     {
       id: 4,
