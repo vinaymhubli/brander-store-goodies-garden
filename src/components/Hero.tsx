@@ -3,10 +3,12 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, Sparkles, Award, Shield, Crown, Gem, Zap } from "lucide-react";
 import { useCartStore } from "@/store/cartStore";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export const Hero = () => {
   const { addItem } = useCartStore();
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleAddToCart = () => {
     const heatMatProduct = {
@@ -28,6 +30,10 @@ export const Hero = () => {
     } catch (error) {
       console.error('Error adding Heat Mat Pro to cart:', error);
     }
+  };
+
+  const handleShopNow = () => {
+    navigate('/shop');
   };
 
   return (
@@ -101,7 +107,11 @@ export const Hero = () => {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 md:gap-4 items-center justify-center lg:justify-start">
-              <Button size="lg" className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white px-6 md:px-8 py-3 rounded-full shadow-lg transition-all duration-300">
+              <Button 
+                onClick={handleShopNow}
+                size="lg" 
+                className="w-full sm:w-auto bg-orange-600 hover:bg-orange-700 text-white px-6 md:px-8 py-3 rounded-full shadow-lg transition-all duration-300"
+              >
                 <Crown className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Shop Now
                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
