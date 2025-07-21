@@ -1,4 +1,3 @@
-
 import { ShoppingCart, Search, User, Menu, Heart, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
@@ -26,8 +25,8 @@ export const Navigation = () => {
           {/* Desktop Navigation */}
           <div className="hidden lg:block">
             <div className="flex items-center space-x-8">
-              <Link to="/shop" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
-                Shop
+              <Link to="/" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
+                Home
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
               <a href="#" className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group">
@@ -91,8 +90,8 @@ export const Navigation = () => {
           <div className="lg:hidden border-t border-gray-200 bg-white/98 backdrop-blur-xl shadow-lg rounded-b-2xl">
             <div className="px-4 py-6 space-y-4">
               {/* Navigation Links */}
-              <Link to="/shop" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
-                Shop
+              <Link to="/" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
+                Home
               </Link>
               <a href="#" className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300">
                 Luxury Jewelry
