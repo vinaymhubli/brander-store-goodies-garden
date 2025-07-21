@@ -25,7 +25,7 @@ export const FeaturedProducts = () => {
       id: 2,
       name: "Royal Diamond Heritage Necklace",
       price: 499,
-      originalPrice: 3199.99,
+      originalPrice: 899,
       rating: 5.0,
       reviews: 203,
       image: "/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png",
