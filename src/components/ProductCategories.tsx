@@ -1,4 +1,3 @@
-
 import { ChefHat, Gem, Utensils, Sparkles, ArrowRight, TrendingUp, Award, Crown, Star, Diamond } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -114,12 +113,6 @@ export const ProductCategories = () => {
                 <p className="text-gray-700 mb-6 leading-relaxed">
                   {category.description}
                 </p>
-                
-                <div className="flex items-center justify-between mb-6">
-                  <span className="text-sm font-semibold text-gray-800 bg-white px-3 py-2 rounded-full shadow-sm">
-                    {category.items}
-                  </span>
-                </div>
 
                 <Button 
                   className={`w-full ${category.color} text-white hover:opacity-90 transition-all duration-300 rounded-full font-semibold py-3`}
