@@ -1,4 +1,3 @@
-
 import { ChefHat, Gem, Utensils, Sparkles, ArrowRight, TrendingUp, Award, Crown, Star, Diamond } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -6,7 +5,7 @@ export const ProductCategories = () => {
   const categories = [
     {
       icon: ChefHat,
-      title: "Master Chef Collection",
+      title: "Master Chef Collection", 
       description: "Professional-grade culinary tools crafted for gastronomic excellence",
       items: "300+ Premium Products",
       color: "bg-orange-600",
@@ -107,7 +106,7 @@ export const ProductCategories = () => {
                   <category.icon className="h-8 w-8 text-white" />
                 </div>
                 
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors">
+                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors whitespace-nowrap">
                   {category.title}
                 </h3>
                 
