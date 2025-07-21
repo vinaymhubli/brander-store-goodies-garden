@@ -1,13 +1,25 @@
-
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCartStore } from "@/store/cartStore";
 import { Minus, Plus, Trash2 } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useToast } from "@/hooks/use-toast";
 
 const Cart = () => {
   const { items, removeItem, updateQuantity, clearCart, getTotalPrice } = useCartStore();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+
+  const handleProceedToCheckout = () => {
+    console.log('Proceeding to checkout with items:', items);
+    toast({
+      title: "Proceeding to Checkout",
+      description: `Checkout with ${items.length} item(s) totaling ₹${getTotalPrice().toFixed(2)}`,
+    });
+    // You can add actual checkout logic here or navigate to a checkout page
+    // For now, we'll show a success message
+  };
 
   if (items.length === 0) {
     return (
@@ -101,7 +113,10 @@ const Cart = () => {
                     </div>
                   </div>
                 </div>
-                <Button className="w-full mt-4 bg-purple-600 hover:bg-purple-700">
+                <Button 
+                  className="w-full mt-4 bg-purple-600 hover:bg-purple-700"
+                  onClick={handleProceedToCheckout}
+                >
                   Proceed to Checkout
                 </Button>
                 <Button
