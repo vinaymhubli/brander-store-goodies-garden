@@ -10,7 +10,7 @@ export const Hero = () => {
         <div 
           className="w-full h-full bg-cover bg-center bg-no-repeat animate-zoom-in"
           style={{
-            backgroundImage: `url('/lovable-uploads/7a379a38-44f6-4d4d-8d87-09383c7c4d2f.png')`
+            backgroundImage: `url('/lovable-uploads/4ef558ef-357f-4bed-a26d-d1b4358b7381.png')`
           }}
         />
         {/* Dark overlay for better text readability */}

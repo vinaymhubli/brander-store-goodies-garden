@@ -17,7 +17,7 @@ export const Navigation = () => {
           {/* Logo */}
           <Link to="/" className="flex-shrink-0 group">
             <img 
-              src="/lovable-uploads/7a379a38-44f6-4d4d-8d87-09383c7c4d2f.png" 
+              src="/lovable-uploads/a7e71e82-81bb-47bd-baf0-7c00f71b9133.png" 
               alt="Brandter E-commerce Store" 
               className="h-12 w-auto group-hover:scale-105 transition-transform duration-300 filter drop-shadow-md"
             />
