@@ -36,6 +36,10 @@ export const Hero = () => {
     navigate('/shop');
   };
 
+  const handleLearnMore = () => {
+    navigate('/about');
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* Background Image with Zoom Animation */}
@@ -116,7 +120,12 @@ export const Hero = () => {
                 Shop Now
                 <ArrowRight className="ml-2 h-4 w-4 md:h-5 md:w-5" />
               </Button>
-              <Button variant="outline" size="lg" className="w-full sm:w-auto px-6 md:px-8 py-3 rounded-full bg-white/90 text-slate-900 hover:bg-white hover:text-slate-900 border-white shadow-lg transition-all duration-300 font-semibold">
+              <Button 
+                onClick={handleLearnMore}
+                variant="outline" 
+                size="lg" 
+                className="w-full sm:w-auto px-6 md:px-8 py-3 rounded-full bg-white/90 text-slate-900 hover:bg-white hover:text-slate-900 border-white shadow-lg transition-all duration-300 font-semibold"
+              >
                 <Sparkles className="mr-2 h-4 w-4 md:h-5 md:w-5" />
                 Learn More
               </Button>
