@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap, ArrowRight, Crown, Sparkles, Award, Diamond } from "lucide-react";
@@ -18,7 +17,8 @@ export const FeaturedProducts = () => {
       category: "Professional Kitchen",
       discount: "38% OFF",
       features: ["Hand-Forged Damascus", "Lifetime Warranty", "Master Chef Approved"],
-      luxury: true
+      luxury: true,
+      buttonColor: "bg-purple-600 hover:bg-purple-700"
     },
     {
       id: 2,
@@ -33,7 +33,8 @@ export const FeaturedProducts = () => {
       category: "Royal Jewelry",
       discount: "28% OFF",
       features: ["24K Gold Plated", "Natural Diamonds", "Royal Heritage"],
-      luxury: true
+      luxury: true,
+      buttonColor: "bg-emerald-600 hover:bg-emerald-700"
     },
     {
       id: 3,
@@ -48,7 +49,8 @@ export const FeaturedProducts = () => {
       category: "Luxury Tableware",
       discount: "33% OFF",
       features: ["Hand-Painted", "Museum Quality", "Limited Edition"],
-      luxury: false
+      luxury: false,
+      buttonColor: "bg-rose-600 hover:bg-rose-700"
     },
     {
       id: 4,
@@ -63,7 +65,8 @@ export const FeaturedProducts = () => {
       category: "Luxury Jewelry", 
       discount: "29% OFF",
       features: ["18K Pure Gold", "Diamond Accents", "Master Crafted"],
-      luxury: true
+      luxury: true,
+      buttonColor: "bg-indigo-600 hover:bg-indigo-700"
     }
   ];
 
@@ -205,7 +208,7 @@ export const FeaturedProducts = () => {
                   </div>
                 </div>
 
-                <Button className={`w-full ${product.luxury ? 'bg-orange-600 hover:bg-orange-700' : 'bg-blue-600 hover:bg-blue-700'} text-white rounded-full shadow-lg transition-all duration-300 py-3 font-semibold`}>
+                <Button className={`w-full ${product.buttonColor} text-white rounded-full shadow-lg transition-all duration-300 py-3 font-semibold`}>
                   <ShoppingCart className="h-4 w-4 mr-2" />
                   Add to Cart
                   {product.luxury && <Crown className="h-4 w-4 ml-2" />}
