@@ -1,7 +1,13 @@
+
 import { ChefHat, Gem, Utensils, Sparkles, ArrowRight, TrendingUp, Award, Crown, Star, Diamond } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 export const ProductCategories = () => {
+  const { ref: headerRef, isVisible: headerVisible } = useScrollAnimation(0.2);
+  const { ref: gridRef, isVisible: gridVisible } = useScrollAnimation(0.1);
+  const { ref: ctaRef, isVisible: ctaVisible } = useScrollAnimation(0.3);
+
   const categories = [
     {
       icon: ChefHat,
@@ -67,7 +73,14 @@ export const ProductCategories = () => {
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <div 
+          ref={headerRef}
+          className={`text-center mb-16 transition-all duration-1000 ${
+            headerVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <div className="inline-flex items-center space-x-2 bg-orange-100 text-orange-800 rounded-full px-6 py-3 mb-6 border border-orange-200">
             <Crown className="h-5 w-5 text-orange-600" />
             <span className="font-semibold">LUXURY COLLECTIONS</span>
@@ -84,11 +97,21 @@ export const ProductCategories = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div 
+          ref={gridRef}
+          className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
+        >
           {categories.map((category, index) => (
             <div
               key={index}
-              className={`group relative ${category.bgColor} rounded-2xl p-8 hover:shadow-xl transition-all duration-500 hover:scale-105 border border-gray-200 overflow-hidden`}
+              className={`group relative ${category.bgColor} rounded-2xl p-8 hover:shadow-xl transition-all duration-700 hover:scale-105 border border-gray-200 overflow-hidden ${
+                gridVisible 
+                  ? 'opacity-100 translate-y-0' 
+                  : 'opacity-0 translate-y-10'
+              }`}
+              style={{
+                transitionDelay: gridVisible ? `${index * 150}ms` : '0ms'
+              }}
             >
               {/* Badge */}
               <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
@@ -126,11 +149,18 @@ export const ProductCategories = () => {
         </div>
 
         {/* Call to action */}
-        <div className="text-center mt-16">
+        <div 
+          ref={ctaRef}
+          className={`text-center mt-16 transition-all duration-1000 delay-300 ${
+            ctaVisible 
+              ? 'opacity-100 translate-y-0' 
+              : 'opacity-0 translate-y-10'
+          }`}
+        >
           <Button 
             variant="outline" 
             size="lg" 
-            className="px-12 py-4 text-lg rounded-full border-2 border-gray-400 hover:border-yellow-500 hover:text-yellow-600 transition-all duration-300 font-semibold bg-white shadow-lg"
+            className="px-12 py-4 text-lg rounded-full border-2 border-gray-400 hover:border-yellow-500 hover:text-yellow-600 transition-all duration-300 font-semibold bg-white shadow-lg hover:scale-105"
           >
             <Crown className="mr-3 h-5 w-5" />
             View All Collections
