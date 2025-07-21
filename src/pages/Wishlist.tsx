@@ -1,4 +1,3 @@
-
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -9,7 +8,7 @@ import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const Wishlist = () => {
-  const { items, removeFromWishlist } = useWishlistStore();
+  const { items, removeItem } = useWishlistStore();
   const { addItem } = useCartStore();
   const { toast } = useToast();
 
@@ -27,7 +26,7 @@ const Wishlist = () => {
   };
 
   const handleRemoveFromWishlist = (id: number) => {
-    removeFromWishlist(id);
+    removeItem(id);
     toast({
       title: "Removed from Wishlist",
       description: "Item has been removed from your wishlist.",
