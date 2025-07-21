@@ -1,8 +1,35 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, Sparkles, Award, Shield, Crown, Gem, Zap } from "lucide-react";
+import { useCartStore } from "@/store/cartStore";
+import { useToast } from "@/hooks/use-toast";
 
 export const Hero = () => {
+  const { addItem } = useCartStore();
+  const { toast } = useToast();
+
+  const handleAddToCart = () => {
+    const heatMatProduct = {
+      id: 999, // Special ID for Heat Mat Pro
+      name: "Heat Mat Pro - Food Heating Pad",
+      price: 4999,
+      image: "/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png",
+    };
+
+    console.log('Add to cart clicked for Heat Mat Pro');
+    try {
+      addItem(heatMatProduct);
+      
+      toast({
+        title: "Added to cart",
+        description: `${heatMatProduct.name} has been added to your cart.`,
+      });
+      console.log('Heat Mat Pro successfully added to cart');
+    } catch (error) {
+      console.error('Error adding Heat Mat Pro to cart:', error);
+    }
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* Background Image with Zoom Animation */}
@@ -130,7 +157,10 @@ export const Hero = () => {
                       <div className="text-xl md:text-2xl font-bold text-yellow-400">₹4999</div>
                       <div className="text-base md:text-lg text-gray-400 line-through">₹7999</div>
                     </div>
-                    <Button className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-4 md:px-6 py-2 font-semibold text-sm md:text-base">
+                    <Button 
+                      onClick={handleAddToCart}
+                      className="bg-emerald-600 hover:bg-emerald-700 rounded-full px-4 md:px-6 py-2 font-semibold text-sm md:text-base"
+                    >
                       <Zap className="mr-1 h-3 w-3 md:h-4 md:w-4" />
                       Add to Cart
                     </Button>

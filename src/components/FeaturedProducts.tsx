@@ -1,9 +1,19 @@
+
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap, ArrowRight, Crown, Sparkles, Award, Diamond } from "lucide-react";
 import { Testimonials } from "./Testimonials";
+import { useCartStore } from "@/store/cartStore";
+import { useWishlistStore } from "@/store/wishlistStore";
+import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export const FeaturedProducts = () => {
+  const { addItem: addToCart } = useCartStore();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { toast } = useToast();
+  const navigate = useNavigate();
+
   const products = [
     {
       id: 1,
@@ -74,6 +84,53 @@ export const FeaturedProducts = () => {
       currency: "INR"
     }
   ];
+
+  const handleAddToCart = (product: any) => {
+    console.log('Add to cart clicked for:', product.name);
+    try {
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        image: product.image,
+      });
+      
+      toast({
+        title: "Added to cart",
+        description: `${product.name} has been added to your cart.`,
+      });
+      console.log('Item successfully added to cart');
+    } catch (error) {
+      console.error('Error adding item to cart:', error);
+    }
+  };
+
+  const handleWishlistToggle = (product: any) => {
+    const wishlistItem = {
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    };
+
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      toast({
+        title: "Removed from wishlist",
+        description: `${product.name} has been removed from your wishlist.`,
+      });
+    } else {
+      addToWishlist(wishlistItem);
+      toast({
+        title: "Added to wishlist",
+        description: `${product.name} has been added to your wishlist.`,
+      });
+    }
+  };
+
+  const handleViewProduct = (productId: number) => {
+    navigate(`/product/${productId}`);
+  };
 
   return (
     <>
@@ -147,11 +204,19 @@ export const FeaturedProducts = () => {
 
                   {/* Hover actions */}
                   <div className="absolute inset-0 flex items-center justify-center space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <Button size="sm" className="bg-white/95 text-gray-900 hover:bg-white rounded-full shadow-lg">
+                    <Button 
+                      size="sm" 
+                      onClick={() => handleViewProduct(product.id)}
+                      className="bg-white/95 text-gray-900 hover:bg-white rounded-full shadow-lg"
+                    >
                       <Eye className="h-4 w-4" />
                     </Button>
-                    <Button size="sm" className="bg-white/95 text-gray-900 hover:bg-white rounded-full shadow-lg">
-                      <Heart className="h-4 w-4" />
+                    <Button 
+                      size="sm" 
+                      onClick={() => handleWishlistToggle(product)}
+                      className={`${isInWishlist(product.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-white/95 text-gray-900 hover:bg-white'} rounded-full shadow-lg`}
+                    >
+                      <Heart className={`h-4 w-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
                     </Button>
                   </div>
                 </div>
@@ -214,7 +279,10 @@ export const FeaturedProducts = () => {
                     </div>
                   </div>
 
-                  <Button className={`w-full ${product.buttonColor} text-white rounded-full shadow-lg transition-all duration-300 py-3 font-semibold`}>
+                  <Button 
+                    onClick={() => handleAddToCart(product)}
+                    className={`w-full ${product.buttonColor} text-white rounded-full shadow-lg transition-all duration-300 py-3 font-semibold`}
+                  >
                     <ShoppingCart className="h-4 w-4 mr-2" />
                     Add to Cart
                     {product.luxury && <Crown className="h-4 w-4 ml-2" />}
