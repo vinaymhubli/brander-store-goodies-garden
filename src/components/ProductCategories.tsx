@@ -1,7 +1,15 @@
+
 import { ChefHat, Gem, Utensils, Sparkles, ArrowRight, TrendingUp, Award, Crown, Star, Diamond } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const ProductCategories = () => {
+  const navigate = useNavigate();
+
+  const handleExploreCollection = () => {
+    navigate('/shop');
+  };
+
   const categories = [
     {
       icon: ChefHat,
@@ -115,6 +123,7 @@ export const ProductCategories = () => {
                 </p>
 
                 <Button 
+                  onClick={handleExploreCollection}
                   className={`w-full ${category.color} text-white hover:opacity-90 transition-all duration-300 rounded-full font-semibold py-3`}
                 >
                   Explore Collection
@@ -128,6 +137,7 @@ export const ProductCategories = () => {
         {/* Call to action */}
         <div className="text-center mt-16">
           <Button 
+            onClick={handleExploreCollection}
             variant="outline" 
             size="lg" 
             className="px-12 py-4 text-lg rounded-full border-2 border-gray-400 hover:border-yellow-500 hover:text-yellow-600 transition-all duration-300 font-semibold bg-white shadow-lg"
