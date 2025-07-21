@@ -4,27 +4,17 @@ import { ArrowRight, Star, Sparkles, Award, Shield, Crown, Gem, Zap } from "luci
 
 export const Hero = () => {
   return (
-    <section className="relative min-h-screen bg-gradient-to-br from-slate-900 to-slate-800 overflow-hidden">
-      {/* Background Video */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden">
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          className="w-full h-full object-cover opacity-40"
-          poster="/lovable-uploads/ffa69f3f-1a99-47e3-9499-487b428d86b4.png"
-          onLoadStart={() => console.log('Video loading started')}
-          onCanPlay={() => console.log('Video can play')}
-          onError={(e) => console.error('Video error:', e)}
-        >
-          <source src="https://cdn.pixabay.com/video/2023/04/25/158633-824919273_large.mp4" type="video/mp4" />
-          <source src="https://cdn.pixabay.com/video/2022/12/15/143061-783264803_large.mp4" type="video/mp4" />
-          <source src="https://videos.pexels.com/video-files/3298266/3298266-hd_1920_1080_30fps.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        {/* Video overlay */}
-        <div className="absolute inset-0 bg-slate-900/50"></div>
+    <section className="relative min-h-screen overflow-hidden">
+      {/* Background Image with Zoom Animation */}
+      <div className="absolute inset-0 w-full h-full">
+        <div 
+          className="w-full h-full bg-cover bg-center bg-no-repeat animate-zoom-in"
+          style={{
+            backgroundImage: `url('/lovable-uploads/7c0bce29-8310-4373-9fee-0be70685d56b.png')`
+          }}
+        />
+        {/* Dark overlay for better text readability */}
+        <div className="absolute inset-0 bg-black/50"></div>
       </div>
 
       {/* Background elements */}
