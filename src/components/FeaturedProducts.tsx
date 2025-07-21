@@ -7,7 +7,7 @@ export const FeaturedProducts = () => {
     {
       id: 1,
       name: "Master Chef's Damascus Steel Collection",
-      price: 499.99,
+      price: 399,
       originalPrice: 799.99,
       rating: 5.0,
       reviews: 487,
@@ -18,7 +18,8 @@ export const FeaturedProducts = () => {
       discount: "38% OFF",
       features: ["Hand-Forged Damascus", "Lifetime Warranty", "Master Chef Approved"],
       luxury: true,
-      buttonColor: "bg-purple-600 hover:bg-purple-700"
+      buttonColor: "bg-purple-600 hover:bg-purple-700",
+      currency: "INR"
     },
     {
       id: 2,
@@ -197,7 +198,7 @@ export const FeaturedProducts = () => {
                 <div className="space-y-2">
                   <div className="flex items-center space-x-3">
                     <span className="text-2xl font-bold text-gray-900">
-                      ${product.price}
+                      {product.currency === "INR" ? "₹" : "$"}{product.price}
                     </span>
                     <span className="text-lg text-gray-500 line-through">
                       ${product.originalPrice}
