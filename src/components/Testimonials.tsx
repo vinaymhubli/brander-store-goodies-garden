@@ -1,5 +1,6 @@
 
 import { Star, Quote } from "lucide-react";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 export const Testimonials = () => {
   const testimonials = [
@@ -68,11 +69,16 @@ export const Testimonials = () => {
               </div>
 
               <div className="flex items-center space-x-4 mb-6">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-16 h-16 rounded-full object-cover border-2 border-gray-200"
-                />
+                <Avatar className="w-16 h-16 border-2 border-gray-200">
+                  <AvatarImage
+                    src={testimonial.image}
+                    alt={testimonial.name}
+                    className="object-cover"
+                  />
+                  <AvatarFallback className="bg-gray-100 text-gray-600 text-lg font-semibold">
+                    {testimonial.name.split(' ').map(n => n[0]).join('')}
+                  </AvatarFallback>
+                </Avatar>
                 <div>
                   <h3 className="font-bold text-gray-900 text-lg">{testimonial.name}</h3>
                   <p className="text-gray-600 text-sm">{testimonial.role}</p>
@@ -104,9 +110,18 @@ export const Testimonials = () => {
           <div className="flex items-center justify-center space-x-8 text-sm text-gray-500">
             <div className="flex items-center space-x-2">
               <div className="flex -space-x-2">
-                <img className="w-8 h-8 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1494790108755-2616b2e8fd44?w=50&h=50&fit=crop&crop=face" alt="" />
-                <img className="w-8 h-8 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face" alt="" />
-                <img className="w-8 h-8 rounded-full border-2 border-white" src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face" alt="" />
+                <Avatar className="w-8 h-8 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1494790108755-2616b2e8fd44?w=50&h=50&fit=crop&crop=face" alt="" />
+                  <AvatarFallback className="bg-gray-100 text-xs">SJ</AvatarFallback>
+                </Avatar>
+                <Avatar className="w-8 h-8 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face" alt="" />
+                  <AvatarFallback className="bg-gray-100 text-xs">MC</AvatarFallback>
+                </Avatar>
+                <Avatar className="w-8 h-8 border-2 border-white">
+                  <AvatarImage src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face" alt="" />
+                  <AvatarFallback className="bg-gray-100 text-xs">ET</AvatarFallback>
+                </Avatar>
                 <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-semibold">
                   +2K
                 </div>
