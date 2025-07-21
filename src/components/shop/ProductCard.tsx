@@ -75,7 +75,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             </div>
             <span className="text-sm text-gray-600 ml-2">({product.reviews})</span>
           </div>
-          <p className="text-2xl font-bold text-purple-600">${product.price}</p>
+          <p className="text-2xl font-bold text-purple-600">₹{product.price}</p>
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">

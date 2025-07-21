@@ -47,7 +47,7 @@ const Cart = () => {
                     />
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg">{item.name}</h3>
-                      <p className="text-purple-600 font-bold">${item.price}</p>
+                      <p className="text-purple-600 font-bold">₹{item.price}</p>
                     </div>
                     <div className="flex items-center space-x-2">
                       <Button
@@ -88,7 +88,7 @@ const Cart = () => {
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span>Subtotal:</span>
-                    <span>${getTotalPrice().toFixed(2)}</span>
+                    <span>₹{getTotalPrice().toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between">
                     <span>Shipping:</span>
@@ -97,7 +97,7 @@ const Cart = () => {
                   <div className="border-t pt-2">
                     <div className="flex justify-between font-bold text-lg">
                       <span>Total:</span>
-                      <span>${getTotalPrice().toFixed(2)}</span>
+                      <span>₹{getTotalPrice().toFixed(2)}</span>
                     </div>
                   </div>
                 </div>
