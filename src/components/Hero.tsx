@@ -40,6 +40,10 @@ export const Hero = () => {
     navigate('/about');
   };
 
+  const handleProductClick = () => {
+    navigate('/product/999');
+  };
+
   return (
     <section className="relative min-h-screen overflow-hidden">
       {/* Background Image with Zoom Animation */}
@@ -153,14 +157,19 @@ export const Hero = () => {
             <div className="relative group">
               {/* Product card */}
               <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-white/20 shadow-xl transform hover:scale-105 transition-all duration-500">
-                <img 
-                  src="/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png" 
-                  alt="Heat Mat Pro - Food Heating Pad" 
-                  className="w-full h-auto rounded-xl shadow-lg"
-                />
+                <div className="cursor-pointer" onClick={handleProductClick}>
+                  <img 
+                    src="/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png" 
+                    alt="Heat Mat Pro - Food Heating Pad" 
+                    className="w-full h-auto rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
                 <div className="mt-4 md:mt-6 space-y-3 md:space-y-4">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-lg md:text-xl font-bold text-white">
+                    <h3 
+                      className="text-lg md:text-xl font-bold text-white cursor-pointer hover:text-purple-200 transition-colors"
+                      onClick={handleProductClick}
+                    >
                       Heat Mat Pro - Food Heating Pad
                     </h3>
                     <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full border border-green-400/40">
