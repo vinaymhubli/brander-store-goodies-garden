@@ -13,41 +13,31 @@ export interface Product {
 export const products: Product[] = [
   {
     id: 1,
-    name: "Master Chef's Damascus Steel Collection",
+    name: "Twist & Shine Hairpin",
     price: 399,
-    image: "/lovable-uploads/f3cff865-b598-4bb1-9049-99b64a31c5d1.png",
-    category: "Professional Kitchen",
-    description: "Hand-forged Damascus steel kitchen knife collection featuring premium carbon steel construction with lifetime warranty. Master chef approved for professional kitchens.",
+    image: "/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png",
+    category: "Hair Accessories",
+    description: "Add a graceful twist to your hairdo with this sleek metallic hairpin. Perfect for both casual buns and elegant updos.",
     rating: 5.0,
     reviews: 487
   },
   {
     id: 2,
-    name: "Royal Diamond Heritage Necklace",
+    name: "Elegance Pearl Hairclip",
     price: 499,
     image: "/lovable-uploads/9c745f4d-f750-4284-a540-39dd602c2848.png",
-    category: "Royal Jewelry",
-    description: "24K gold plated heritage necklace featuring natural diamonds and royal craftsmanship. A timeless piece representing luxury and elegance.",
+    category: "Hair Accessories",
+    description: "A timeless hair accessory featuring faux pearls and a golden finish. Ideal for formal events or adding charm to your daily look.",
     rating: 5.0,
     reviews: 203
   },
   {
-    id: 3,
-    name: "Artisan Porcelain Dining Collection",
-    price: 349.99,
-    image: "/lovable-uploads/d27ef0bf-b53c-4275-a245-4a25eeb7c8e4.png",
-    category: "Luxury Tableware",
-    description: "Hand-painted porcelain dining set of museum quality. Limited edition collection featuring intricate designs and premium craftsmanship.",
-    rating: 4.9,
-    reviews: 356
-  },
-  {
     id: 4,
-    name: "Imperial Gold Wedding Ring",
+    name: "Bold Bloom Hairclip",
     price: 1199.99,
     image: "/lovable-uploads/878e4c65-0f31-41e4-a08d-901d3c4b56e9.png",
-    category: "Luxury Jewelry",
-    description: "18K pure gold wedding ring with diamond accents. Master crafted with exceptional attention to detail for your special moments.",
+    category: "Hair Accessories",
+    description: "Make a statement with this vibrant floral clip, designed to hold thick hair while adding a touch of playful boldness.",
     rating: 5.0,
     reviews: 142
   },
