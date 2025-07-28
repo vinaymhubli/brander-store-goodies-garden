@@ -182,9 +182,9 @@ export const FeaturedProducts = () => {
                 className={`group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border ${product.luxury ? 'border-yellow-200' : 'border-gray-200'} relative`}
               >
                 <div className="relative overflow-hidden">
-                  <img 
-                    src="/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png" 
-                    alt="Butterfly Hair Accessory Set" 
+                  <img
+                    src={product.image}
+                    alt={product.name}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
                   
@@ -206,21 +206,12 @@ export const FeaturedProducts = () => {
                   )}
 
                   {/* Hover actions */}
-                  <div className="absolute inset-0 flex items-center justify-center space-x-3 opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleViewProduct(product.id)}
-                      className="bg-white/95 text-gray-900 hover:bg-white rounded-full shadow-lg"
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      onClick={() => handleWishlistToggle(product)}
-                      className={`${isInWishlist(product.id) ? 'bg-red-500 text-white hover:bg-red-600' : 'bg-white/95 text-gray-900 hover:bg-white'} rounded-full shadow-lg`}
-                    >
-                      <Heart className={`h-4 w-4 ${isInWishlist(product.id) ? 'fill-current' : ''}`} />
-                    </Button>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <img 
+                      src="/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png" 
+                      alt="Butterfly Hair Accessory Set" 
+                      className="w-full h-full object-cover rounded-lg"
+                    />
                   </div>
                 </div>
 
