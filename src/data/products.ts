@@ -40,5 +40,15 @@ export const products: Product[] = [
     description: "Make a statement with this vibrant floral clip, designed to hold thick hair while adding a touch of playful boldness.",
     rating: 5.0,
     reviews: 142
+  },
+  {
+    id: 999,
+    name: "Heat Mat Pro - Food Heating Pad",
+    price: 4999,
+    image: "/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png",
+    category: "Kitchen Appliances",
+    description: "Adjustable temperature electric food warmer with compact portable design, built-in timer and child lock safety features. Keep your meals perfectly warm with premium kitchen technology.",
+    rating: 4.9,
+    reviews: 234
   }
 ];
