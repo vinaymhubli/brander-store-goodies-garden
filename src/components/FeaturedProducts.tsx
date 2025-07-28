@@ -16,7 +16,7 @@ export const FeaturedProducts = () => {
   const products = [
     {
       id: 1,
-      name: "Master Chef's Damascus Steel Collection",
+      name: "Twist & Shine Hairpin",
       price: 399,
       originalPrice: 799,
       rating: 5.0,
@@ -24,16 +24,17 @@ export const FeaturedProducts = () => {
       image: "/lovable-uploads/f3cff865-b598-4bb1-9049-99b64a31c5d1.png",
       badge: "PREMIUM",
       badgeColor: "bg-orange-500",
-      category: "Professional Kitchen",
+      category: "Hair Accessories",
       discount: "38% OFF",
-      features: ["Hand-Forged Damascus", "Lifetime Warranty", "Master Chef Approved"],
+      features: ["Sleek Metallic", "Versatile Style", "Premium Quality"],
       luxury: true,
       buttonColor: "bg-purple-600 hover:bg-purple-700",
-      currency: "INR"
+      currency: "INR",
+      description: "Add a graceful twist to your hairdo with this sleek metallic hairpin. Perfect for both casual buns and elegant updos."
     },
     {
       id: 2,
-      name: "Royal Diamond Heritage Necklace",
+      name: "Elegance Pearl Hairclip",
       price: 499,
       originalPrice: 899,
       rating: 5.0,
@@ -41,16 +42,17 @@ export const FeaturedProducts = () => {
       image: "/lovable-uploads/9c745f4d-f750-4284-a540-39dd602c2848.png",
       badge: "EXCLUSIVE",
       badgeColor: "bg-purple-600",
-      category: "Royal Jewelry",
+      category: "Hair Accessories",
       discount: "44% OFF",
-      features: ["24K Gold Plated", "Natural Diamonds", "Royal Heritage"],
+      features: ["Faux Pearls", "Golden Finish", "Timeless Design"],
       luxury: true,
       buttonColor: "bg-emerald-600 hover:bg-emerald-700",
-      currency: "INR"
+      currency: "INR",
+      description: "A timeless hair accessory featuring faux pearls and a golden finish. Ideal for formal events or adding charm to your daily look."
     },
     {
       id: 4,
-      name: "Imperial Gold Wedding Ring",
+      name: "Bold Bloom Hairclip",
       price: 1199.99,
       originalPrice: 1699.99,
       rating: 5.0,
@@ -58,12 +60,13 @@ export const FeaturedProducts = () => {
       image: "/lovable-uploads/878e4c65-0f31-41e4-a08d-901d3c4b56e9.png",
       badge: "MASTERPIECE",
       badgeColor: "bg-amber-600",
-      category: "Luxury Jewelry", 
+      category: "Hair Accessories", 
       discount: "29% OFF",
-      features: ["18K Pure Gold", "Diamond Accents", "Master Crafted"],
+      features: ["Vibrant Floral", "Strong Hold", "Statement Piece"],
       luxury: true,
       buttonColor: "bg-indigo-600 hover:bg-indigo-700",
-      currency: "INR"
+      currency: "INR",
+      description: "Make a statement with this vibrant floral clip, designed to hold thick hair while adding a touch of playful boldness."
     }
   ];
 
