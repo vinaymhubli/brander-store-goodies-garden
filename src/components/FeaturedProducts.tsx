@@ -49,23 +49,6 @@ export const FeaturedProducts = () => {
       currency: "INR"
     },
     {
-      id: 3,
-      name: "Artisan Porcelain Dining Collection",
-      price: 349.99,
-      originalPrice: 519.99,
-      rating: 4.9,
-      reviews: 356,
-      image: "/lovable-uploads/d27ef0bf-b53c-4275-a245-4a25eeb7c8e4.png",
-      badge: "POPULAR",
-      badgeColor: "bg-blue-600",
-      category: "Luxury Tableware",
-      discount: "33% OFF",
-      features: ["Hand-Painted", "Museum Quality", "Limited Edition"],
-      luxury: false,
-      buttonColor: "bg-rose-600 hover:bg-rose-700",
-      currency: "INR"
-    },
-    {
       id: 4,
       name: "Imperial Gold Wedding Ring",
       price: 1199.99,
