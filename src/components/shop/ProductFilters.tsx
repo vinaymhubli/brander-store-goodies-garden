@@ -12,6 +12,8 @@ interface ProductFiltersProps {
 
 const categories = [
   "All Categories",
+  "Hair Accessories",
+  "Kitchen Appliances",
   "Rings",
   "Necklaces",
   "Earrings",
@@ -56,7 +58,7 @@ export const ProductFilters = ({
             <Slider
               value={priceRange}
               onValueChange={(value) => onPriceRangeChange(value as [number, number])}
-              max={1000}
+              max={5000}
               min={0}
               step={10}
               className="w-full"
