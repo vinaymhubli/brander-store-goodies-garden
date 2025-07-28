@@ -5,7 +5,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Star, ShoppingCart, CheckCircle, ArrowLeft } from "lucide-react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { products } from "@/data/products";
-import { FeaturedProducts } from "@/components/FeaturedProducts";
 import { useCartStore } from "@/store/cartStore";
 import { useToast } from "@/hooks/use-toast";
 
@@ -14,44 +13,7 @@ const ProductDetail = () => {
   const { items, addItem } = useCartStore();
   const { toast } = useToast();
 
-  // Get featured products from FeaturedProducts component
-  const featuredProducts = [
-    {
-      id: 1,
-      name: "Twist & Shine Hairpin",
-      price: 399,
-      originalPrice: 799,
-      rating: 5.0,
-      reviews: 487,
-      image: "/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png",
-      category: "Hair Accessories",
-      description: "Add a graceful twist to your hairdo with this sleek metallic hairpin. Perfect for both casual buns and elegant updos."
-    },
-    {
-      id: 2,
-      name: "Elegance Pearl Hairclip",
-      price: 499,
-      originalPrice: 899,
-      rating: 5.0,
-      reviews: 203,
-      image: "/lovable-uploads/9c745f4d-f750-4284-a540-39dd602c2848.png",
-      category: "Hair Accessories",
-      description: "A timeless hair accessory featuring faux pearls and a golden finish. Ideal for formal events or adding charm to your daily look."
-    },
-    {
-      id: 4,
-      name: "Bold Bloom Hairclip",
-      price: 1199.99,
-      originalPrice: 1699.99,
-      rating: 5.0,
-      reviews: 142,
-      image: "/lovable-uploads/878e4c65-0f31-41e4-a08d-901d3c4b56e9.png",
-      category: "Hair Accessories", 
-      description: "Make a statement with this vibrant floral clip, designed to hold thick hair while adding a touch of playful boldness."
-    }
-  ];
-
-  const product = featuredProducts.find(p => p.id === Number(id)) || products.find(p => p.id === Number(id));
+  const product = products.find(p => p.id === Number(id));
 
   if (!product) {
     return <Navigate to="/shop" replace />;
