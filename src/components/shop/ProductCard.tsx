@@ -42,6 +42,15 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       <CardContent className="p-0">
         <Link to={`/product/${product.id}`}>
           <div className="aspect-square overflow-hidden rounded-t-lg">
+            <img
+              src={product.image}
+              alt={product.name}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              onError={(e) => {
+                console.error('Image failed to load:', product.image);
+                e.currentTarget.src = '/placeholder.svg';
+              }}
+            />
           </div>
         </Link>
         <div className="p-4">
