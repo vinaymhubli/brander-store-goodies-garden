@@ -183,7 +183,7 @@ export const FeaturedProducts = () => {
               >
                 <div className="relative overflow-hidden">
                   <img
-                    src={product.image}
+                    src={product.id === 1 ? "/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png" : product.image}
                     alt={product.name}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
@@ -206,13 +206,36 @@ export const FeaturedProducts = () => {
                   )}
 
                   {/* Hover actions */}
-                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                    <img 
-                      src="/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png" 
-                      alt="Butterfly Hair Accessory Set" 
-                      className="w-full h-full object-cover rounded-lg"
-                    />
-                  </div>
+                  {product.id !== 1 && (
+                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                      <div className="flex space-x-4">
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => handleViewProduct(product.id)}
+                          className="bg-white/90 hover:bg-white shadow-lg"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="secondary"
+                          onClick={() => handleWishlistToggle(product)}
+                          className={`shadow-lg ${
+                            isInWishlist(product.id)
+                              ? "bg-red-100 hover:bg-red-200 text-red-600"
+                              : "bg-white/90 hover:bg-white"
+                          }`}
+                        >
+                          <Heart
+                            className={`h-4 w-4 ${
+                              isInWishlist(product.id) ? "fill-current" : ""
+                            }`}
+                          />
+                        </Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="p-6 space-y-4">
