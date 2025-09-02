@@ -38,7 +38,8 @@ const Checkout = () => {
   }
 
   const subtotal = getTotalPrice();
-  const shipping = 99;
+  const shipping = 0;
+  // const shipping = 99;
   const tax = subtotal * 0.18; // 18% GST
   const total = subtotal + shipping + tax;
 
