@@ -44,7 +44,8 @@ export const products: Product[] = [
   {
     id: 999,
     name: "Heat Mat Pro - Food Heating Pad",
-    price: 4999,
+    // price: 4999,
+    price: 1,
     image: "/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png",
     category: "Kitchen Appliances",
     description: "Adjustable temperature electric food warmer with compact portable design, built-in timer and child lock safety features. Keep your meals perfectly warm with premium kitchen technology.",
