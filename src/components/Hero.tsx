@@ -229,9 +229,7 @@ export const Hero = () => {
               </div>
               
               {/* Floating elements */}
-              <div className="absolute -top-2 -left-2 md:-top-4 md:-left-4 bg-red-500 text-white px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">
-                31% OFF
-              </div>
+              
               <div className="absolute -bottom-2 -right-2 md:-bottom-4 md:-right-4 bg-blue-600 text-white px-2 py-1 md:px-4 md:py-2 rounded-full text-xs md:text-sm font-bold shadow-lg">
                 FREE SHIPPING
               </div>

@@ -32,7 +32,8 @@ export const ProductGrid = ({ searchQuery, selectedCategory, priceRange }: Produ
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.image_url,
+        selling_price:product.selling_price,
+        image_url: product.image_url,
         category: product.categories?.name || 'General',
         description: product.description,
         rating: 5.0, // Mock rating

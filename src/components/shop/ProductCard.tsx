@@ -1,9 +1,11 @@
 
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Star, ShoppingCart } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Star, ShoppingCart, Heart, Eye } from "lucide-react";
 import { Tables } from "@/integrations/supabase/types";
 import { useCartStore } from "@/store/cartStore";
+import { useWishlistStore } from "@/store/wishlistStore";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,12 +15,10 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCartStore();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
   const { toast } = useToast();
 
-  console.log('ProductCard rendering for product:', product.name);
-
   const handleAddToCart = () => {
-    console.log('Add to cart clicked for:', product.name);
     try {
       addItem({
         id: product.id,
@@ -31,48 +31,141 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         title: "Added to cart",
         description: `${product.name} has been added to your cart.`,
       });
-      console.log('Item successfully added to cart and toast shown');
     } catch (error) {
       console.error('Error adding item to cart:', error);
     }
   };
 
+  const handleWishlistToggle = () => {
+    const wishlistItem = {
+      id: product.id,
+      name: product.name,
+      price: Number(product.selling_price || product.price),
+      image: product.image_url || '/placeholder.svg',
+    };
+
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+      toast({
+        title: "Removed from wishlist",
+        description: `${product.name} has been removed from your wishlist.`,
+      });
+    } else {
+      addToWishlist(wishlistItem);
+      toast({
+        title: "Added to wishlist",
+        description: `${product.name} has been added to your wishlist.`,
+      });
+    }
+  };
+
+  const sellingPrice = product.selling_price;
+  const originalPrice = product.price;
+  const hasDiscount = product.selling_price && product.selling_price < product.price;
+  const discountPercentage = hasDiscount ? Math.round(((originalPrice - sellingPrice) / originalPrice) * 100) : 0;
+
   return (
-    <Card className="group hover:shadow-lg transition-shadow duration-300">
-      <CardContent className="p-0">
-        <Link to={`/product/${product.id}`}>
-          <div className="aspect-square overflow-hidden rounded-t-lg">
-            <img
-              src={product.image_url || '/placeholder.svg'}
-              alt={product.name}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-              onError={(e) => {
-                console.error('Image failed to load:', product.image_url);
-                e.currentTarget.src = '/placeholder.svg';
-              }}
-            />
-          </div>
-        </Link>
-        <div className="p-4">
+    <Card className="group bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border-0">
+      <CardContent className="p-0 relative">
+        {/* Image Container */}
+        <div className="relative overflow-hidden">
           <Link to={`/product/${product.id}`}>
-            <h3 className="font-semibold text-lg mb-2 hover:text-primary transition-colors">
+            <div className="aspect-square overflow-hidden">
+              <img
+                src={product.image_url || '/placeholder.svg'}
+                alt={product.name}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                onError={(e) => {
+                  e.currentTarget.src = '/placeholder.svg';
+                }}
+              />
+            </div>
+          </Link>
+          
+          {/* Discount Badge */}
+          {hasDiscount && (
+            <Badge className="absolute top-3 left-3 bg-red-500 text-white border-0 shadow-lg">
+              {discountPercentage}% OFF
+            </Badge>
+          )}
+          
+          {/* Wishlist Button */}
+          <Button
+            size="icon"
+            variant="secondary"
+            onClick={handleWishlistToggle}
+            className={`absolute top-3 right-3 w-8 h-8 rounded-full shadow-lg transition-all duration-200 ${
+              isInWishlist(product.id)
+                ? "bg-red-100 hover:bg-red-200 text-red-600"
+                : "bg-white/90 hover:bg-white"
+            }`}
+          >
+            <Heart
+              className={`h-4 w-4 ${
+                isInWishlist(product.id) ? "fill-current" : ""
+              }`}
+            />
+          </Button>
+          
+          {/* Quick View Button */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/20">
+            <Link to={`/product/${product.id}`}>
+              <Button
+                size="sm"
+                variant="secondary"
+                className="bg-white/90 hover:bg-white shadow-lg"
+              >
+                <Eye className="h-4 w-4 mr-2" />
+                Quick View
+              </Button>
+            </Link>
+          </div>
+        </div>
+
+        {/* Product Info */}
+        <div className="p-4 space-y-3">
+          <Link to={`/product/${product.id}`}>
+            <h3 className="font-semibold text-lg text-gray-900 hover:text-blue-600 transition-colors line-clamp-2">
               {product.name}
             </h3>
           </Link>
-          <div className="flex items-center justify-between mb-2">
-            <div className="flex flex-col">
-              {product.selling_price && product.selling_price < product.price ? (
-                <div className="flex items-center gap-2">
-                  <p className="text-2xl font-bold text-primary">₹{product.selling_price}</p>
-                  <p className="text-lg text-muted-foreground line-through">₹{product.price}</p>
-                </div>
-              ) : (
-                <p className="text-2xl font-bold text-primary">₹{product.price}</p>
+          
+          {/* Rating */}
+          <div className="flex items-center space-x-1">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-4 w-4 ${
+                    i < 5 ? "text-yellow-400 fill-current" : "text-gray-300"
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-gray-600 ml-1">(4.8)</span>
+          </div>
+
+          {/* Pricing */}
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="text-2xl font-bold text-gray-900">
+                ₹{sellingPrice}
+              </span>
+              {hasDiscount && (
+                <span className="text-lg text-gray-500 line-through">
+                  ₹{originalPrice}
+                </span>
               )}
             </div>
+            {hasDiscount && (
+              <div className="text-green-600 font-medium text-sm">
+                Save ₹{(originalPrice - sellingPrice).toFixed(2)}
+              </div>
+            )}
           </div>
         </div>
       </CardContent>
+      
       <CardFooter className="p-4 pt-0">
         <Button 
           onClick={handleAddToCart} 
