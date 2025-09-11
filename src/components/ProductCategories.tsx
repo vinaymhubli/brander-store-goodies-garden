@@ -2,56 +2,44 @@
 import { ChefHat, Gem, Utensils, Sparkles, ArrowRight, TrendingUp, Award, Crown, Star, Diamond } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 export const ProductCategories = () => {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<any[]>([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const { data: categoriesData, error } = await supabase
+        .from('categories')
+        .select('*')
+        .order('name', { ascending: true });
+
+      if (error) throw error;
+
+      const categoriesWithIcons = categoriesData?.map((category, index) => ({
+        ...category,
+        icon: [ChefHat, Utensils, Gem, Crown, Sparkles][index % 5],
+        color: ["bg-orange-600", "bg-emerald-600", "bg-purple-600", "bg-amber-600", "bg-blue-600"][index % 5],
+        bgColor: ["bg-orange-50", "bg-emerald-50", "bg-purple-50", "bg-amber-50", "bg-blue-50"][index % 5],
+        trend: ["+35%", "+42%", "+58%", "+38%", "+45%"][index % 5],
+        badge: ["BESTSELLER", "PREMIUM", "EXCLUSIVE", "LIMITED", "TRENDING"][index % 5]
+      })) || [];
+
+      setCategories(categoriesWithIcons);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
   const handleExploreCollection = () => {
     navigate('/shop');
   };
-
-  const categories = [
-    {
-      icon: ChefHat,
-      title: "Master Chef Collection", 
-      description: "Professional-grade culinary tools crafted for gastronomic excellence",
-      items: "300+ Premium Products",
-      color: "bg-orange-600",
-      bgColor: "bg-orange-50",
-      trend: "+35%",
-      badge: "BESTSELLER"
-    },
-    {
-      icon: Utensils,
-      title: "Royal Dining Experience",
-      description: "Sophisticated tableware and serving accessories for distinguished dining",
-      items: "250+ Luxury Items",
-      color: "bg-emerald-600",
-      bgColor: "bg-emerald-50",
-      trend: "+42%",
-      badge: "PREMIUM"
-    },
-    {
-      icon: Gem,
-      title: "Imperial Jewelry",
-      description: "Handcrafted masterpieces featuring precious metals and rare gemstones",
-      items: "150+ Exclusive Pieces",
-      color: "bg-purple-600",
-      bgColor: "bg-purple-50",
-      trend: "+58%",
-      badge: "EXCLUSIVE"
-    },
-    {
-      icon: Crown,
-      title: "Luxury Lifestyle",
-      description: "Curated accessories and lifestyle products for discerning connoisseurs",
-      items: "120+ Designer Items",
-      color: "bg-amber-600",
-      bgColor: "bg-amber-50",
-      trend: "+38%",
-      badge: "LIMITED"
-    }
-  ];
 
   return (
     <section className="py-24 bg-gray-50 relative overflow-hidden">
@@ -115,7 +103,7 @@ export const ProductCategories = () => {
                 </div>
                 
                 <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors whitespace-nowrap">
-                  {category.title}
+                  {category.name}
                 </h3>
                 
                 <p className="text-sm text-gray-700 mb-6 leading-relaxed">

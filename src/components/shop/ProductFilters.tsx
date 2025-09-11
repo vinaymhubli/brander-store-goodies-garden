@@ -2,6 +2,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 interface ProductFiltersProps {
   selectedCategory: string;
@@ -10,23 +12,33 @@ interface ProductFiltersProps {
   onPriceRangeChange: (range: [number, number]) => void;
 }
 
-const categories = [
-  "All Categories",
-  "Hair Accessories",
-  "Kitchen Appliances",
-  "Rings",
-  "Necklaces",
-  "Earrings",
-  "Bracelets",
-  "Watches"
-];
-
 export const ProductFilters = ({
   selectedCategory,
   onCategoryChange,
   priceRange,
   onPriceRangeChange,
 }: ProductFiltersProps) => {
+  const [categories, setCategories] = useState<string[]>([]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    try {
+      const { data: categoriesData, error } = await supabase
+        .from('categories')
+        .select('name')
+        .order('name', { ascending: true });
+
+      if (error) throw error;
+
+      const categoryNames = ["All Categories", ...(categoriesData?.map(cat => cat.name) || [])];
+      setCategories(categoryNames);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
   return (
     <div className="space-y-6">
       <Card>

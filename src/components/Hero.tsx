@@ -4,31 +4,58 @@ import { ArrowRight, Star, Sparkles, Award, Shield, Crown, Gem, Zap } from "luci
 import { useCartStore } from "@/store/cartStore";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 export const Hero = () => {
   const { addItem } = useCartStore();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [featuredProduct, setFeaturedProduct] = useState<any>(null);
+
+  useEffect(() => {
+    fetchFeaturedProduct();
+  }, []);
+
+  const fetchFeaturedProduct = async () => {
+    try {
+      const { data: products, error } = await supabase
+        .from('products')
+        .select('*')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (error) throw error;
+      if (products && products.length > 0) {
+        setFeaturedProduct(products[0]);
+      }
+    } catch (error) {
+      console.error('Error fetching featured product:', error);
+    }
+  };
 
   const handleAddToCart = () => {
-    const heatMatProduct = {
-      id: 999, // Special ID for Heat Mat Pro
-      name: "Heat Mat Pro - Food Heating Pad",
-      price: 4999,
-      image: "/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png",
+    if (!featuredProduct) return;
+
+    const productForCart = {
+      id: featuredProduct.id,
+      name: featuredProduct.name,
+      price: featuredProduct.price,
+      image: featuredProduct.image_url,
     };
 
-    console.log('Add to cart clicked for Heat Mat Pro');
+    console.log('Add to cart clicked for:', featuredProduct.name);
     try {
-      addItem(heatMatProduct);
+      addItem(productForCart);
       
       toast({
         title: "Added to cart",
-        description: `${heatMatProduct.name} has been added to your cart.`,
+        description: `${featuredProduct.name} has been added to your cart.`,
       });
-      console.log('Heat Mat Pro successfully added to cart');
+      console.log('Product successfully added to cart');
     } catch (error) {
-      console.error('Error adding Heat Mat Pro to cart:', error);
+      console.error('Error adding product to cart:', error);
     }
   };
 
@@ -41,8 +68,18 @@ export const Hero = () => {
   };
 
   const handleProductClick = () => {
-    navigate('/product/999');
+    if (featuredProduct) {
+      navigate(`/product/${featuredProduct.id}`);
+    }
   };
+
+  if (!featuredProduct) {
+    return (
+      <section className="relative min-h-screen overflow-hidden bg-gray-900 flex items-center justify-center">
+        <div className="text-white text-xl">Loading...</div>
+      </section>
+    );
+  }
 
   return (
     <section className="relative min-h-screen overflow-hidden">
@@ -93,24 +130,20 @@ export const Hero = () => {
                 </div>
               </div>
               
-              <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
                 <span className="block text-orange-400">
-                  HEAT MAT
+                  {featuredProduct.name.split(' ')[0]}
                 </span>
                 <span className="block text-purple-400">
-                  PRO
+                  {featuredProduct.name.split(' ')[1]}
                 </span>
                 <span className="block text-xl sm:text-2xl md:text-3xl lg:text-4xl text-gray-200 font-normal mt-1 md:mt-2">
-                  Food Heating Pad
+                  {featuredProduct.name.split(' ').slice(2).join(' ')}
                 </span>
               </h1>
               
               <p className="text-base md:text-lg text-gray-200 leading-relaxed max-w-2xl mx-auto lg:mx-0">
-                Keep your meals perfectly warm with our 
-                <span className="text-yellow-400 font-medium"> adjustable temperature technology</span>. 
-                Features built-in timer, child lock safety, and 
-                <span className="text-purple-400 font-medium"> compact portable design</span> 
-                for modern kitchens.
+                {featuredProduct.description}
               </p>
             </div>
 
@@ -159,8 +192,8 @@ export const Hero = () => {
               <div className="bg-white/10 backdrop-blur-xl rounded-2xl p-4 md:p-8 border border-white/20 shadow-xl transform hover:scale-105 transition-all duration-500">
                 <div className="cursor-pointer" onClick={handleProductClick}>
                   <img 
-                    src="/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png" 
-                    alt="Heat Mat Pro - Food Heating Pad" 
+                    src={featuredProduct.image_url} 
+                    alt={featuredProduct.name} 
                     className="w-full h-auto rounded-xl shadow-lg hover:scale-105 transition-transform duration-300"
                   />
                 </div>
@@ -170,7 +203,7 @@ export const Hero = () => {
                       className="text-lg md:text-xl font-bold text-white cursor-pointer hover:text-purple-200 transition-colors"
                       onClick={handleProductClick}
                     >
-                      Heat Mat Pro - Food Heating Pad
+                      {featuredProduct.name}
                     </h3>
                     <div className="flex items-center space-x-1 bg-green-500/20 px-2 py-1 rounded-full border border-green-400/40">
                       <Shield className="h-3 w-3 md:h-4 md:w-4 text-green-400" />
@@ -178,12 +211,11 @@ export const Hero = () => {
                     </div>
                   </div>
                   <p className="text-sm md:text-base text-gray-200 leading-relaxed">
-                    Adjustable temperature electric food warmer with compact portable design, built-in timer and child lock safety features.
+                    {featuredProduct.description}
                   </p>
                   <div className="flex items-center justify-between pt-3 md:pt-4">
                     <div className="space-y-1">
-                      <div className="text-xl md:text-2xl font-bold text-yellow-400">₹4999</div>
-                      <div className="text-base md:text-lg text-gray-400 line-through">₹7999</div>
+                      <div className="text-xl md:text-2xl font-bold text-yellow-400">₹{featuredProduct.price}</div>
                     </div>
                     <Button 
                       onClick={handleAddToCart}

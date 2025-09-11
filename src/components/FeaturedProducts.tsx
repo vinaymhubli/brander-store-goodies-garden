@@ -6,69 +6,51 @@ import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { useEffect, useState } from "react";
 
 export const FeaturedProducts = () => {
   const { addItem: addToCart } = useCartStore();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [products, setProducts] = useState<any[]>([]);
 
-  const products = [
-    {
-      id: 1,
-      name: "Twist & Shine Hairpin",
-      price: 399,
-      originalPrice: 799,
-      rating: 5.0,
-      reviews: 487,
-      image: "/lovable-uploads/f3cff865-b598-4bb1-9049-99b64a31c5d1.png",
-      badge: "PREMIUM",
-      badgeColor: "bg-orange-500",
-      category: "Hair Accessories",
-      discount: "38% OFF",
-      features: ["Sleek Metallic", "Versatile Style", "Premium Quality"],
-      luxury: true,
-      buttonColor: "bg-purple-600 hover:bg-purple-700",
-      currency: "INR",
-      description: "Add a graceful twist to your hairdo with this sleek metallic hairpin. Perfect for both casual buns and elegant updos."
-    },
-    {
-      id: 2,
-      name: "Elegance Pearl Hairclip",
-      price: 499,
-      originalPrice: 899,
-      rating: 5.0,
-      reviews: 203,
-      image: "/lovable-uploads/9c745f4d-f750-4284-a540-39dd602c2848.png",
-      badge: "EXCLUSIVE",
-      badgeColor: "bg-purple-600",
-      category: "Hair Accessories",
-      discount: "44% OFF",
-      features: ["Faux Pearls", "Golden Finish", "Timeless Design"],
-      luxury: true,
-      buttonColor: "bg-emerald-600 hover:bg-emerald-700",
-      currency: "INR",
-      description: "A timeless hair accessory featuring faux pearls and a golden finish. Ideal for formal events or adding charm to your daily look."
-    },
-    {
-      id: 4,
-      name: "Bold Bloom Hairclip",
-      price: 1199.99,
-      originalPrice: 1699.99,
-      rating: 5.0,
-      reviews: 142,
-      image: "/lovable-uploads/878e4c65-0f31-41e4-a08d-901d3c4b56e9.png",
-      badge: "MASTERPIECE",
-      badgeColor: "bg-amber-600",
-      category: "Hair Accessories", 
-      discount: "29% OFF",
-      features: ["Vibrant Floral", "Strong Hold", "Statement Piece"],
-      luxury: true,
-      buttonColor: "bg-indigo-600 hover:bg-indigo-700",
-      currency: "INR",
-      description: "Make a statement with this vibrant floral clip, designed to hold thick hair while adding a touch of playful boldness."
+  useEffect(() => {
+    fetchFeaturedProducts();
+  }, []);
+
+  const fetchFeaturedProducts = async () => {
+    try {
+      const { data: productsData, error } = await supabase
+        .from('products')
+        .select('*, categories(name)')
+        .eq('is_active', true)
+        .order('created_at', { ascending: false })
+        .limit(3);
+
+      if (error) throw error;
+
+      const productsWithExtras = productsData?.map((product, index) => ({
+        ...product,
+        originalPrice: product.price * 1.5, // Mock original price
+        rating: 5.0,
+        reviews: Math.floor(Math.random() * 500) + 100,
+        badge: ["PREMIUM", "EXCLUSIVE", "MASTERPIECE"][index % 3],
+        badgeColor: ["bg-orange-500", "bg-purple-600", "bg-amber-600"][index % 3],
+        category: product.categories?.name || "General",
+        discount: `${Math.floor(Math.random() * 40) + 20}% OFF`,
+        features: ["Premium Quality", "Expert Crafted", "Limited Edition"],
+        luxury: true,
+        buttonColor: ["bg-purple-600 hover:bg-purple-700", "bg-emerald-600 hover:bg-emerald-700", "bg-indigo-600 hover:bg-indigo-700"][index % 3],
+        currency: "INR"
+      })) || [];
+
+      setProducts(productsWithExtras);
+    } catch (error) {
+      console.error('Error fetching featured products:', error);
     }
-  ];
+  };
 
   const handleAddToCart = (product: any) => {
     console.log('Add to cart clicked for:', product.name);
@@ -77,7 +59,7 @@ export const FeaturedProducts = () => {
         id: product.id,
         name: product.name,
         price: product.price,
-        image: product.image,
+        image: product.image_url,
       });
       
       toast({
@@ -95,7 +77,7 @@ export const FeaturedProducts = () => {
       id: product.id,
       name: product.name,
       price: product.price,
-      image: product.image,
+      image: product.image_url,
     };
 
     if (isInWishlist(product.id)) {
@@ -169,7 +151,7 @@ export const FeaturedProducts = () => {
               >
                 <div className="relative overflow-hidden">
                   <img
-                    src={product.id === 1 ? "/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png" : product.image}
+                    src={product.image_url}
                     alt={product.name}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
@@ -192,36 +174,34 @@ export const FeaturedProducts = () => {
                   )}
 
                   {/* Hover actions */}
-                  {product.id !== 1 && (
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
-                      <div className="flex space-x-4">
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          onClick={() => handleViewProduct(product.id)}
-                          className="bg-white/90 hover:bg-white shadow-lg"
-                        >
-                          <Eye className="h-4 w-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="secondary"
-                          onClick={() => handleWishlistToggle(product)}
-                          className={`shadow-lg ${
-                            isInWishlist(product.id)
-                              ? "bg-red-100 hover:bg-red-200 text-red-600"
-                              : "bg-white/90 hover:bg-white"
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500">
+                    <div className="flex space-x-4">
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => handleViewProduct(product.id)}
+                        className="bg-white/90 hover:bg-white shadow-lg"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="secondary"
+                        onClick={() => handleWishlistToggle(product)}
+                        className={`shadow-lg ${
+                          isInWishlist(product.id)
+                            ? "bg-red-100 hover:bg-red-200 text-red-600"
+                            : "bg-white/90 hover:bg-white"
+                        }`}
+                      >
+                        <Heart
+                          className={`h-4 w-4 ${
+                            isInWishlist(product.id) ? "fill-current" : ""
                           }`}
-                        >
-                          <Heart
-                            className={`h-4 w-4 ${
-                              isInWishlist(product.id) ? "fill-current" : ""
-                            }`}
-                          />
-                        </Button>
-                      </div>
+                        />
+                      </Button>
                     </div>
-                  )}
+                  </div>
                 </div>
 
                 <div className="p-6 space-y-4">
