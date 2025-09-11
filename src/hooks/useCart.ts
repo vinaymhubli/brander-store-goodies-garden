@@ -43,10 +43,17 @@ export const useCart = () => {
 
         if (productsError) throw productsError;
 
-        const cartWithProducts = cartData.map(cartItem => ({
-          ...cartItem,
-          products: productsData.find(product => product.id === cartItem.product_id)!
-        }));
+        const cartWithProducts = cartData.map(cartItem => {
+          const product = productsData?.find(product => product.id === cartItem.product_id);
+          if (!product) {
+            console.error(`Product not found for cart item ${cartItem.id}`);
+            return null;
+          }
+          return {
+            ...cartItem,
+            products: product
+          };
+        }).filter(Boolean) as CartItemWithProduct[];
 
         setCartItems(cartWithProducts);
       } else {
