@@ -13,7 +13,7 @@ import {
   Diamond,
 } from "lucide-react";
 import { Testimonials } from "./Testimonials";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { useWishlistStore } from "@/store/wishlistStore";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
@@ -21,7 +21,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 
 export const FeaturedProducts = () => {
-  const { addItem: addToCart } = useCartStore();
+  const { addToCart } = useCart();
   const {
     addItem: addToWishlist,
     removeItem: removeFromWishlist,
@@ -82,12 +82,7 @@ export const FeaturedProducts = () => {
   const handleAddToCart = (product: any) => {
     console.log("Add to cart clicked for:", product.name);
     try {
-      addToCart({
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.image_url,
-      });
+      addToCart(product);
 
       toast({
         title: "Added to cart",
