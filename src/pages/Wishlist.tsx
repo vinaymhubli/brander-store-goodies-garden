@@ -2,22 +2,17 @@
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { useWishlist } from "@/hooks/useWishlist";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Wishlist = () => {
   const { items, loading, removeItem } = useWishlist();
-  const { addItem } = useCartStore();
+  const { addToCart } = useCart();
 
   const handleAddToCart = (item: any) => {
-    addItem({
-      id: item.id,
-      name: item.name,
-      price: item.price,
-      image: item.image,
-    });
+    addToCart(item);
   };
 
   const handleRemoveFromWishlist = async (id: string) => {

@@ -1,14 +1,14 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Star, Sparkles, Award, Shield, Crown, Gem, Zap } from "lucide-react";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useEffect, useState } from "react";
 
 export const Hero = () => {
-  const { addItem } = useCartStore();
+  const { addToCart } = useCart();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [featuredProduct, setFeaturedProduct] = useState<any>(null);
@@ -47,7 +47,7 @@ export const Hero = () => {
 
     console.log('Add to cart clicked for:', featuredProduct.name);
     try {
-      addItem(productForCart);
+      addToCart(featuredProduct);
       
       toast({
         title: "Added to cart",

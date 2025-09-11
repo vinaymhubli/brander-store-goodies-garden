@@ -6,13 +6,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/hooks/use-toast";
 import { useNavigate } from "react-router-dom";
 import { CreditCard, Lock, MapPin, CheckCircle, ArrowLeft } from "lucide-react";
 
 const Checkout = () => {
-  const { items, getTotalPrice, clearCart } = useCartStore();
+  const { cartItems, getTotalPrice, clearCart } = useCart();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -32,7 +32,7 @@ const Checkout = () => {
     }, 2000);
   };
 
-  if (items.length === 0) {
+  if (cartItems.length === 0) {
     navigate("/cart");
     return null;
   }
@@ -156,18 +156,18 @@ const Checkout = () => {
               <CardContent className="p-4 sm:p-6">
                 {/* Order Items */}
                 <div className="space-y-3 sm:space-y-4 mb-6">
-                  {items.map((item) => (
+                  {cartItems.map((item) => (
                     <div key={item.id} className="flex items-center space-x-3 sm:space-x-4 bg-gray-50 p-3 rounded-lg">
-                      <img
-                        src={item.image}
-                        alt={item.name}
-                        className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{item.name}</h4>
-                        <p className="text-xs sm:text-sm text-gray-600">Qty: {item.quantity}</p>
-                      </div>
-                      <p className="font-bold text-purple-600 text-sm sm:text-base">₹{(item.price * item.quantity).toFixed(2)}</p>
+                       <img
+                         src={item.products.image_url || '/placeholder.svg'}
+                         alt={item.products.name}
+                         className="w-12 h-12 sm:w-16 sm:h-16 object-cover rounded-lg"
+                       />
+                       <div className="flex-1 min-w-0">
+                         <h4 className="font-medium text-gray-900 text-sm sm:text-base truncate">{item.products.name}</h4>
+                         <p className="text-xs sm:text-sm text-gray-600">Qty: {item.quantity}</p>
+                       </div>
+                       <p className="font-bold text-purple-600 text-sm sm:text-base">₹{((item.products.selling_price || item.products.price) * item.quantity).toFixed(2)}</p>
                     </div>
                   ))}
                 </div>

@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Star, ShoppingCart, CheckCircle, ArrowLeft, Heart, Share2, Truck, Shield, RotateCcw } from "lucide-react";
 import { useParams, Navigate, Link } from "react-router-dom";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
@@ -14,7 +14,7 @@ import { useState } from "react";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { items, addItem } = useCartStore();
+  const { cartItems, addToCart } = useCart();
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
 
@@ -69,19 +69,14 @@ const ProductDetail = () => {
     return <Navigate to="/shop" replace />;
   }
 
-  const isInCart = items.some((item: any) => item.id === product.id);
+  const isInCart = cartItems.some((item: any) => item.product_id === product.id);
   const discountPercentage = product.selling_price && product.selling_price < product.price 
     ? Math.round(((product.price - product.selling_price) / product.price) * 100)
     : 0;
 
   const handleAddToCart = () => {
     try {
-      addItem({
-        id: product.id,
-        name: product.name,
-        price: Number(product.selling_price || product.price),
-        image: product.image_url || '/placeholder.svg',
-      });
+      addToCart(product);
       
       toast({
         title: "Added to cart",
