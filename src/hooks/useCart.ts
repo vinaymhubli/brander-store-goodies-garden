@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { useToast } from './use-toast';
@@ -18,7 +18,7 @@ export const useCart = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   // Fetch cart items from database
-  const fetchCartItems = async () => {
+  const fetchCartItems = useCallback(async () => {
     if (!user) {
       setCartItems([]);
       return;
@@ -56,6 +56,7 @@ export const useCart = () => {
         }).filter(Boolean) as CartItemWithProduct[];
 
         setCartItems(cartWithProducts);
+        console.log('Cart items updated:', cartWithProducts.length, 'items');
       } else {
         setCartItems([]);
       }
@@ -69,7 +70,7 @@ export const useCart = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [user, toast]);
 
   // Add item to cart
   const addToCart = async (product: Tables<'products'>) => {
@@ -107,7 +108,10 @@ export const useCart = () => {
         if (error) throw error;
       }
 
+      // Refresh cart items to update the state
+      console.log('Refreshing cart after adding item...');
       await fetchCartItems();
+      
       toast({
         title: "Success",
         description: `${product.name} added to cart`,
@@ -197,13 +201,15 @@ export const useCart = () => {
   };
 
   // Get cart count
-  const getCartCount = () => {
-    return cartItems.reduce((count, item) => count + item.quantity, 0);
-  };
+  const getCartCount = useCallback(() => {
+    const count = cartItems.reduce((count, item) => count + item.quantity, 0);
+    console.log('Cart count calculated:', count, 'from items:', cartItems.length);
+    return count;
+  }, [cartItems]);
 
   useEffect(() => {
     fetchCartItems();
-  }, [user]);
+  }, [fetchCartItems]);
 
   return {
     cartItems,
