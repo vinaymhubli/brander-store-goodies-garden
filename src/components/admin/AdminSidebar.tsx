@@ -68,8 +68,7 @@ export const AdminSidebar = () => {
             <SidebarMenu>
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuButton asChild>
-                      <NavLink
+                  <NavLink
                     to={item.url}
                     end={item.url === "/admin"}
                     className={({ isActive: navIsActive }) => {
@@ -90,7 +89,6 @@ export const AdminSidebar = () => {
                     <item.icon className="h-4 w-4 min-w-4" />
                     {!isCollapsed && <span>{item.title}</span>}
                   </NavLink>
-                  </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
