@@ -2,13 +2,13 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Star, ShoppingCart } from "lucide-react";
-import { Product } from "@/data/products";
+import { Tables } from "@/integrations/supabase/types";
 import { useCartStore } from "@/store/cartStore";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 interface ProductCardProps {
-  product: Product;
+  product: Tables<"products">;
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
@@ -23,8 +23,8 @@ export const ProductCard = ({ product }: ProductCardProps) => {
       addItem({
         id: product.id,
         name: product.name,
-        price: product.price,
-        image: product.image,
+        price: Number(product.selling_price || product.price),
+        image: product.image_url || '/placeholder.svg',
       });
       
       toast({
@@ -43,11 +43,11 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         <Link to={`/product/${product.id}`}>
           <div className="aspect-square overflow-hidden rounded-t-lg">
             <img
-              src={product.image}
+              src={product.image_url || '/placeholder.svg'}
               alt={product.name}
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
               onError={(e) => {
-                console.error('Image failed to load:', product.image);
+                console.error('Image failed to load:', product.image_url);
                 e.currentTarget.src = '/placeholder.svg';
               }}
             />
@@ -55,32 +55,28 @@ export const ProductCard = ({ product }: ProductCardProps) => {
         </Link>
         <div className="p-4">
           <Link to={`/product/${product.id}`}>
-            <h3 className="font-semibold text-lg mb-2 hover:text-purple-600 transition-colors">
+            <h3 className="font-semibold text-lg mb-2 hover:text-primary transition-colors">
               {product.name}
             </h3>
           </Link>
-          <div className="flex items-center mb-2">
-            <div className="flex items-center">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`h-4 w-4 ${
-                    i < Math.floor(product.rating)
-                      ? "text-yellow-400 fill-current"
-                      : "text-gray-300"
-                  }`}
-                />
-              ))}
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex flex-col">
+              {product.selling_price && product.selling_price < product.price ? (
+                <div className="flex items-center gap-2">
+                  <p className="text-2xl font-bold text-primary">₹{product.selling_price}</p>
+                  <p className="text-lg text-muted-foreground line-through">₹{product.price}</p>
+                </div>
+              ) : (
+                <p className="text-2xl font-bold text-primary">₹{product.price}</p>
+              )}
             </div>
-            <span className="text-sm text-gray-600 ml-2">({product.reviews})</span>
           </div>
-          <p className="text-2xl font-bold text-purple-600">₹{product.price}</p>
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">
         <Button 
           onClick={handleAddToCart} 
-          className="w-full bg-purple-600 hover:bg-purple-700"
+          className="w-full"
         >
           <ShoppingCart className="w-4 h-4 mr-2" />
           Add to Cart

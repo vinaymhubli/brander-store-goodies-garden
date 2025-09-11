@@ -1,115 +1,252 @@
-
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Star, ShoppingCart, CheckCircle, ArrowLeft } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Star, ShoppingCart, CheckCircle, ArrowLeft, Heart, Share2, Truck, Shield, RotateCcw } from "lucide-react";
 import { useParams, Navigate, Link } from "react-router-dom";
-import { products } from "@/data/products";
 import { useCartStore } from "@/store/cartStore";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from "@tanstack/react-query";
+import { Tables } from "@/integrations/supabase/types";
+import { useState } from "react";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { items, addItem } = useCartStore();
   const { toast } = useToast();
+  const [quantity, setQuantity] = useState(1);
 
-  const product = products.find(p => p.id === Number(id));
+  const { data: product, isLoading, error } = useQuery({
+    queryKey: ['product', id],
+    queryFn: async () => {
+      if (!id) throw new Error('Product ID is required');
+      
+      const { data, error } = await supabase
+        .from('products')
+        .select(`
+          *,
+          categories (
+            name,
+            description
+          )
+        `)
+        .eq('id', id)
+        .eq('is_active', true)
+        .single();
 
-  if (!product) {
+      if (error) throw error;
+      return data as Tables<"products"> & {
+        categories: { name: string; description: string | null } | null;
+      };
+    },
+    enabled: !!id,
+  });
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="animate-pulse">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="aspect-square bg-muted rounded-lg"></div>
+              <div className="space-y-4">
+                <div className="h-8 bg-muted rounded w-3/4"></div>
+                <div className="h-4 bg-muted rounded w-1/2"></div>
+                <div className="h-6 bg-muted rounded w-1/4"></div>
+                <div className="h-32 bg-muted rounded"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !product) {
     return <Navigate to="/shop" replace />;
   }
 
-  const isInCart = items.some(item => item.id === product.id);
+  const isInCart = items.some((item: any) => item.id === product.id);
+  const discountPercentage = product.selling_price && product.selling_price < product.price 
+    ? Math.round(((product.price - product.selling_price) / product.price) * 100)
+    : 0;
 
   const handleAddToCart = () => {
-    console.log('Add to cart clicked for:', product.name);
     try {
       addItem({
         id: product.id,
         name: product.name,
-        price: product.price,
-        image: product.image,
+        price: Number(product.selling_price || product.price),
+        image: product.image_url || '/placeholder.svg',
       });
       
       toast({
         title: "Added to cart",
         description: `${product.name} has been added to your cart.`,
       });
-      console.log('Item successfully added to cart and toast shown');
     } catch (error) {
       console.error('Error adding item to cart:', error);
+      toast({
+        title: "Error",
+        description: "Failed to add item to cart. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleQuantityChange = (change: number) => {
+    const newQuantity = quantity + change;
+    if (newQuantity >= 1 && newQuantity <= (product.stock_quantity || 10)) {
+      setQuantity(newQuantity);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <Navigation />
       
-      {/* Back Button */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* Breadcrumb */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="flex items-center space-x-2 text-sm text-muted-foreground">
+          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <span>/</span>
+          <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
+          <span>/</span>
+          {product.categories && (
+            <>
+              <span className="hover:text-foreground transition-colors">{product.categories.name}</span>
+              <span>/</span>
+            </>
+          )}
+          <span className="text-foreground font-medium">{product.name}</span>
+        </div>
+        
         <Link to="/shop">
-          <Button variant="ghost" className="mb-4">
+          <Button variant="ghost" className="mt-2 -ml-4">
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to Shop
           </Button>
         </Link>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
-          {/* Product Image */}
-          <div className="w-full">
-            <div className="aspect-square overflow-hidden rounded-lg bg-white">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Product Images */}
+          <div className="space-y-4">
+            <div className="aspect-square overflow-hidden rounded-xl bg-card border">
               <img
-                src={product.image}
+                src={product.image_url || '/placeholder.svg'}
                 alt={product.name}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 onError={(e) => {
-                  console.error('Image failed to load:', product.image);
                   e.currentTarget.src = '/placeholder.svg';
                 }}
               />
             </div>
           </div>
 
-          {/* Product Details */}
-          <div className="space-y-4 sm:space-y-6">
+          {/* Product Info */}
+          <div className="space-y-6">
             <div>
-              <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">{product.name}</h1>
-              <p className="text-base sm:text-lg text-gray-600 mb-4">{product.category}</p>
+              {product.categories && (
+                <Badge variant="secondary" className="mb-3">
+                  {product.categories.name}
+                </Badge>
+              )}
               
-              <div className="flex items-center mb-4">
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`h-4 w-4 sm:h-5 sm:w-5 ${
-                        i < Math.floor(product.rating)
-                          ? "text-yellow-400 fill-current"
-                          : "text-gray-300"
-                      }`}
-                    />
-                  ))}
-                </div>
-                <span className="text-sm text-gray-600 ml-2">
-                  {product.rating} ({product.reviews} reviews)
-                </span>
+              <h1 className="text-3xl lg:text-4xl font-bold text-foreground leading-tight mb-4">
+                {product.name}
+              </h1>
+              
+              {/* Price Section */}
+              <div className="flex items-center gap-4 mb-6">
+                {product.selling_price && product.selling_price < product.price ? (
+                  <>
+                    <span className="text-4xl font-bold text-primary">
+                      ₹{Number(product.selling_price).toLocaleString()}
+                    </span>
+                    <span className="text-2xl text-muted-foreground line-through">
+                      ₹{Number(product.price).toLocaleString()}
+                    </span>
+                    <Badge variant="destructive">
+                      {discountPercentage}% OFF
+                    </Badge>
+                  </>
+                ) : (
+                  <span className="text-4xl font-bold text-primary">
+                    ₹{Number(product.price).toLocaleString()}
+                  </span>
+                )}
               </div>
 
-              <p className="text-3xl sm:text-4xl font-bold text-purple-600 mb-4 sm:mb-6">₹{product.price}</p>
+              {/* Stock Status */}
+              <div className="flex items-center gap-2 mb-4">
+                {product.stock_quantity > 0 ? (
+                  <>
+                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <span className="text-sm text-green-600 font-medium">
+                      In Stock ({product.stock_quantity} available)
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                    <span className="text-sm text-red-600 font-medium">Out of Stock</span>
+                  </>
+                )}
+              </div>
             </div>
 
-            <Card>
-              <CardContent className="p-4 sm:p-6">
-                <h3 className="text-lg font-semibold mb-3">Product Description</h3>
-                <p className="text-gray-700 leading-relaxed text-sm sm:text-base">{product.description}</p>
-              </CardContent>
-            </Card>
+            <Separator />
 
-            <div className="space-y-4 sticky bottom-0 bg-gray-50 p-4 sm:p-0 sm:bg-transparent sm:static">
+            {/* Description */}
+            {product.description && (
+              <Card>
+                <CardContent className="p-6">
+                  <h3 className="text-lg font-semibold mb-3">Product Description</h3>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {product.description}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
+
+            {/* Quantity Selector */}
+            <div className="flex items-center gap-4">
+              <span className="text-sm font-medium">Quantity:</span>
+              <div className="flex items-center border rounded-lg">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleQuantityChange(-1)}
+                  disabled={quantity <= 1}
+                  className="h-10 w-10"
+                >
+                  -
+                </Button>
+                <span className="w-12 text-center font-medium">{quantity}</span>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleQuantityChange(1)}
+                  disabled={quantity >= (product.stock_quantity || 10)}
+                  className="h-10 w-10"
+                >
+                  +
+                </Button>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="space-y-4">
               {isInCart ? (
                 <Button 
-                  className="w-full bg-green-600 hover:bg-green-700 text-white py-3 sm:py-4 text-base sm:text-lg"
+                  size="lg"
+                  className="w-full h-14 text-lg"
+                  variant="secondary"
                   onClick={() => window.location.href = '/cart'}
                 >
                   <CheckCircle className="w-5 h-5 mr-2" />
@@ -118,12 +255,52 @@ const ProductDetail = () => {
               ) : (
                 <Button 
                   onClick={handleAddToCart} 
-                  className="w-full bg-purple-600 hover:bg-purple-700 text-white py-3 sm:py-4 text-base sm:text-lg"
+                  size="lg"
+                  className="w-full h-14 text-lg"
+                  disabled={product.stock_quantity <= 0}
                 >
                   <ShoppingCart className="w-5 h-5 mr-2" />
                   Add to Cart
                 </Button>
               )}
+              
+              <div className="flex gap-3">
+                <Button variant="outline" size="lg" className="flex-1">
+                  <Heart className="w-5 h-5 mr-2" />
+                  Add to Wishlist
+                </Button>
+                <Button variant="outline" size="lg" className="flex-1">
+                  <Share2 className="w-5 h-5 mr-2" />
+                  Share
+                </Button>
+              </div>
+            </div>
+
+            <Separator />
+
+            {/* Features */}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+              <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
+                <Truck className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="font-medium">Free Delivery</p>
+                  <p className="text-muted-foreground">On orders above ₹999</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
+                <Shield className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="font-medium">Secure Payment</p>
+                  <p className="text-muted-foreground">100% secure checkout</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
+                <RotateCcw className="w-5 h-5 text-primary" />
+                <div>
+                  <p className="font-medium">Easy Returns</p>
+                  <p className="text-muted-foreground">7-day return policy</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>

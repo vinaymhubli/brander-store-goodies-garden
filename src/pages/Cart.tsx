@@ -17,7 +17,7 @@ const Cart = () => {
     navigate('/checkout');
   };
 
-  const handleRemoveItem = (id: number, name: string) => {
+  const handleRemoveItem = (id: string, name: string) => {
     removeItem(id);
     toast({
       title: "Item Removed",
@@ -109,7 +109,7 @@ const Cart = () => {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8 hover:bg-white"
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
                           </Button>
