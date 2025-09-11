@@ -97,7 +97,8 @@ export const useAuth = () => {
   };
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
+    // Prefer local sign-out to avoid 403 when session is already invalid
+    const { error } = await supabase.auth.signOut({ scope: 'local' });
     return { error };
   };
 
