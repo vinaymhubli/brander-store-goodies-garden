@@ -19,22 +19,30 @@ export const useAuth = () => {
   useEffect(() => {
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
+      (event, session) => {
         setSession(session);
         setUser(session?.user ?? null);
         
         if (session?.user) {
           // Fetch user profile
-          const { data: profileData } = await supabase
+          supabase
             .from('profiles')
             .select('*')
             .eq('user_id', session.user.id)
-            .single();
-          setProfile(profileData);
+            .single()
+            .then(({ data: profileData, error }) => {
+              if (error) {
+                console.error('Profile fetch error:', error);
+                setProfile(null);
+              } else {
+                setProfile(profileData);
+              }
+              setLoading(false);
+            });
         } else {
           setProfile(null);
+          setLoading(false);
         }
-        setLoading(false);
       }
     );
 
@@ -49,8 +57,13 @@ export const useAuth = () => {
           .select('*')
           .eq('user_id', session.user.id)
           .single()
-          .then(({ data: profileData }) => {
-            setProfile(profileData);
+          .then(({ data: profileData, error }) => {
+            if (error) {
+              console.error('Profile fetch error:', error);
+              setProfile(null);
+            } else {
+              setProfile(profileData);
+            }
             setLoading(false);
           });
       } else {
