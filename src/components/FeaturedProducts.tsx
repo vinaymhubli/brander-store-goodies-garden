@@ -1,6 +1,17 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Star, Heart, ShoppingCart, Eye, TrendingUp, Zap, ArrowRight, Crown, Sparkles, Award, Diamond } from "lucide-react";
+import {
+  Star,
+  Heart,
+  ShoppingCart,
+  Eye,
+  TrendingUp,
+  Zap,
+  ArrowRight,
+  Crown,
+  Sparkles,
+  Award,
+  Diamond,
+} from "lucide-react";
 import { Testimonials } from "./Testimonials";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
@@ -11,7 +22,11 @@ import { useEffect, useState } from "react";
 
 export const FeaturedProducts = () => {
   const { addItem: addToCart } = useCartStore();
-  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
+  const {
+    addItem: addToWishlist,
+    removeItem: removeFromWishlist,
+    isInWishlist,
+  } = useWishlistStore();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [products, setProducts] = useState<any[]>([]);
@@ -23,37 +38,49 @@ export const FeaturedProducts = () => {
   const fetchFeaturedProducts = async () => {
     try {
       const { data: productsData, error } = await supabase
-        .from('products')
-        .select('*, categories(name)')
-        .eq('is_active', true)
-        .order('created_at', { ascending: false })
+        .from("products")
+        .select("*, categories(name)")
+        .eq("is_active", true)
+        .order("created_at", { ascending: false })
         .limit(3);
 
       if (error) throw error;
 
-      const productsWithExtras = productsData?.map((product, index) => ({
-        ...product,
-        originalPrice: product.price * 1.5, // Mock original price
-        rating: 5.0,
-        reviews: Math.floor(Math.random() * 500) + 100,
-        badge: ["PREMIUM", "EXCLUSIVE", "MASTERPIECE"][index % 3],
-        badgeColor: ["bg-orange-500", "bg-purple-600", "bg-amber-600"][index % 3],
-        category: product.categories?.name || "General",
-        discount: `${Math.floor(Math.random() * 40) + 20}% OFF`,
-        features: ["Premium Quality", "Expert Crafted", "Limited Edition"],
-        luxury: true,
-        buttonColor: ["bg-purple-600 hover:bg-purple-700", "bg-emerald-600 hover:bg-emerald-700", "bg-indigo-600 hover:bg-indigo-700"][index % 3],
-        currency: "INR"
-      })) || [];
+      const productsWithExtras =
+        productsData?.map((product, index) => {
+          // Use real pricing data
+          const sellingPrice = product.selling_price;
+          const originalPrice = product.price;
+          const hasDiscount = sellingPrice < originalPrice;
+          const discountPercentage = hasDiscount
+            ? Math.round(((originalPrice - sellingPrice) / originalPrice) * 100)
+            : 0;
+
+          return {
+            ...product,
+            rating: 5.0,
+            reviews: Math.floor(Math.random() * 500) + 100,
+            category: product.categories?.name || "General",
+            discount: hasDiscount ? `${discountPercentage}% OFF` : null,
+            features: ["Premium Quality", "Expert Crafted", "Limited Edition"],
+            luxury: true,
+            buttonColor: [
+              "bg-purple-600 hover:bg-purple-700",
+              "bg-emerald-600 hover:bg-emerald-700",
+              "bg-indigo-600 hover:bg-indigo-700",
+            ][index % 3],
+            currency: "INR",
+          };
+        }) || [];
 
       setProducts(productsWithExtras);
     } catch (error) {
-      console.error('Error fetching featured products:', error);
+      console.error("Error fetching featured products:", error);
     }
   };
 
   const handleAddToCart = (product: any) => {
-    console.log('Add to cart clicked for:', product.name);
+    console.log("Add to cart clicked for:", product.name);
     try {
       addToCart({
         id: product.id,
@@ -61,14 +88,14 @@ export const FeaturedProducts = () => {
         price: product.price,
         image: product.image_url,
       });
-      
+
       toast({
         title: "Added to cart",
         description: `${product.name} has been added to your cart.`,
       });
-      console.log('Item successfully added to cart');
+      console.log("Item successfully added to cart");
     } catch (error) {
-      console.error('Error adding item to cart:', error);
+      console.error("Error adding item to cart:", error);
     }
   };
 
@@ -100,7 +127,7 @@ export const FeaturedProducts = () => {
   };
 
   const handleViewAllProducts = () => {
-    navigate('/shop');
+    navigate("/shop");
   };
 
   return (
@@ -133,13 +160,12 @@ export const FeaturedProducts = () => {
             </div>
             <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
               Customer
-              <span className="block text-orange-600">
-                Favorites
-              </span>
+              <span className="block text-orange-600">Favorites</span>
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Hand-selected premium products beloved by thousands of discerning customers worldwide. 
-              Each piece represents the perfect harmony of quality, design, and exceptional value.
+              Hand-selected premium products beloved by thousands of discerning
+              customers worldwide. Each piece represents the perfect harmony of
+              quality, design, and exceptional value.
             </p>
           </div>
 
@@ -147,7 +173,9 @@ export const FeaturedProducts = () => {
             {products.map((product) => (
               <div
                 key={product.id}
-                className={`group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border ${product.luxury ? 'border-yellow-200' : 'border-gray-200'} relative`}
+                className={`group bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 hover:scale-105 border ${
+                  product.luxury ? "border-yellow-200" : "border-gray-200"
+                } relative`}
               >
                 <div className="relative overflow-hidden">
                   <img
@@ -155,15 +183,12 @@ export const FeaturedProducts = () => {
                     alt={product.name}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                   />
-                  
-                  {/* Badge */}
-                  <Badge className={`absolute top-4 left-4 ${product.badgeColor} text-white border-0 shadow-lg text-sm font-semibold px-3 py-1`}>
-                    {product.badge}
-                  </Badge>
-                  
-                  <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
-                    {product.discount}
-                  </div>
+
+                  {product.discount && (
+                    <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-semibold shadow-lg">
+                      {product.discount}
+                    </div>
+                  )}
 
                   {/* Luxury indicator */}
                   {product.luxury && (
@@ -219,7 +244,10 @@ export const FeaturedProducts = () => {
                   {/* Features */}
                   <div className="flex space-x-1 overflow-hidden">
                     {product.features.slice(0, 2).map((feature, idx) => (
-                      <span key={idx} className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full font-medium whitespace-nowrap">
+                      <span
+                        key={idx}
+                        className="text-xs bg-blue-50 text-blue-800 px-2 py-1 rounded-full font-medium whitespace-nowrap"
+                      >
                         {feature}
                       </span>
                     ))}
@@ -251,18 +279,21 @@ export const FeaturedProducts = () => {
                   <div className="space-y-2">
                     <div className="flex items-center space-x-3">
                       <span className="text-2xl font-bold text-gray-900">
-                        {product.currency === "INR" ? "₹" : "$"}{product.price}
+                        {product.currency === "INR" ? "₹" : "$"}
+                        {product.selling_price}
                       </span>
                       <span className="text-lg text-gray-500 line-through">
-                        {product.currency === "INR" ? "₹" : "$"}{product.originalPrice}
+                        {product.currency === "INR" ? "₹" : "$"}
+                        {product.price}
                       </span>
                     </div>
                     <div className="text-green-600 font-semibold">
-                      Save {product.currency === "INR" ? "₹" : "$"}{(product.originalPrice - product.price).toFixed(2)}
+                      Save {product.currency === "INR" ? "₹" : "$"}
+                      {(product.price - product.selling_price).toFixed(2)}
                     </div>
                   </div>
 
-                  <Button 
+                  <Button
                     onClick={() => handleAddToCart(product)}
                     className={`w-full ${product.buttonColor} text-white rounded-full shadow-lg transition-all duration-300 py-3 font-semibold`}
                   >
@@ -276,9 +307,9 @@ export const FeaturedProducts = () => {
           </div>
 
           <div className="text-center mt-16">
-            <Button 
+            <Button
               onClick={handleViewAllProducts}
-              size="lg" 
+              size="lg"
               className="bg-gray-900 hover:bg-gray-800 text-white px-12 py-4 rounded-full shadow-lg transition-all duration-300 text-lg font-semibold"
             >
               <Award className="mr-3 h-5 w-5" />
@@ -288,7 +319,7 @@ export const FeaturedProducts = () => {
           </div>
         </div>
       </section>
-      
+
       <Testimonials />
     </>
   );
