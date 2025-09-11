@@ -9,7 +9,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Pencil, Trash2, Plus } from 'lucide-react';
+import { Pencil, Trash2, Plus, Upload, Link } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Product {
@@ -37,6 +37,9 @@ export const AdminProducts = () => {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [imageInputType, setImageInputType] = useState<'url' | 'file'>('url');
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -93,14 +96,57 @@ export const AdminProducts = () => {
     }
   };
 
+  const uploadFile = async (file: File): Promise<string | null> => {
+    try {
+      setUploading(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}.${fileExt}`;
+      const filePath = `product-images/${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('product-images')
+        .upload(filePath, file);
+
+      if (uploadError) {
+        console.error('Upload error:', uploadError);
+        throw uploadError;
+      }
+
+      const { data } = supabase.storage
+        .from('product-images')
+        .getPublicUrl(filePath);
+
+      return data.publicUrl;
+    } catch (error) {
+      console.error('Error uploading file:', error);
+      toast({
+        title: "Error",
+        description: "Failed to upload image",
+        variant: "destructive",
+      });
+      return null;
+    } finally {
+      setUploading(false);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    let imageUrl = formData.image_url;
+
+    // Handle file upload if file is selected
+    if (imageInputType === 'file' && selectedFile) {
+      const uploadedUrl = await uploadFile(selectedFile);
+      if (!uploadedUrl) return; // Stop if upload failed
+      imageUrl = uploadedUrl;
+    }
 
     const productData = {
       name: formData.name,
       description: formData.description || null,
       price: parseFloat(formData.price),
-      image_url: formData.image_url || null,
+      image_url: imageUrl || null,
       category_id: formData.category_id || null,
       stock_quantity: parseInt(formData.stock_quantity),
       is_active: formData.is_active,
@@ -193,6 +239,8 @@ export const AdminProducts = () => {
       is_active: true,
     });
     setEditingProduct(null);
+    setImageInputType('url');
+    setSelectedFile(null);
   };
 
   const handleOpenDialog = () => {
@@ -261,12 +309,54 @@ export const AdminProducts = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="image_url">Image URL</Label>
-                <Input
-                  id="image_url"
-                  value={formData.image_url}
-                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
-                />
+                <Label>Image</Label>
+                <div className="space-y-3">
+                  <div className="flex space-x-2">
+                    <Button
+                      type="button"
+                      variant={imageInputType === 'url' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setImageInputType('url')}
+                      className="flex-1"
+                    >
+                      <Link className="h-4 w-4 mr-2" />
+                      URL
+                    </Button>
+                    <Button
+                      type="button"
+                      variant={imageInputType === 'file' ? 'default' : 'outline'}
+                      size="sm"
+                      onClick={() => setImageInputType('file')}
+                      className="flex-1"
+                    >
+                      <Upload className="h-4 w-4 mr-2" />
+                      File Upload
+                    </Button>
+                  </div>
+                  
+                  {imageInputType === 'url' ? (
+                    <Input
+                      id="image_url"
+                      placeholder="Enter image URL"
+                      value={formData.image_url}
+                      onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                    />
+                  ) : (
+                    <div className="space-y-2">
+                      <Input
+                        id="image_file"
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
+                      />
+                      {selectedFile && (
+                        <p className="text-sm text-muted-foreground">
+                          Selected: {selectedFile.name}
+                        </p>
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
               <div>
                 <Label htmlFor="category">Category</Label>
@@ -300,8 +390,8 @@ export const AdminProducts = () => {
                 <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                   Cancel
                 </Button>
-                <Button type="submit">
-                  {editingProduct ? 'Update' : 'Create'}
+                <Button type="submit" disabled={uploading}>
+                  {uploading ? 'Uploading...' : editingProduct ? 'Update' : 'Create'}
                 </Button>
               </div>
             </form>
