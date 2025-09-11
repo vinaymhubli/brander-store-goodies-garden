@@ -1,5 +1,15 @@
-
-import { ChefHat, Gem, Utensils, Sparkles, ArrowRight, TrendingUp, Award, Crown, Star, Diamond } from "lucide-react";
+import {
+  ChefHat,
+  Gem,
+  Utensils,
+  Sparkles,
+  ArrowRight,
+  TrendingUp,
+  Award,
+  Crown,
+  Star,
+  Diamond,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,29 +26,43 @@ export const ProductCategories = () => {
   const fetchCategories = async () => {
     try {
       const { data: categoriesData, error } = await supabase
-        .from('categories')
-        .select('*')
-        .order('name', { ascending: true });
+        .from("categories")
+        .select("*")
+        .order("name", { ascending: true });
 
       if (error) throw error;
 
-      const categoriesWithIcons = categoriesData?.map((category, index) => ({
-        ...category,
-        icon: [ChefHat, Utensils, Gem, Crown, Sparkles][index % 5],
-        color: ["bg-orange-600", "bg-emerald-600", "bg-purple-600", "bg-amber-600", "bg-blue-600"][index % 5],
-        bgColor: ["bg-orange-50", "bg-emerald-50", "bg-purple-50", "bg-amber-50", "bg-blue-50"][index % 5],
-        trend: ["+35%", "+42%", "+58%", "+38%", "+45%"][index % 5],
-        badge: ["BESTSELLER", "PREMIUM", "EXCLUSIVE", "LIMITED", "TRENDING"][index % 5]
-      })) || [];
+      const categoriesWithIcons =
+        categoriesData?.map((category, index) => ({
+          ...category,
+          color: [
+            "bg-orange-600",
+            "bg-emerald-600",
+            "bg-purple-600",
+            "bg-amber-600",
+            "bg-blue-600",
+          ][index % 5],
+          bgColor: [
+            "bg-orange-50",
+            "bg-emerald-50",
+            "bg-purple-50",
+            "bg-amber-50",
+            "bg-blue-50",
+          ][index % 5],
+        })) || [];
 
       setCategories(categoriesWithIcons);
     } catch (error) {
-      console.error('Error fetching categories:', error);
+      console.error("Error fetching categories:", error);
     }
   };
 
-  const handleExploreCollection = () => {
-    navigate('/shop');
+  const handleExploreCollection = (categoryName: string) => {
+    navigate(`/shop?category=${encodeURIComponent(categoryName)}`);
+  };
+
+  const handleViewAllCollections = () => {
+    navigate("/shop");
   };
 
   return (
@@ -70,13 +94,12 @@ export const ProductCategories = () => {
           </div>
           <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
             Shop by
-            <span className="block text-orange-600">
-              Category
-            </span>
+            <span className="block text-orange-600">Category</span>
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Discover our meticulously curated collections, each designed to elevate your lifestyle 
-            with uncompromising quality and timeless elegance.
+            Discover our meticulously curated collections, each designed to
+            elevate your lifestyle with uncompromising quality and timeless
+            elegance.
           </p>
         </div>
 
@@ -91,27 +114,19 @@ export const ProductCategories = () => {
                 {category.badge}
               </div>
 
-              {/* Trending indicator */}
-              <div className="absolute top-4 left-4 flex items-center space-x-1 bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">
-                <TrendingUp className="h-3 w-3" />
-                <span>{category.trend}</span>
-              </div>
+              <div className="relative z-10 pt-6 flex flex-col md:h-full">
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors whitespace-nowrap">
+                    {category.name}
+                  </h3>
 
-              <div className="relative z-10 pt-6">
-                <div className={`${category.color} w-16 h-16 rounded-2xl flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <category.icon className="h-8 w-8 text-white" />
+                  <p className="text-sm text-gray-700 mb-6 leading-relaxed">
+                    {category.description}
+                  </p>
                 </div>
-                
-                <h3 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-gray-800 transition-colors whitespace-nowrap">
-                  {category.name}
-                </h3>
-                
-                <p className="text-sm text-gray-700 mb-6 leading-relaxed">
-                  {category.description}
-                </p>
 
-                <Button 
-                  onClick={handleExploreCollection}
+                <Button
+                  onClick={() => handleExploreCollection(category.name)}
                   className={`w-full ${category.color} text-white hover:opacity-90 transition-all duration-300 rounded-full font-semibold py-3`}
                 >
                   Explore Collection
@@ -124,10 +139,10 @@ export const ProductCategories = () => {
 
         {/* Call to action */}
         <div className="text-center mt-16">
-          <Button 
-            onClick={handleExploreCollection}
-            variant="outline" 
-            size="lg" 
+          <Button
+            onClick={handleViewAllCollections}
+            variant="outline"
+            size="lg"
             className="px-12 py-4 text-lg rounded-full border-2 border-gray-400 hover:border-yellow-500 hover:text-yellow-600 transition-all duration-300 font-semibold bg-white shadow-lg"
           >
             <Crown className="mr-3 h-5 w-5" />

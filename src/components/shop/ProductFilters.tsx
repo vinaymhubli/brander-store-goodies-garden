@@ -47,37 +47,46 @@ export const ProductFilters = ({
         </CardHeader>
         <CardContent>
           <div className="space-y-2">
-            {categories.map((category) => (
-              <Button
-                key={category}
-                variant={selectedCategory === category ? "secondary" : "ghost"}
-                className="w-full justify-start"
-                onClick={() => onCategoryChange(category === "All Categories" ? "" : category)}
-              >
-                {category}
-              </Button>
-            ))}
+            {categories.map((category) => {
+              // Ensure we're comparing strings
+              const categoryName = typeof category === 'string' ? category : category.name || category;
+              const isSelected = selectedCategory === categoryName;
+              
+              return (
+                <Button
+                  key={categoryName}
+                  variant={isSelected ? "secondary" : "ghost"}
+                  className="w-full justify-start"
+                  onClick={() => onCategoryChange(categoryName === "All Categories" ? "" : categoryName)}
+                >
+                  {categoryName}
+                </Button>
+              );
+            })}
           </div>
         </CardContent>
       </Card>
 
       <Card>
         <CardHeader>
-          <CardTitle>Price Range</CardTitle>
+          <CardTitle>Maximum Price</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <Slider
-              value={priceRange}
-              onValueChange={(value) => onPriceRangeChange(value as [number, number])}
+              value={[priceRange[1]]}
+              onValueChange={(value) => onPriceRangeChange([0, value[0]])}
               max={5000}
               min={0}
               step={10}
               className="w-full"
             />
             <div className="flex justify-between text-sm text-gray-600">
-              <span>₹{priceRange[0]}</span>
+              <span>₹0</span>
               <span>₹{priceRange[1]}</span>
+            </div>
+            <div className="text-center text-sm text-gray-500">
+              Show products up to ₹{priceRange[1]}
             </div>
           </div>
         </CardContent>

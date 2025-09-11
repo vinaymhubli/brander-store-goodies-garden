@@ -3,15 +3,71 @@ import { Navigation } from "@/components/Navigation";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { ProductFilters } from "@/components/shop/ProductFilters";
 import { SearchBar } from "@/components/shop/SearchBar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, X } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
 
 const Shop = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("");
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 5000]);
   const [showFilters, setShowFilters] = useState(false);
+
+  // Initialize state from URL query parameters
+  useEffect(() => {
+    const categoryParam = searchParams.get('category');
+    const searchParam = searchParams.get('search');
+    const priceParam = searchParams.get('price');
+    
+    console.log('Shop useEffect - URL params:', { categoryParam, searchParam, priceParam });
+    
+    if (categoryParam) {
+      console.log('Setting selectedCategory to:', categoryParam);
+      setSelectedCategory(categoryParam);
+    }
+    
+    if (searchParam) {
+      setSearchQuery(searchParam);
+    }
+    
+    if (priceParam) {
+      const price = parseInt(priceParam);
+      if (!isNaN(price) && price > 0) {
+        setPriceRange([0, price]);
+      }
+    }
+  }, [searchParams]);
+
+  // Update URL when category changes
+  const handleCategoryChange = (category: string) => {
+    console.log('handleCategoryChange called with:', category, 'type:', typeof category);
+    setSelectedCategory(category);
+    const newSearchParams = new URLSearchParams(searchParams);
+    
+    if (category) {
+      newSearchParams.set('category', category);
+    } else {
+      newSearchParams.delete('category');
+    }
+    
+    setSearchParams(newSearchParams);
+  };
+
+  // Update URL when search changes
+  const handleSearchChange = (query: string) => {
+    setSearchQuery(query);
+    const newSearchParams = new URLSearchParams(searchParams);
+    
+    if (query) {
+      newSearchParams.set('search', query);
+    } else {
+      newSearchParams.delete('search');
+    }
+    
+    setSearchParams(newSearchParams);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -19,7 +75,7 @@ const Shop = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <div className="mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Shop</h1>
-          <SearchBar searchQuery={searchQuery} onSearchChange={setSearchQuery} />
+          <SearchBar searchQuery={searchQuery} onSearchChange={handleSearchChange} />
         </div>
         
         {/* Mobile Filter Toggle */}
@@ -52,7 +108,7 @@ const Shop = () => {
                 <div className="p-4">
                   <ProductFilters
                     selectedCategory={selectedCategory}
-                    onCategoryChange={setSelectedCategory}
+                    onCategoryChange={handleCategoryChange}
                     priceRange={priceRange}
                     onPriceRangeChange={setPriceRange}
                   />
@@ -65,7 +121,7 @@ const Shop = () => {
           <div className="hidden lg:block lg:col-span-1">
             <ProductFilters
               selectedCategory={selectedCategory}
-              onCategoryChange={setSelectedCategory}
+              onCategoryChange={handleCategoryChange}
               priceRange={priceRange}
               onPriceRangeChange={setPriceRange}
             />
