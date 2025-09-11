@@ -26,7 +26,7 @@ const Wishlist = () => {
     });
   };
 
-  const handleRemoveFromWishlist = (id: number) => {
+  const handleRemoveFromWishlist = (id: string) => {
     removeItem(id);
     toast({
       title: "Removed from Wishlist",

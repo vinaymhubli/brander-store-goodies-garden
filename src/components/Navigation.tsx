@@ -1,21 +1,43 @@
 
-import { ShoppingCart, Search, User, Menu, Heart, Bell } from "lucide-react";
+import { ShoppingCart, Search, User, Menu, Heart, Bell, LogOut, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCartStore } from "@/store/cartStore";
 import { useWishlistStore } from "@/store/wishlistStore";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
   const { items } = useCartStore();
   const { items: wishlistItems } = useWishlistStore();
+  const { user, signOut, profile } = useAuth();
+  const { toast } = useToast();
   const cartItemsCount = items.reduce((total, item) => total + item.quantity, 0);
   const wishlistCount = wishlistItems.length;
 
   const handleWishlistClick = () => {
     navigate('/wishlist');
+  };
+
+  const handleSignOut = async () => {
+    const { error } = await signOut();
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to sign out",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Success",
+        description: "Signed out successfully",
+      });
+      navigate('/');
+    }
   };
 
   return (
@@ -75,9 +97,39 @@ export const Navigation = () => {
               <Bell className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-2 w-2"></span>
             </Button>
-            <Button variant="ghost" size="icon" className="hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-full">
-              <User className="h-5 w-5" />
-            </Button>
+            
+            {/* User Menu */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-full">
+                    <User className="h-5 w-5" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <div className="px-2 py-1.5">
+                    <p className="text-sm font-medium">{profile?.full_name || 'User'}</p>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => navigate('/my-orders')}>
+                    <Package className="h-4 w-4 mr-2" />
+                    My Orders
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut}>
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/login">
+                <Button variant="ghost" size="icon" className="hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-full">
+                  <User className="h-5 w-5" />
+                </Button>
+              </Link>
+            )}
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full">
                 <ShoppingCart className="h-5 w-5" />
@@ -149,10 +201,25 @@ export const Navigation = () => {
                   <span className="absolute right-4 bg-blue-500 text-white text-xs rounded-full h-2 w-2"></span>
                 </Button>
                 
-                <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-xl">
-                  <User className="h-5 w-5 mr-3" />
-                  Profile
-                </Button>
+                {user ? (
+                  <>
+                    <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-xl" onClick={() => navigate('/my-orders')}>
+                      <Package className="h-5 w-5 mr-3" />
+                      My Orders
+                    </Button>
+                    <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-red-50 hover:text-red-600 transition-all duration-300 rounded-xl" onClick={handleSignOut}>
+                      <LogOut className="h-5 w-5 mr-3" />
+                      Sign Out
+                    </Button>
+                  </>
+                ) : (
+                  <Link to="/login" className="block">
+                    <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-xl">
+                      <User className="h-5 w-5 mr-3" />
+                      Sign In
+                    </Button>
+                  </Link>
+                )}
                 
                 <Link to="/cart" className="block">
                   <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-xl relative">

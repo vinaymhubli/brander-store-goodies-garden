@@ -13,6 +13,9 @@ import AboutUs from "./pages/AboutUs";
 import ContactUs from "./pages/ContactUs";
 import Wishlist from "./pages/Wishlist";
 import NotFound from "./pages/NotFound";
+import { Login } from "./pages/Login";
+import { Signup } from "./pages/Signup";
+import { MyOrders } from "./pages/MyOrders";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminLogin } from "./pages/admin/AdminLogin";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
@@ -38,6 +41,9 @@ const App = () => (
           <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/contact" element={<ContactUs />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/my-orders" element={<MyOrders />} />
           
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />

@@ -3,7 +3,7 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
 export interface WishlistItem {
-  id: number;
+  id: string;
   name: string;
   price: number;
   image: string;
@@ -12,9 +12,9 @@ export interface WishlistItem {
 interface WishlistStore {
   items: WishlistItem[];
   addItem: (item: WishlistItem) => void;
-  removeItem: (id: number) => void;
+  removeItem: (id: string) => void;
   clearWishlist: () => void;
-  isInWishlist: (id: number) => boolean;
+  isInWishlist: (id: string) => boolean;
 }
 
 export const useWishlistStore = create<WishlistStore>()(
