@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 export const AdminLogin = () => {
   const [email, setEmail] = useState('');
@@ -43,6 +44,30 @@ export const AdminLogin = () => {
     setLoading(false);
   };
 
+  const createAdmin = async () => {
+    setLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('seed-admin');
+      if (error) throw error;
+
+      toast({
+        title: data?.status === 'created' ? 'Admin created' : 'Admin exists',
+        description: 'You can now sign in with admin@brandter.shop / admin@123',
+      });
+
+      setEmail('admin@brandter.shop');
+      setPassword('admin@123');
+    } catch (err: any) {
+      toast({
+        title: 'Error',
+        description: err?.message || 'Failed to create admin',
+        variant: 'destructive',
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <Card className="w-full max-w-md">
@@ -53,6 +78,14 @@ export const AdminLogin = () => {
           </CardDescription>
         </CardHeader>
         <CardContent>
+          <div className="space-y-3 mb-4">
+            <Button variant="outline" onClick={createAdmin} disabled={loading} className="w-full">
+              {loading ? 'Setting up admin…' : 'Create Admin Account'}
+            </Button>
+            <p className="text-xs text-muted-foreground text-center">
+              Admin credentials: admin@brandter.shop / admin@123
+            </p>
+          </div>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
