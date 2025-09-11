@@ -1,17 +1,15 @@
 
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
-import { useWishlistStore } from "@/store/wishlistStore";
+import { useWishlist } from "@/hooks/useWishlist";
 import { useCartStore } from "@/store/cartStore";
 import { Button } from "@/components/ui/button";
 import { Heart, ShoppingCart, Trash2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useToast } from "@/hooks/use-toast";
 
 const Wishlist = () => {
-  const { items, removeItem } = useWishlistStore();
+  const { items, loading, removeItem } = useWishlist();
   const { addItem } = useCartStore();
-  const { toast } = useToast();
 
   const handleAddToCart = (item: any) => {
     addItem({
@@ -20,18 +18,10 @@ const Wishlist = () => {
       price: item.price,
       image: item.image,
     });
-    toast({
-      title: "Added to Cart",
-      description: `${item.name} has been added to your cart.`,
-    });
   };
 
-  const handleRemoveFromWishlist = (id: string) => {
-    removeItem(id);
-    toast({
-      title: "Removed from Wishlist",
-      description: "Item has been removed from your wishlist.",
-    });
+  const handleRemoveFromWishlist = async (id: string) => {
+    await removeItem(id);
   };
 
   return (
@@ -44,7 +34,11 @@ const Wishlist = () => {
           <p className="text-gray-600">Save items for later</p>
         </div>
 
-        {items.length === 0 ? (
+        {loading ? (
+          <div className="flex justify-center items-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+          </div>
+        ) : items.length === 0 ? (
           <div className="text-center py-12 sm:py-16">
             <Heart className="mx-auto h-12 w-12 sm:h-16 sm:w-16 text-gray-300 mb-4" />
             <h3 className="text-lg sm:text-xl font-medium text-gray-900 mb-2">Your wishlist is empty</h3>

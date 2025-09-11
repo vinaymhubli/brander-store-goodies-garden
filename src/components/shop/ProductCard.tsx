@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Star, ShoppingCart, Heart, Eye } from "lucide-react";
 import { Tables } from "@/integrations/supabase/types";
 import { useCartStore } from "@/store/cartStore";
-import { useWishlistStore } from "@/store/wishlistStore";
+import { useWishlist } from "@/hooks/useWishlist";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
@@ -15,7 +15,7 @@ interface ProductCardProps {
 
 export const ProductCard = ({ product }: ProductCardProps) => {
   const { addItem } = useCartStore();
-  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlistStore();
+  const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { toast } = useToast();
 
   const handleAddToCart = () => {
@@ -36,7 +36,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     }
   };
 
-  const handleWishlistToggle = () => {
+  const handleWishlistToggle = async () => {
     const wishlistItem = {
       id: product.id,
       name: product.name,
@@ -45,17 +45,9 @@ export const ProductCard = ({ product }: ProductCardProps) => {
     };
 
     if (isInWishlist(product.id)) {
-      removeFromWishlist(product.id);
-      toast({
-        title: "Removed from wishlist",
-        description: `${product.name} has been removed from your wishlist.`,
-      });
+      await removeFromWishlist(product.id);
     } else {
-      addToWishlist(wishlistItem);
-      toast({
-        title: "Added to wishlist",
-        description: `${product.name} has been added to your wishlist.`,
-      });
+      await addToWishlist(wishlistItem);
     }
   };
 
