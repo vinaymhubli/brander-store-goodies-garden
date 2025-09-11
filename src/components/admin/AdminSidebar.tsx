@@ -69,15 +69,15 @@ export const AdminSidebar = () => {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <NavLink
-                      to={item.url}
-                      end={item.url === '/admin'}
-                      className={({ isActive: navIsActive }) =>
-                        navIsActive || isActive(item.url)
-                          ? 'bg-primary text-primary-foreground font-medium'
-                          : 'hover:bg-accent hover:text-accent-foreground'
-                      }
-                    >
+                     <NavLink
+                       to={item.url}
+                       end={item.url === '/admin'}
+                       className={({ isActive: navIsActive }) =>
+                         navIsActive || isActive(item.url)
+                           ? 'bg-sidebar-primary text-sidebar-primary-foreground font-medium'
+                           : 'text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground'
+                       }
+                     >
                       <item.icon className="h-4 w-4" />
                       {!isCollapsed && <span>{item.title}</span>}
                     </NavLink>
