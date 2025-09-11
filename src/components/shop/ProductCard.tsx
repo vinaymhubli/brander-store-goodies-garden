@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Star, ShoppingCart, Heart, Eye } from "lucide-react";
 import { Tables } from "@/integrations/supabase/types";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { useWishlist } from "@/hooks/useWishlist";
 import { Link } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
@@ -14,23 +14,13 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product }: ProductCardProps) => {
-  const { addItem } = useCartStore();
+  const { addToCart } = useCart();
   const { addItem: addToWishlist, removeItem: removeFromWishlist, isInWishlist } = useWishlist();
   const { toast } = useToast();
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     try {
-      addItem({
-        id: product.id,
-        name: product.name,
-        price: Number(product.selling_price || product.price),
-        image: product.image_url || '/placeholder.svg',
-      });
-      
-      toast({
-        title: "Added to cart",
-        description: `${product.name} has been added to your cart.`,
-      });
+      await addToCart(product);
     } catch (error) {
       console.error('Error adding item to cart:', error);
     }

@@ -26,19 +26,32 @@ export const useCart = () => {
 
     setIsLoading(true);
     try {
-      const { data, error } = await supabase
+      const { data: cartData, error: cartError } = await supabase
         .from('cart_items')
-        .select(`
-          id,
-          product_id,
-          quantity,
-          products!inner(*)
-        `)
+        .select('id, product_id, quantity')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setCartItems(data || []);
+      if (cartError) throw cartError;
+
+      if (cartData && cartData.length > 0) {
+        const productIds = cartData.map(item => item.product_id);
+        const { data: productsData, error: productsError } = await supabase
+          .from('products')
+          .select('*')
+          .in('id', productIds);
+
+        if (productsError) throw productsError;
+
+        const cartWithProducts = cartData.map(cartItem => ({
+          ...cartItem,
+          products: productsData.find(product => product.id === cartItem.product_id)!
+        }));
+
+        setCartItems(cartWithProducts);
+      } else {
+        setCartItems([]);
+      }
     } catch (error) {
       console.error('Error fetching cart items:', error);
       toast({

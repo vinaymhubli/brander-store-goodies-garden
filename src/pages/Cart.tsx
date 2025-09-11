@@ -2,30 +2,30 @@
 import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Shield, Truck, RefreshCw } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const Cart = () => {
-  const { items, removeItem, updateQuantity, clearCart, getTotalPrice } = useCartStore();
+  const { cartItems, removeFromCart, updateQuantity, clearCart, getTotalPrice } = useCart();
   const navigate = useNavigate();
   const { toast } = useToast();
 
   const handleProceedToCheckout = () => {
-    console.log('Proceeding to checkout with items:', items);
+    console.log('Proceeding to checkout with items:', cartItems);
     navigate('/checkout');
   };
 
   const handleRemoveItem = (id: string, name: string) => {
-    removeItem(id);
+    removeFromCart(id);
     toast({
       title: "Item Removed",
       description: `${name} has been removed from your cart`,
     });
   };
 
-  if (items.length === 0) {
+  if (cartItems.length === 0) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
         <Navigation />
@@ -56,7 +56,7 @@ const Cart = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-2">Shopping Cart</h1>
-          <p className="text-gray-600">{items.length} item{items.length > 1 ? 's' : ''} in your cart</p>
+          <p className="text-gray-600">{cartItems.length} item{cartItems.length > 1 ? 's' : ''} in your cart</p>
         </div>
         
         {/* Trust Indicators */}
@@ -77,20 +77,20 @@ const Cart = () => {
         
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-4">
-            {items.map((item) => (
+            {cartItems.map((item) => (
               <Card key={item.id} className="shadow-lg border-0 bg-white/90 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-6">
                   <div className="flex items-center space-x-6">
                     <div className="relative">
                       <img
-                        src={item.image}
-                        alt={item.name}
+                        src={item.products.image_url || '/placeholder.svg'}
+                        alt={item.products.name}
                         className="w-24 h-24 object-cover rounded-lg shadow-md"
                       />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-1">{item.name}</h3>
-                      <p className="text-2xl font-bold text-purple-600 mb-3">₹{item.price}</p>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-1">{item.products.name}</h3>
+                      <p className="text-2xl font-bold text-purple-600 mb-3">₹{item.products.selling_price || item.products.price}</p>
                       <div className="flex items-center space-x-3">
                         <span className="text-sm text-gray-600 font-medium">Quantity:</span>
                         <div className="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
@@ -109,7 +109,7 @@ const Cart = () => {
                             variant="ghost"
                             size="icon"
                             className="h-8 w-8 hover:bg-white"
-                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
                           >
                             <Plus className="h-4 w-4" />
                           </Button>
@@ -118,13 +118,13 @@ const Cart = () => {
                     </div>
                     <div className="text-center">
                       <p className="text-lg font-bold text-gray-900 mb-2">
-                        ₹{(item.price * item.quantity).toFixed(2)}
+                        ₹{((item.products.selling_price || item.products.price) * item.quantity).toFixed(2)}
                       </p>
                       <Button
                         variant="outline"
                         size="icon"
                         className="h-10 w-10 border-red-200 hover:bg-red-50 hover:border-red-300 text-red-600"
-                        onClick={() => handleRemoveItem(item.id, item.name)}
+                        onClick={() => handleRemoveItem(item.id, item.products.name)}
                       >
                         <Trash2 className="h-4 w-4" />
                       </Button>
@@ -141,11 +141,11 @@ const Cart = () => {
                 <CardTitle className="text-xl">Order Summary</CardTitle>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="space-y-4 mb-6">
-                  <div className="flex justify-between text-gray-700">
-                    <span className="font-medium">Subtotal ({items.length} items)</span>
-                    <span className="font-semibold">₹{getTotalPrice().toFixed(2)}</span>
-                  </div>
+                  <div className="space-y-4 mb-6">
+                    <div className="flex justify-between text-gray-700">
+                      <span className="font-medium">Subtotal ({cartItems.length} items)</span>
+                      <span className="font-semibold">₹{getTotalPrice().toFixed(2)}</span>
+                    </div>
                   <div className="flex justify-between text-gray-700">
                     <span className="font-medium">Shipping</span>
                     <span className="font-semibold text-green-600">Free</span>

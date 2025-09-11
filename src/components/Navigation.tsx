@@ -224,7 +224,7 @@ export const Navigation = () => {
                   <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-xl relative">
                     <ShoppingCart className="h-5 w-5 mr-3" />
                     Cart
-                    {getCartCount > 0 && (
+                    {getCartCount() > 0 && (
                       <span className="absolute right-4 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
                         {getCartCount()}
                       </span>
