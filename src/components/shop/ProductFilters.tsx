@@ -48,8 +48,8 @@ export const ProductFilters = ({
         <CardContent>
           <div className="space-y-2">
             {categories.map((category) => {
-              // Ensure we're comparing strings
-              const categoryName = typeof category === 'string' ? category : category.name || category;
+              // category is already a string from fetchCategories
+              const categoryName = category;
               const isSelected = selectedCategory === categoryName;
               
               return (

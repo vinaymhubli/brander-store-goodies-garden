@@ -17,6 +17,7 @@ interface Product {
   name: string;
   description: string | null;
   price: number;
+  selling_price?: number | null;
   image_url: string | null;
   category_id: string | null;
   stock_quantity: number;
@@ -44,6 +45,7 @@ export const AdminProducts = () => {
     name: '',
     description: '',
     price: '',
+    selling_price: '',
     image_url: '',
     category_id: '',
     stock_quantity: '',
@@ -146,6 +148,7 @@ export const AdminProducts = () => {
       name: formData.name,
       description: formData.description || null,
       price: parseFloat(formData.price),
+      selling_price: formData.selling_price ? parseFloat(formData.selling_price) : null,
       image_url: imageUrl || null,
       category_id: formData.category_id || null,
       stock_quantity: parseInt(formData.stock_quantity),
@@ -195,6 +198,7 @@ export const AdminProducts = () => {
       name: product.name,
       description: product.description || '',
       price: product.price.toString(),
+      selling_price: product.selling_price?.toString() || '',
       image_url: product.image_url || '',
       category_id: product.category_id || '',
       stock_quantity: product.stock_quantity.toString(),
@@ -233,6 +237,7 @@ export const AdminProducts = () => {
       name: '',
       description: '',
       price: '',
+      selling_price: '',
       image_url: '',
       category_id: '',
       stock_quantity: '',
@@ -298,7 +303,7 @@ export const AdminProducts = () => {
                 />
               </div>
               <div>
-                <Label htmlFor="price">Price</Label>
+                <Label htmlFor="price">Price (Original)</Label>
                 <Input
                   id="price"
                   type="number"
@@ -306,6 +311,17 @@ export const AdminProducts = () => {
                   value={formData.price}
                   onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                   required
+                />
+              </div>
+              <div>
+                <Label htmlFor="selling_price">Selling Price</Label>
+                <Input
+                  id="selling_price"
+                  type="number"
+                  step="0.01"
+                  value={formData.selling_price}
+                  onChange={(e) => setFormData({ ...formData, selling_price: e.target.value })}
+                  placeholder="Leave empty if same as price"
                 />
               </div>
               <div>
@@ -411,6 +427,7 @@ export const AdminProducts = () => {
                 <TableHead>Name</TableHead>
                 <TableHead>Category</TableHead>
                 <TableHead>Price</TableHead>
+                <TableHead>Selling Price</TableHead>
                 <TableHead>Stock</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
@@ -422,6 +439,9 @@ export const AdminProducts = () => {
                   <TableCell className="font-medium">{product.name}</TableCell>
                   <TableCell>{product.categories?.name || 'Uncategorized'}</TableCell>
                   <TableCell>₹{product.price}</TableCell>
+                  <TableCell>
+                    {product.selling_price ? `₹${product.selling_price}` : '₹' + product.price}
+                  </TableCell>
                   <TableCell>{product.stock_quantity}</TableCell>
                   <TableCell>
                     <Badge variant={product.is_active ? 'default' : 'secondary'}>
