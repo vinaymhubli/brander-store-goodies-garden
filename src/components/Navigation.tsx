@@ -3,7 +3,7 @@ import { ShoppingCart, Search, User, Menu, Heart, Bell, LogOut, Package } from "
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useCartStore } from "@/store/cartStore";
+import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useWishlist } from "@/hooks/useWishlist";
@@ -12,11 +12,10 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSepara
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { items } = useCartStore();
+  const { getCartCount } = useCart();
   const { items: wishlistItems } = useWishlist();
   const { user, signOut, profile } = useAuth();
   const { toast } = useToast();
-  const cartItemsCount = items.reduce((total, item) => total + item.quantity, 0);
   const wishlistCount = wishlistItems.length;
 
   const handleWishlistClick = () => {
@@ -133,9 +132,9 @@ export const Navigation = () => {
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full">
                 <ShoppingCart className="h-5 w-5" />
-                {cartItemsCount > 0 && (
+                {getCartCount() > 0 && (
                   <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                    {cartItemsCount}
+                    {getCartCount()}
                   </span>
                 )}
               </Button>
@@ -225,9 +224,9 @@ export const Navigation = () => {
                   <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-xl relative">
                     <ShoppingCart className="h-5 w-5 mr-3" />
                     Cart
-                    {cartItemsCount > 0 && (
+                    {getCartCount > 0 && (
                       <span className="absolute right-4 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                        {cartItemsCount}
+                        {getCartCount()}
                       </span>
                     )}
                   </Button>
