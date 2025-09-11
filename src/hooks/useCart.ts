@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from './useAuth';
 import { useToast } from './use-toast';
@@ -200,9 +200,9 @@ export const useCart = () => {
     }, 0);
   };
 
-  // Get cart count
-  const getCartCount = useCallback(() => {
-    const count = cartItems.reduce((count, item) => count + item.quantity, 0);
+  // Get cart count as a value (not function) so components re-render
+  const cartCount = useMemo(() => {
+    const count = cartItems.reduce((total, item) => total + item.quantity, 0);
     console.log('Cart count calculated:', count, 'from items:', cartItems.length);
     return count;
   }, [cartItems]);
@@ -236,7 +236,8 @@ export const useCart = () => {
     updateQuantity,
     clearCart,
     getTotalPrice,
-    getCartCount,
+    cartCount,
+    getCartCount: () => cartCount, // Keep for backward compatibility
     refreshCart: fetchCartItems
   };
 };
