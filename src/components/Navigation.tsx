@@ -91,10 +91,10 @@ export const Navigation = () => {
                 </span>
               )}
             </Button>
-            <Button variant="ghost" size="icon" className="hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-full relative">
+            {/* <Button variant="ghost" size="icon" className="hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-full relative">
               <Bell className="h-5 w-5" />
               <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-2 w-2"></span>
-            </Button>
+            </Button> */}
             
             {/* User Menu */}
             {user ? (
@@ -131,11 +131,11 @@ export const Navigation = () => {
             <Link to="/cart">
               <Button variant="ghost" size="icon" className="relative hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full">
                 <ShoppingCart className="h-5 w-5" />
-                {cartCount > 0 && (
+                {/* {cartCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
                     {cartCount}
                   </span>
-                )}
+                )} */}
               </Button>
             </Link>
           </div>
@@ -193,11 +193,11 @@ export const Navigation = () => {
                   )}
                 </Button>
                 
-                <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-xl relative">
+                {/* <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-xl relative">
                   <Bell className="h-5 w-5 mr-3" />
                   Notifications
                   <span className="absolute right-4 bg-blue-500 text-white text-xs rounded-full h-2 w-2"></span>
-                </Button>
+                </Button> */}
                 
                 {user ? (
                   <>
@@ -223,11 +223,11 @@ export const Navigation = () => {
                   <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-xl relative">
                     <ShoppingCart className="h-5 w-5 mr-3" />
                     Cart
-                    {cartCount > 0 && (
+                    {/* {cartCount > 0 && (
                       <span className="absolute right-4 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
                         {cartCount}
                       </span>
-                    )}
+                    )} */}
                   </Button>
                 </Link>
               </div>
