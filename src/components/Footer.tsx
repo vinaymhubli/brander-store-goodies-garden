@@ -1,6 +1,15 @@
-import { Facebook, Twitter, Instagram, Mail, Phone, MapPin, Award, Shield, Truck, Clock } from "lucide-react";
+import {
+  Instagram,
+  Mail,
+  Phone,
+  MapPin,
+  Award,
+  Shield,
+  Truck,
+  Clock,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -55,49 +64,69 @@ export const Footer = () => {
         </div>
 
         <div className="py-16">
-          <div className="grid md:grid-cols-5 gap-12">
+          <div className="grid md:grid-cols-3 gap-12">
             {/* Brand */}
-            <div className="md:col-span-2 space-y-6">
+            <div className="space-y-6">
               <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                 brandter<span className="text-white">.store</span>
               </h3>
               <p className="text-gray-300 leading-relaxed text-lg">
-                Your premier destination for luxury kitchenware and exquisite jewelry. 
-                We curate only the finest pieces that combine timeless craftsmanship 
-                with modern innovation.
+                Your premier destination for luxury kitchenware and exquisite
+                jewelry. We curate only the finest pieces that combine timeless
+                craftsmanship with modern innovation.
               </p>
               <div className="flex space-x-4">
-                <Button variant="ghost" size="icon" className="bg-gray-800 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 text-gray-400 hover:text-white transition-all duration-300 rounded-full">
-                  <Facebook className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="bg-gray-800 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 text-gray-400 hover:text-white transition-all duration-300 rounded-full">
-                  <Twitter className="h-5 w-5" />
-                </Button>
-                <Button variant="ghost" size="icon" className="bg-gray-800 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 text-gray-400 hover:text-white transition-all duration-300 rounded-full">
-                  <Instagram className="h-5 w-5" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="bg-gray-800 hover:bg-gradient-to-r hover:from-blue-500 hover:to-purple-500 text-gray-400 hover:text-white transition-all duration-300 rounded-full"
+                  asChild
+                >
+                  <a
+                    href="https://www.instagram.com/brandterofficial?igsh=c3hrNjRpY3IxOWg3"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Instagram className="h-5 w-5" />
+                  </a>
                 </Button>
               </div>
             </div>
 
             {/* Quick Links */}
             <div className="space-y-6">
-              <h4 className="text-xl font-bold text-white">Collections</h4>
+              <h4 className="text-xl font-bold text-white">Quick Links</h4>
               <div className="space-y-3">
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Professional Kitchen
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Luxury Jewelry
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Elegant Tableware
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Designer Accessories
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Limited Editions
-                </a>
+                <Link
+                  to="/shop"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
+                  Shop All Products
+                </Link>
+                <Link
+                  to="/about"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
+                  About Us
+                </Link>
+                <Link
+                  to="/contact"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
+                  Contact Us
+                </Link>
+                <Link
+                  to="/wishlist"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
+                  My Wishlist
+                </Link>
+                <Link
+                  to="/my-orders"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
+                  My Orders
+                </Link>
               </div>
             </div>
 
@@ -105,43 +134,28 @@ export const Footer = () => {
             <div className="space-y-6">
               <h4 className="text-xl font-bold text-white">Support</h4>
               <div className="space-y-3">
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
+                <Link
+                  to="/contact"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
                   Contact Us
+                </Link>
+                <a
+                  href="mailto:info@brandter.store"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
+                  Email Support
                 </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Shipping & Returns
+                <a
+                  href="tel:+919068007866"
+                  className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
+                >
+                  Call Us: +91 9068007866
                 </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Size Guide
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  Care Instructions
-                </a>
-                <a href="#" className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300">
-                  FAQ
-                </a>
+               
               </div>
             </div>
 
-            {/* Newsletter */}
-            <div className="space-y-6">
-              <h4 className="text-xl font-bold text-white">Stay Connected</h4>
-              <p className="text-gray-400">
-                Get exclusive offers, new arrivals, and styling tips delivered to your inbox.
-              </p>
-              <div className="space-y-3">
-                <Input 
-                  placeholder="Enter your email" 
-                  className="bg-gray-800/50 border-gray-700 text-white placeholder-gray-400 rounded-xl backdrop-blur-sm focus:border-blue-500 transition-colors"
-                />
-                <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                  Subscribe Now
-                </Button>
-              </div>
-              <p className="text-gray-500 text-xs">
-                By subscribing, you agree to our Privacy Policy and Terms of Service.
-              </p>
-            </div>
           </div>
         </div>
 
@@ -154,9 +168,15 @@ export const Footer = () => {
               </div>
               <div>
                 <p className="text-white font-medium">Visit Our Store</p>
-                <p className="text-gray-400 text-sm">A 315 ERA GARDENIYA ESTATE</p>
-                <p className="text-gray-400 text-sm">NOOR NAGAR LISARI MEERUT</p>
-                <p className="text-gray-400 text-sm">250002 UTTAR PRADESH INDIA</p>
+                <p className="text-gray-400 text-sm">
+                  A 315 ERA GARDENIYA ESTATE
+                </p>
+                <p className="text-gray-400 text-sm">
+                  NOOR NAGAR LISARI MEERUT
+                </p>
+                <p className="text-gray-400 text-sm">
+                  250002 UTTAR PRADESH INDIA
+                </p>
               </div>
             </div>
             <div className="flex items-center space-x-4">
@@ -183,16 +203,26 @@ export const Footer = () => {
         {/* Bottom */}
         <div className="border-t border-gray-800 py-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400">
-            © 2024 brander.store. All rights reserved. | Crafted with excellence since 2020
+            © 2024 brander.store. All rights reserved. | Crafted with excellence
+            since 2020
           </p>
           <div className="flex space-x-8 mt-4 md:mt-0">
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors hover:underline">
+            <a
+              href="mailto:info@brandter.store"
+              className="text-gray-400 hover:text-white text-sm transition-colors hover:underline"
+            >
               Privacy Policy
             </a>
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors hover:underline">
+            <a
+              href="mailto:info@brandter.store"
+              className="text-gray-400 hover:text-white text-sm transition-colors hover:underline"
+            >
               Terms of Service
             </a>
-            <a href="#" className="text-gray-400 hover:text-white text-sm transition-colors hover:underline">
+            <a
+              href="mailto:info@brandter.store"
+              className="text-gray-400 hover:text-white text-sm transition-colors hover:underline"
+            >
               Cookie Policy
             </a>
           </div>
