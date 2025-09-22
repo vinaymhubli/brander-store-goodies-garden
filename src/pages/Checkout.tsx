@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
@@ -22,8 +22,9 @@ declare global {
 export default function Checkout() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { cartItems, getTotalPrice, clearCart } = useCart();
+  const { cartItems, getTotalPrice, clearCart, isLoading: cartLoading } = useCart();
   const [loading, setLoading] = useState(false);
+  const [pageReady, setPageReady] = useState(false);
   const [shippingData, setShippingData] = useState({
     fullName: "",
     address: "",
@@ -32,6 +33,18 @@ export default function Checkout() {
     pinCode: "",
     phone: "",
   });
+
+  // Handle cart empty check with proper timing
+  useEffect(() => {
+    if (!cartLoading) {
+      if (cartItems.length === 0) {
+        console.log('No items in cart, redirecting to cart page');
+        navigate("/cart", { replace: true });
+        return;
+      }
+      setPageReady(true);
+    }
+  }, [cartItems, cartLoading, navigate]);
 
   const handlePlaceOrder = async () => {
     if (cartItems.length === 0) return;
@@ -132,9 +145,22 @@ export default function Checkout() {
     }
   };
 
-  if (cartItems.length === 0) {
-    navigate("/cart");
-    return null;
+  // Show loading while cart is loading or page is not ready
+  if (cartLoading || !pageReady) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navigation />
+        <div className="container mx-auto px-4 py-8">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading checkout...</p>
+            </div>
+          </div>
+        </div>
+        <Footer />
+      </div>
+    );
   }
 
   const subtotal = getTotalPrice();
