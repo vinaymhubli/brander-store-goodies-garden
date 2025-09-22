@@ -15,7 +15,7 @@ export const useCart = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [cartItems, setCartItems] = useState<CartItemWithProduct[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Fetch cart items from database
   const fetchCartItems = useCallback(async () => {
