@@ -76,8 +76,22 @@ serve(async (req) => {
     if (!razorpayResponse.ok) {
       const errorText = await razorpayResponse.text();
       console.error('Razorpay API error:', errorText);
+      console.error('Response status:', razorpayResponse.status);
+      console.error('Response headers:', Object.fromEntries(razorpayResponse.headers.entries()));
+      
+      // Parse the error to provide more specific feedback
+      let errorMessage = 'Failed to create payment order';
+      try {
+        const errorData = JSON.parse(errorText);
+        if (errorData.error?.description === 'Authentication failed') {
+          errorMessage = 'Invalid Razorpay credentials. Please ensure your Key ID and Key Secret are from the same mode (test/live) and are valid.';
+        }
+      } catch (e) {
+        // Keep default error message
+      }
+      
       return new Response(
-        JSON.stringify({ error: 'Failed to create payment order' }),
+        JSON.stringify({ error: errorMessage }),
         { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
       );
     }
