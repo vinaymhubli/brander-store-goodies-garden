@@ -16,6 +16,7 @@ import NotFound from "./pages/NotFound";
 import { Login } from "./pages/Login";
 import { Signup } from "./pages/Signup";
 import { MyOrders } from "./pages/MyOrders";
+import OrderSuccess from "./pages/OrderSuccess";
 import { AdminLayout } from "./components/admin/AdminLayout";
 import { AdminLogin } from "./pages/admin/AdminLogin";
 import { AdminDashboard } from "./pages/admin/AdminDashboard";
@@ -44,6 +45,7 @@ const App = () => (
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/my-orders" element={<MyOrders />} />
+          <Route path="/order-success/:orderId" element={<OrderSuccess />} />
           
           {/* Admin Routes */}
           <Route path="/admin/login" element={<AdminLogin />} />
