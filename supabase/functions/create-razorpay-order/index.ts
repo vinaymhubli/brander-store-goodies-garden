@@ -38,6 +38,10 @@ serve(async (req) => {
     const razorpayKeyId = Deno.env.get('RAZORPAY_KEY_ID');
     const razorpayKeySecret = Deno.env.get('RAZORPAY_KEY_SECRET');
 
+    console.log('Razorpay Key ID exists:', !!razorpayKeyId);
+    console.log('Razorpay Key Secret exists:', !!razorpayKeySecret);
+    console.log('Razorpay Key ID format:', razorpayKeyId?.substring(0, 8) + '...');
+
     if (!razorpayKeyId || !razorpayKeySecret) {
       console.error('Razorpay credentials not found');
       return new Response(
