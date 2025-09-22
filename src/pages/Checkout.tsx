@@ -46,6 +46,20 @@ export default function Checkout() {
     }
   }, [cartItems, cartLoading, navigate]);
 
+  // Ensure Razorpay script is loaded
+  useEffect(() => {
+    const checkRazorpay = () => {
+      if (window.Razorpay) {
+        console.log('Razorpay script loaded successfully');
+      } else {
+        console.log('Razorpay script not loaded, retrying...');
+        setTimeout(checkRazorpay, 100);
+      }
+    };
+    
+    checkRazorpay();
+  }, []);
+
   const handlePlaceOrder = async () => {
     if (cartItems.length === 0) return;
     
@@ -133,6 +147,13 @@ export default function Checkout() {
           }
         }
       };
+
+      // Check if Razorpay is loaded
+      if (!window.Razorpay) {
+        toast.error('Payment gateway not loaded. Please refresh the page and try again.');
+        setLoading(false);
+        return;
+      }
 
       // @ts-ignore - Razorpay is loaded from CDN
       const rzp = new window.Razorpay(options);

@@ -55,7 +55,7 @@ serve(async (req) => {
     const orderData = {
       amount: Math.round(totalAmount * 100), // Amount in paise
       currency: 'INR',
-      receipt: `order_${user.id}_${Date.now()}`,
+      receipt: `order_${Date.now()}`,
       notes: {
         user_id: user.id,
         cart_items: JSON.stringify(cartItems.map((item: any) => ({ id: item.id, quantity: item.quantity })))

@@ -86,7 +86,7 @@ serve(async (req) => {
       .insert({
         user_id: user.id,
         total_amount: totalAmount,
-        status: 'confirmed',
+        status: 'pending',
         shipping_address: shippingAddress
       })
       .select()
@@ -101,12 +101,16 @@ serve(async (req) => {
     }
 
     // Create order items
+    console.log('Cart items received:', JSON.stringify(cartItems, null, 2));
+    
     const orderItems = cartItems.map((item: any) => ({
       order_id: order.id,
       product_id: item.product_id,
       quantity: item.quantity,
-      price: item.selling_price || item.price
+      price: item.products?.selling_price || item.products?.price || 0
     }));
+    
+    console.log('Order items to insert:', JSON.stringify(orderItems, null, 2));
 
     const { error: itemsError } = await supabaseClient
       .from('order_items')

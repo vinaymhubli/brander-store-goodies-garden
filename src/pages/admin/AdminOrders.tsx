@@ -57,14 +57,11 @@ export const AdminOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const { data, error } = await supabase
+      // First fetch orders
+      const { data: ordersData, error: ordersError } = await supabase
         .from('orders')
         .select(`
           *,
-          profiles (
-            email,
-            full_name
-          ),
           order_items (
             id,
             quantity,
@@ -76,8 +73,25 @@ export const AdminOrders = () => {
         `)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
-      setOrders((data as unknown as Order[]) || []);
+      if (ordersError) throw ordersError;
+
+      // Then fetch profiles for each order
+      const ordersWithProfiles = await Promise.all(
+        (ordersData || []).map(async (order) => {
+          const { data: profileData } = await supabase
+            .from('profiles')
+            .select('email, full_name')
+            .eq('user_id', order.user_id)
+            .single();
+
+          return {
+            ...order,
+            profiles: profileData
+          };
+        })
+      );
+
+      setOrders(ordersWithProfiles as Order[]);
     } catch (error) {
       console.error('Error fetching orders:', error);
       toast({
