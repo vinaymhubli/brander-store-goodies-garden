@@ -3,11 +3,18 @@ import { Navigation } from "@/components/Navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useCart } from "@/hooks/useCart";
+import { useSEO } from "@/hooks/useSEO";
 import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Shield, Truck, RefreshCw } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 
 const Cart = () => {
+  useSEO({
+    title: 'Shopping Cart - Brander Store',
+    description: 'Review your selected hair accessories and kitchen appliances in your shopping cart. Secure checkout with fast delivery.',
+    keywords: ['shopping cart', 'cart', 'checkout', 'hair accessories', 'kitchen appliances'],
+    type: 'website',
+  });
   const { cartItems, removeFromCart, updateQuantity, clearCart, getTotalPrice } = useCart();
   const navigate = useNavigate();
   const { toast } = useToast();

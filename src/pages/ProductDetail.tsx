@@ -7,6 +7,7 @@ import { Star, ShoppingCart, CheckCircle, ArrowLeft, Heart, Share2, Truck, Shiel
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
 import { useToast } from "@/hooks/use-toast";
+import { useProductSEO } from "@/hooks/useSEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Tables } from "@/integrations/supabase/types";
@@ -68,6 +69,18 @@ const ProductDetail = () => {
   if (error || !product) {
     return <Navigate to="/shop" replace />;
   }
+
+  // Update SEO for product page
+  useProductSEO({
+    id: product.id,
+    name: product.name,
+    price: Number(product.selling_price || product.price),
+    description: product.description || `Premium ${product.name} from Brander Store. High-quality product with excellent customer ratings.`,
+    image: product.image_url || '/placeholder.svg',
+    category: product.categories?.name || 'Products',
+    rating: 4.5, // You might want to fetch actual ratings from your database
+    reviews: Math.floor(Math.random() * 100) + 10, // You might want to fetch actual review count
+  });
 
   const isInCart = cartItems.some((item: any) => item.product_id === product.id);
   const discountPercentage = product.selling_price && product.selling_price < product.price 

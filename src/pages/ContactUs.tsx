@@ -1,6 +1,7 @@
 
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { useSEO } from "@/hooks/useSEO";
 import { Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,6 +9,12 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 const ContactUs = () => {
+  useSEO({
+    title: 'Contact Us - Brander Store | Get in Touch',
+    description: 'Contact Brander Store for customer support, product inquiries, or any questions about our premium hair accessories and kitchen appliances.',
+    keywords: ['contact us', 'customer support', 'help', 'inquiries', 'brander store', 'hair accessories', 'kitchen appliances'],
+    type: 'website',
+  });
   return (
     <div className="min-h-screen bg-background">
       <Navigation />

@@ -1,9 +1,16 @@
 
 import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
+import { useSEO } from "@/hooks/useSEO";
 import { Users, Award, Heart, Globe } from "lucide-react";
 
 const AboutUs = () => {
+  useSEO({
+    title: 'About Us - Brander Store | Premium Hair Accessories & Kitchen Appliances',
+    description: 'Learn about Brander Store, your trusted source for premium hair accessories and innovative kitchen appliances. Discover our commitment to quality and customer satisfaction.',
+    keywords: ['about us', 'brander store', 'company', 'quality', 'customer service', 'hair accessories', 'kitchen appliances'],
+    type: 'website',
+  });
   return (
     <div className="min-h-screen bg-background">
       <Navigation />

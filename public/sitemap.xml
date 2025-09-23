@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://brander-store.com/</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Shop Page -->
+  <url>
+    <loc>https://brander-store.com/shop</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- About Us -->
+  <url>
+    <loc>https://brander-store.com/about</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Contact Us -->
+  <url>
+    <loc>https://brander-store.com/contact</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Product Pages -->
+  <url>
+    <loc>https://brander-store.com/product/1</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://brander-store.com/lovable-uploads/0e47b206-5348-4675-8404-0969b160c876.png</image:loc>
+      <image:title>Twist & Shine Hairpin</image:title>
+      <image:caption>Add a graceful twist to your hairdo with this sleek metallic hairpin</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://brander-store.com/product/2</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://brander-store.com/lovable-uploads/9c745f4d-f750-4284-a540-39dd602c2848.png</image:loc>
+      <image:title>Elegance Pearl Hairclip</image:title>
+      <image:caption>A timeless hair accessory featuring faux pearls and a golden finish</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://brander-store.com/product/4</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://brander-store.com/lovable-uploads/878e4c65-0f31-41e4-a08d-901d3c4b56e9.png</image:loc>
+      <image:title>Bold Bloom Hairclip</image:title>
+      <image:caption>Make a statement with this vibrant floral clip</image:caption>
+    </image:image>
+  </url>
+  
+  <url>
+    <loc>https://brander-store.com/product/999</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://brander-store.com/lovable-uploads/84e3fe74-3fe5-4aa1-b8f7-c02c0b8b19a1.png</image:loc>
+      <image:title>Heat Mat Pro - Food Heating Pad</image:title>
+      <image:caption>Adjustable temperature electric food warmer with compact portable design</image:caption>
+    </image:image>
+  </url>
+  
+  <!-- Category Pages -->
+  <url>
+    <loc>https://brander-store.com/shop?category=hair-accessories</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+  <url>
+    <loc>https://brander-store.com/shop?category=kitchen-appliances</loc>
+    <lastmod>2024-01-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  
+</urlset>

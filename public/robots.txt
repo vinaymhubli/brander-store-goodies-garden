@@ -12,3 +12,15 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /_next/
+Disallow: /checkout
+Disallow: /cart
+Disallow: /my-orders
+
+# Sitemap
+Sitemap: https://brander-store.com/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1

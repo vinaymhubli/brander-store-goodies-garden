@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Navigate, Link } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
+import { useSEO } from '@/hooks/useSEO';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -10,6 +11,12 @@ import { Navigation } from '@/components/Navigation';
 import { Footer } from '@/components/Footer';
 
 export const Login = () => {
+  useSEO({
+    title: 'Login - Brander Store',
+    description: 'Sign in to your Brander Store account to access your orders, wishlist, and personalized shopping experience.',
+    keywords: ['login', 'sign in', 'account', 'brander store'],
+    type: 'website',
+  });
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);

@@ -3,6 +3,7 @@ import { Navigation } from "@/components/Navigation";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { ProductFilters } from "@/components/shop/ProductFilters";
 import { SearchBar } from "@/components/shop/SearchBar";
+import { useCategorySEO } from "@/hooks/useSEO";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, X } from "lucide-react";
@@ -68,6 +69,27 @@ const Shop = () => {
     
     setSearchParams(newSearchParams);
   };
+
+  // Update SEO based on category and search
+  const getCategoryName = (category: string) => {
+    switch (category.toLowerCase()) {
+      case 'hair-accessories':
+      case 'hair accessories':
+        return 'Hair Accessories';
+      case 'kitchen-appliances':
+      case 'kitchen appliances':
+        return 'Kitchen Appliances';
+      default:
+        return 'All Products';
+    }
+  };
+
+  const categoryName = getCategoryName(selectedCategory);
+  const categoryDescription = selectedCategory 
+    ? `Browse our collection of premium ${categoryName.toLowerCase()} at Brander Store. High-quality products with fast delivery and excellent customer service.`
+    : 'Discover our full range of premium hair accessories and kitchen appliances at Brander Store. Shop with confidence and enjoy fast delivery.';
+
+  useCategorySEO(categoryName, categoryDescription);
 
   return (
     <div className="min-h-screen bg-gray-50">
