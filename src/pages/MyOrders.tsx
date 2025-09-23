@@ -1,14 +1,14 @@
-import { useEffect, useState } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { Navigate } from 'react-router-dom';
-import { supabase } from '@/integrations/supabase/client';
-import { Navigation } from '@/components/Navigation';
-import { Footer } from '@/components/Footer';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Separator } from '@/components/ui/separator';
-import { Package, Calendar, DollarSign } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
+import { useEffect, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
+import { Navigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
+import { Navigation } from "@/components/Navigation";
+import { Footer } from "@/components/Footer";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { Package, Calendar, DollarSign } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface OrderItem {
   id: string;
@@ -45,8 +45,9 @@ export const MyOrders = () => {
   const fetchOrders = async () => {
     try {
       const { data, error } = await supabase
-        .from('orders')
-        .select(`
+        .from("orders")
+        .select(
+          `
           *,
           order_items (
             *,
@@ -56,9 +57,10 @@ export const MyOrders = () => {
               image_url
             )
           )
-        `)
-        .eq('user_id', user?.id)
-        .order('created_at', { ascending: false });
+        `
+        )
+        .eq("user_id", user?.id)
+        .order("created_at", { ascending: false });
 
       if (error) throw error;
       setOrders(data || []);
@@ -87,18 +89,18 @@ export const MyOrders = () => {
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'confirmed':
-        return 'bg-blue-100 text-blue-800 border-blue-200';
-      case 'shipped':
-        return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'delivered':
-        return 'bg-green-100 text-green-800 border-green-200';
-      case 'cancelled':
-        return 'bg-red-100 text-red-800 border-red-200';
+      case "pending":
+        return "bg-yellow-100 text-yellow-800 border-yellow-200";
+      case "confirmed":
+        return "bg-blue-100 text-blue-800 border-blue-200";
+      case "shipped":
+        return "bg-purple-100 text-purple-800 border-purple-200";
+      case "delivered":
+        return "bg-green-100 text-green-800 border-green-200";
+      case "cancelled":
+        return "bg-red-100 text-red-800 border-red-200";
       default:
-        return 'bg-gray-100 text-gray-800 border-gray-200';
+        return "bg-gray-100 text-gray-800 border-gray-200";
     }
   };
 
@@ -106,7 +108,7 @@ export const MyOrders = () => {
     <>
       <Navigation />
       <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 py-12">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-8">
             <h1 className="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
               My Orders
@@ -133,7 +135,10 @@ export const MyOrders = () => {
           ) : (
             <div className="space-y-6">
               {orders.map((order) => (
-                <Card key={order.id} className="shadow-lg border-0 bg-card/80 backdrop-blur-sm">
+                <Card
+                  key={order.id}
+                  className="shadow-lg border-0 bg-card/80 backdrop-blur-sm"
+                >
                   <CardHeader className="pb-4">
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <div>
@@ -146,13 +151,14 @@ export const MyOrders = () => {
                             {new Date(order.created_at).toLocaleDateString()}
                           </div>
                           <div className="flex items-center gap-1">
-                            <DollarSign className="h-4 w-4" />
-                            ${order.total_amount}
+                            <DollarSign className="h-4 w-4" />₹
+                            {order.total_amount}
                           </div>
                         </div>
                       </div>
-                      <Badge className={getStatusColor(order.status)}>
-                        {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
+                      <Badge className={`${getStatusColor(order.status)}`}>
+                        {order.status.charAt(0).toUpperCase() +
+                          order.status.slice(1)}
                       </Badge>
                     </div>
                   </CardHeader>
@@ -167,13 +173,18 @@ export const MyOrders = () => {
                               className="w-16 h-16 object-cover rounded-lg bg-gray-100"
                             />
                             <div className="flex-1">
-                              <h4 className="font-medium">{item.products.name}</h4>
+                              <h4 className="font-medium">
+                                {item.products.name}
+                              </h4>
                               <div className="flex items-center justify-between mt-1">
                                 <span className="text-sm text-muted-foreground">
                                   Quantity: {item.quantity}
                                 </span>
                                 <span className="font-semibold">
-                                  ${(Number(item.price) * item.quantity).toFixed(2)}
+                                ₹
+                                  {(Number(item.price) * item.quantity).toFixed(
+                                    2
+                                  )}
                                 </span>
                               </div>
                             </div>
@@ -184,14 +195,18 @@ export const MyOrders = () => {
                         </div>
                       ))}
                     </div>
-                    
+
                     {order.shipping_address && (
                       <div className="mt-6 pt-4 border-t border-border/50">
                         <h5 className="font-semibold mb-2">Shipping Address</h5>
                         <div className="text-sm text-muted-foreground">
                           <p>{order.shipping_address.name}</p>
                           <p>{order.shipping_address.address}</p>
-                          <p>{order.shipping_address.city}, {order.shipping_address.state} {order.shipping_address.zipCode}</p>
+                          <p>
+                            {order.shipping_address.city},{" "}
+                            {order.shipping_address.state}{" "}
+                            {order.shipping_address.zipCode}
+                          </p>
                           <p>{order.shipping_address.country}</p>
                         </div>
                       </div>
