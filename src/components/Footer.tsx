@@ -39,7 +39,7 @@ export const Footer = () => {
               </div>
               <div>
                 <h4 className="font-semibold">Free Shipping</h4>
-                <p className="text-gray-400 text-sm">On orders over $199</p>
+                <p className="text-gray-400 text-sm">On all orders</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">
@@ -68,7 +68,7 @@ export const Footer = () => {
             {/* Brand */}
             <div className="space-y-6">
               <h3 className="text-4xl font-bold bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                brandter<span className="text-white">.store</span>
+                brandter<span className="text-white">.shop</span>
               </h3>
               <p className="text-gray-300 leading-relaxed text-lg">
                 Your premier destination for luxury kitchenware and exquisite
@@ -141,7 +141,7 @@ export const Footer = () => {
                   Contact Us
                 </Link>
                 <a
-                  href="mailto:info@brandter.store"
+                  href="mailto:info@brandter.shop"
                   className="block text-gray-400 hover:text-white hover:translate-x-2 transition-all duration-300"
                 >
                   Email Support
@@ -194,7 +194,7 @@ export const Footer = () => {
               </div>
               <div>
                 <p className="text-white font-medium">General Questions</p>
-                <p className="text-gray-400">info@brandter.store</p>
+                <p className="text-gray-400">info@brandter.shop</p>
               </div>
             </div>
           </div>
@@ -203,24 +203,24 @@ export const Footer = () => {
         {/* Bottom */}
         <div className="border-t border-gray-800 py-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400">
-            © 2024 brander.store. All rights reserved. | Crafted with excellence
+            © 2024 brander.shop. All rights reserved. | Crafted with excellence
             since 2020
           </p>
           <div className="flex space-x-8 mt-4 md:mt-0">
             <a
-              href="mailto:info@brandter.store"
+              href="mailto:info@brandter.shop"
               className="text-gray-400 hover:text-white text-sm transition-colors hover:underline"
             >
               Privacy Policy
             </a>
             <a
-              href="mailto:info@brandter.store"
+              href="mailto:info@brandter.shop"
               className="text-gray-400 hover:text-white text-sm transition-colors hover:underline"
             >
               Terms of Service
             </a>
             <a
-              href="mailto:info@brandter.store"
+              href="mailto:info@brandter.shop"
               className="text-gray-400 hover:text-white text-sm transition-colors hover:underline"
             >
               Cookie Policy

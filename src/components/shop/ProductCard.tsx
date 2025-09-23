@@ -76,7 +76,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
             size="icon"
             variant="secondary"
             onClick={handleWishlistToggle}
-            className={`absolute top-3 right-3 w-8 h-8 rounded-full shadow-lg transition-all duration-200 ${
+            className={`absolute top-3 right-3 w-8 h-8 rounded-full shadow-lg transition-all duration-200 z-50 ${
               isInWishlist(product.id)
                 ? "bg-red-100 hover:bg-red-200 text-red-600"
                 : "bg-white/90 hover:bg-white"

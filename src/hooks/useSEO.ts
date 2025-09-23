@@ -23,10 +23,12 @@ export const useProductSEO = (product: {
   category: string;
   rating: number;
   reviews: number;
-}) => {
+} | null) => {
   const location = useLocation();
   
   useEffect(() => {
+    if (!product) return;
+    
     updatePageSEO({
       title: `${product.name} - Brander Store`,
       description: `${product.description} Shop now for ₹${product.price}. Rated ${product.rating}/5 by ${product.reviews} customers. Free delivery available.`,

@@ -45,7 +45,7 @@ const ContactUs = () => {
                 <CardTitle className="text-lg sm:text-xl">Email Us</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-gray-600 mb-2 text-sm sm:text-base">info@brandter.store</p>
+                <p className="text-gray-600 mb-2 text-sm sm:text-base">info@brandter.shop</p>
                 <p className="text-gray-600 text-xs sm:text-sm">General Questions</p>
               </CardContent>
             </Card>

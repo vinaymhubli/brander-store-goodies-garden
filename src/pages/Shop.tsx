@@ -1,4 +1,3 @@
-
 import { Navigation } from "@/components/Navigation";
 import { ProductGrid } from "@/components/shop/ProductGrid";
 import { ProductFilters } from "@/components/shop/ProductFilters";
@@ -8,6 +7,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Filter, X } from "lucide-react";
 import { useSearchParams } from "react-router-dom";
+import { Footer } from "@/components/Footer";
 
 const Shop = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -18,21 +18,25 @@ const Shop = () => {
 
   // Initialize state from URL query parameters
   useEffect(() => {
-    const categoryParam = searchParams.get('category');
-    const searchParam = searchParams.get('search');
-    const priceParam = searchParams.get('price');
-    
-    console.log('Shop useEffect - URL params:', { categoryParam, searchParam, priceParam });
-    
+    const categoryParam = searchParams.get("category");
+    const searchParam = searchParams.get("search");
+    const priceParam = searchParams.get("price");
+
+    console.log("Shop useEffect - URL params:", {
+      categoryParam,
+      searchParam,
+      priceParam,
+    });
+
     if (categoryParam) {
-      console.log('Setting selectedCategory to:', categoryParam);
+      console.log("Setting selectedCategory to:", categoryParam);
       setSelectedCategory(categoryParam);
     }
-    
+
     if (searchParam) {
       setSearchQuery(searchParam);
     }
-    
+
     if (priceParam) {
       const price = parseInt(priceParam);
       if (!isNaN(price) && price > 0) {
@@ -43,16 +47,21 @@ const Shop = () => {
 
   // Update URL when category changes
   const handleCategoryChange = (category: string) => {
-    console.log('handleCategoryChange called with:', category, 'type:', typeof category);
+    console.log(
+      "handleCategoryChange called with:",
+      category,
+      "type:",
+      typeof category
+    );
     setSelectedCategory(category);
     const newSearchParams = new URLSearchParams(searchParams);
-    
+
     if (category) {
-      newSearchParams.set('category', category);
+      newSearchParams.set("category", category);
     } else {
-      newSearchParams.delete('category');
+      newSearchParams.delete("category");
     }
-    
+
     setSearchParams(newSearchParams);
   };
 
@@ -60,34 +69,34 @@ const Shop = () => {
   const handleSearchChange = (query: string) => {
     setSearchQuery(query);
     const newSearchParams = new URLSearchParams(searchParams);
-    
+
     if (query) {
-      newSearchParams.set('search', query);
+      newSearchParams.set("search", query);
     } else {
-      newSearchParams.delete('search');
+      newSearchParams.delete("search");
     }
-    
+
     setSearchParams(newSearchParams);
   };
 
   // Update SEO based on category and search
   const getCategoryName = (category: string) => {
     switch (category.toLowerCase()) {
-      case 'hair-accessories':
-      case 'hair accessories':
-        return 'Hair Accessories';
-      case 'kitchen-appliances':
-      case 'kitchen appliances':
-        return 'Kitchen Appliances';
+      case "hair-accessories":
+      case "hair accessories":
+        return "Hair Accessories";
+      case "kitchen-appliances":
+      case "kitchen appliances":
+        return "Kitchen Appliances";
       default:
-        return 'All Products';
+        return "All Products";
     }
   };
 
   const categoryName = getCategoryName(selectedCategory);
-  const categoryDescription = selectedCategory 
+  const categoryDescription = selectedCategory
     ? `Browse our collection of premium ${categoryName.toLowerCase()} at Brander Store. High-quality products with fast delivery and excellent customer service.`
-    : 'Discover our full range of premium hair accessories and kitchen appliances at Brander Store. Shop with confidence and enjoy fast delivery.';
+    : "Discover our full range of premium hair accessories and kitchen appliances at Brander Store. Shop with confidence and enjoy fast delivery.";
 
   useCategorySEO(categoryName, categoryDescription);
 
@@ -96,10 +105,15 @@ const Shop = () => {
       <Navigation />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <div className="mb-6 sm:mb-8">
-          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Shop</h1>
-          <SearchBar searchQuery={searchQuery} onSearchChange={handleSearchChange} />
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
+            Shop
+          </h1>
+          <SearchBar
+            searchQuery={searchQuery}
+            onSearchChange={handleSearchChange}
+          />
         </div>
-        
+
         {/* Mobile Filter Toggle */}
         <div className="lg:hidden mb-4">
           <Button
@@ -108,7 +122,7 @@ const Shop = () => {
             className="w-full sm:w-auto"
           >
             <Filter className="h-4 w-4 mr-2" />
-            {showFilters ? 'Hide Filters' : 'Show Filters'}
+            {showFilters ? "Hide Filters" : "Show Filters"}
           </Button>
         </div>
 
@@ -138,7 +152,7 @@ const Shop = () => {
               </div>
             </div>
           )}
-          
+
           {/* Desktop Filters */}
           <div className="hidden lg:block lg:col-span-1">
             <ProductFilters
@@ -148,7 +162,7 @@ const Shop = () => {
               onPriceRangeChange={setPriceRange}
             />
           </div>
-          
+
           <div className="lg:col-span-3">
             <ProductGrid
               searchQuery={searchQuery}
@@ -158,6 +172,7 @@ const Shop = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

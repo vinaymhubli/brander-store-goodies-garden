@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -37,20 +36,115 @@ const App = () => (
         <div className="min-h-screen bg-white">
           <Routes>
             <Route path="/" element={<Index />} />
-            <Route path="/shop" element={<><BreadcrumbNavigation /><Shop /></>} />
-            <Route path="/product/:id" element={<><BreadcrumbNavigation /><ProductDetail /></>} />
-            <Route path="/cart" element={<><BreadcrumbNavigation /><Cart /></>} />
-            <Route path="/checkout" element={<><BreadcrumbNavigation /><Checkout /></>} />
-            <Route path="/wishlist" element={<><BreadcrumbNavigation /><Wishlist /></>} />
-            <Route path="/about" element={<><BreadcrumbNavigation /><AboutUs /></>} />
-            <Route path="/contact" element={<><BreadcrumbNavigation /><ContactUs /></>} />
-            <Route path="/login" element={<><BreadcrumbNavigation /><Login /></>} />
-            <Route path="/signup" element={<><BreadcrumbNavigation /><Signup /></>} />
-            <Route path="/my-orders" element={<><BreadcrumbNavigation /><MyOrders /></>} />
-            <Route path="/order-success/:orderId" element={<><BreadcrumbNavigation /><OrderSuccess /></>} />
-            
+            <Route
+              path="/shop"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <Shop />
+                </>
+              }
+            />
+            <Route
+              path="/product/:id"
+              element={
+                <>
+                  <ProductDetail />
+                </>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <Cart />
+                </>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <Checkout />
+                </>
+              }
+            />
+            <Route
+              path="/wishlist"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <Wishlist />
+                </>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <AboutUs />
+                </>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <ContactUs />
+                </>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <Login />
+                </>
+              }
+            />
+            <Route
+              path="/signup"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <Signup />
+                </>
+              }
+            />
+            <Route
+              path="/my-orders"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <MyOrders />
+                </>
+              }
+            />
+            <Route
+              path="/order-success/:orderId"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <OrderSuccess />
+                </>
+              }
+            />
+
             {/* Admin Routes */}
-            <Route path="/admin/login" element={<><BreadcrumbNavigation /><AdminLogin /></>} />
+            <Route
+              path="/admin/login"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <AdminLogin />
+                </>
+              }
+            />
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="products" element={<AdminProducts />} />
@@ -58,9 +152,17 @@ const App = () => (
               <Route path="orders" element={<AdminOrders />} />
               <Route path="users" element={<AdminUsers />} />
             </Route>
-            
+
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<><BreadcrumbNavigation /><NotFound /></>} />
+            <Route
+              path="*"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <NotFound />
+                </>
+              }
+            />
           </Routes>
         </div>
       </BrowserRouter>

@@ -77,8 +77,8 @@ const Cart = () => {
             <span className="text-sm font-medium text-gray-700">Free Shipping</span>
           </div>
           <div className="flex items-center justify-center gap-2 bg-white/80 backdrop-blur-sm p-4 rounded-lg shadow-sm">
-            <RefreshCw className="h-5 w-5 text-purple-600" />
-            <span className="text-sm font-medium text-gray-700">Easy Returns</span>
+            <ShoppingBag className="h-5 w-5 text-purple-600" />
+            <span className="text-sm font-medium text-gray-700">Premium Quality</span>
           </div>
         </div>
         
@@ -203,7 +203,7 @@ const Cart = () => {
                 
                 <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg">
                   <p className="text-sm text-gray-700 text-center">
-                    <span className="font-semibold text-green-700">Free shipping</span> on orders over ₹500!
+                    <span className="font-semibold text-green-700">Free shipping</span> on all orders!
                   </p>
                 </div>
               </CardContent>

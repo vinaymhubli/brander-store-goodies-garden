@@ -3,38 +3,57 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Star, ShoppingCart, CheckCircle, ArrowLeft, Heart, Share2, Truck, Shield, RotateCcw } from "lucide-react";
+import {
+  Star,
+  ShoppingCart,
+  CheckCircle,
+  ArrowLeft,
+  Heart,
+  Share2,
+  Truck,
+  Shield,
+  RotateCcw,
+} from "lucide-react";
 import { useParams, Navigate, Link } from "react-router-dom";
 import { useCart } from "@/hooks/useCart";
+import { useWishlist } from "@/hooks/useWishlist";
 import { useToast } from "@/hooks/use-toast";
 import { useProductSEO } from "@/hooks/useSEO";
 import { supabase } from "@/integrations/supabase/client";
 import { useQuery } from "@tanstack/react-query";
 import { Tables } from "@/integrations/supabase/types";
 import { useState } from "react";
+import { Footer } from "@/components/Footer";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
   const { cartItems, addToCart } = useCart();
+  const { items: wishlistItems, addItem: addToWishlist, removeItem: removeFromWishlist } = useWishlist();
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
 
-  const { data: product, isLoading, error } = useQuery({
-    queryKey: ['product', id],
+  const {
+    data: product,
+    isLoading,
+    error,
+  } = useQuery({
+    queryKey: ["product", id],
     queryFn: async () => {
-      if (!id) throw new Error('Product ID is required');
-      
+      if (!id) throw new Error("Product ID is required");
+
       const { data, error } = await supabase
-        .from('products')
-        .select(`
+        .from("products")
+        .select(
+          `
           *,
           categories (
             name,
             description
           )
-        `)
-        .eq('id', id)
-        .eq('is_active', true)
+        `
+        )
+        .eq("id", id)
+        .eq("is_active", true)
         .single();
 
       if (error) throw error;
@@ -44,6 +63,24 @@ const ProductDetail = () => {
     },
     enabled: !!id,
   });
+
+  // Update SEO for product page - call this hook unconditionally at the top
+  useProductSEO(
+    product
+      ? {
+          id: Number(product.id),
+          name: product.name,
+          price: Number(product.selling_price || product.price),
+          description:
+            product.description ||
+            `Premium ${product.name} from Brander Store. High-quality product with excellent customer ratings.`,
+          image: product.image_url || "/placeholder.svg",
+          category: product.categories?.name || "Products",
+          rating: 4.5, // You might want to fetch actual ratings from your database
+          reviews: Math.floor(Math.random() * 100) + 10, // You might want to fetch actual review count
+        }
+      : null
+  );
 
   if (isLoading) {
     return (
@@ -70,33 +107,29 @@ const ProductDetail = () => {
     return <Navigate to="/shop" replace />;
   }
 
-  // Update SEO for product page
-  useProductSEO({
-    id: product.id,
-    name: product.name,
-    price: Number(product.selling_price || product.price),
-    description: product.description || `Premium ${product.name} from Brander Store. High-quality product with excellent customer ratings.`,
-    image: product.image_url || '/placeholder.svg',
-    category: product.categories?.name || 'Products',
-    rating: 4.5, // You might want to fetch actual ratings from your database
-    reviews: Math.floor(Math.random() * 100) + 10, // You might want to fetch actual review count
-  });
-
-  const isInCart = cartItems.some((item: any) => item.product_id === product.id);
-  const discountPercentage = product.selling_price && product.selling_price < product.price 
-    ? Math.round(((product.price - product.selling_price) / product.price) * 100)
-    : 0;
+  const isInCart = cartItems.some(
+    (item: any) => item.product_id === product.id
+  );
+  const isInWishlist = wishlistItems.some(
+    (item: any) => item.product_id === product.id
+  );
+  const discountPercentage =
+    product.selling_price && product.selling_price < product.price
+      ? Math.round(
+          ((product.price - product.selling_price) / product.price) * 100
+        )
+      : 0;
 
   const handleAddToCart = () => {
     try {
       addToCart(product);
-      
+
       toast({
         title: "Added to cart",
         description: `${product.name} has been added to your cart.`,
       });
     } catch (error) {
-      console.error('Error adding item to cart:', error);
+      console.error("Error adding item to cart:", error);
       toast({
         title: "Error",
         description: "Failed to add item to cart. Please try again.",
@@ -112,26 +145,75 @@ const ProductDetail = () => {
     }
   };
 
+  const handleWishlistToggle = async () => {
+    if (isInWishlist) {
+      await removeFromWishlist(product.id);
+    } else {
+      const wishlistItem = {
+        id: product.id,
+        name: product.name,
+        price: product.selling_price || product.price,
+        selling_price: product.selling_price,
+        image: product.image_url || '/placeholder.svg',
+      };
+      await addToWishlist(wishlistItem);
+    }
+  };
+
+  const handleShare = async () => {
+    try {
+      const shareData = {
+        title: product.name,
+        text: product.description || `Check out ${product.name} from Brander Store`,
+        url: window.location.href,
+      };
+
+      if (navigator.share && navigator.canShare(shareData)) {
+        await navigator.share(shareData);
+      } else {
+        // Fallback: copy to clipboard
+        await navigator.clipboard.writeText(window.location.href);
+        toast({
+          title: "Link copied!",
+          description: "Product link has been copied to your clipboard.",
+        });
+      }
+    } catch (error) {
+      console.error("Error sharing:", error);
+      toast({
+        title: "Error",
+        description: "Failed to share. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Navigation />
-      
+
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex items-center space-x-2 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors">Home</Link>
+          <Link to="/" className="hover:text-foreground transition-colors">
+            Home
+          </Link>
           <span>/</span>
-          <Link to="/shop" className="hover:text-foreground transition-colors">Shop</Link>
+          <Link to="/shop" className="hover:text-foreground transition-colors">
+            Shop
+          </Link>
           <span>/</span>
           {product.categories && (
             <>
-              <span className="hover:text-foreground transition-colors">{product.categories.name}</span>
+              <span className="hover:text-foreground transition-colors">
+                {product.categories.name}
+              </span>
               <span>/</span>
             </>
           )}
           <span className="text-foreground font-medium">{product.name}</span>
         </div>
-        
+
         <Link to="/shop">
           <Button variant="ghost" className="mt-2 -ml-4">
             <ArrowLeft className="h-4 w-4 mr-2" />
@@ -146,11 +228,11 @@ const ProductDetail = () => {
           <div className="space-y-4">
             <div className="aspect-square overflow-hidden rounded-xl bg-card border">
               <img
-                src={product.image_url || '/placeholder.svg'}
+                src={product.image_url || "/placeholder.svg"}
                 alt={product.name}
                 className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
                 onError={(e) => {
-                  e.currentTarget.src = '/placeholder.svg';
+                  e.currentTarget.src = "/placeholder.svg";
                 }}
               />
             </div>
@@ -164,14 +246,15 @@ const ProductDetail = () => {
                   {product.categories.name}
                 </Badge>
               )}
-              
+
               <h1 className="text-3xl lg:text-4xl font-bold text-foreground leading-tight mb-4">
                 {product.name}
               </h1>
-              
+
               {/* Price Section */}
               <div className="flex items-center gap-4 mb-6">
-                {product.selling_price && product.selling_price < product.price ? (
+                {product.selling_price &&
+                product.selling_price < product.price ? (
                   <>
                     <span className="text-4xl font-bold text-primary">
                       ₹{Number(product.selling_price).toLocaleString()}
@@ -202,7 +285,9 @@ const ProductDetail = () => {
                 ) : (
                   <>
                     <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                    <span className="text-sm text-red-600 font-medium">Out of Stock</span>
+                    <span className="text-sm text-red-600 font-medium">
+                      Out of Stock
+                    </span>
                   </>
                 )}
               </div>
@@ -214,7 +299,9 @@ const ProductDetail = () => {
             {product.description && (
               <Card>
                 <CardContent className="p-6">
-                  <h3 className="text-lg font-semibold mb-3">Product Description</h3>
+                  <h3 className="text-lg font-semibold mb-3">
+                    Product Description
+                  </h3>
                   <p className="text-muted-foreground leading-relaxed">
                     {product.description}
                   </p>
@@ -251,18 +338,18 @@ const ProductDetail = () => {
             {/* Action Buttons */}
             <div className="space-y-4">
               {isInCart ? (
-                <Button 
+                <Button
                   size="lg"
                   className="w-full h-14 text-lg"
                   variant="secondary"
-                  onClick={() => window.location.href = '/cart'}
+                  onClick={() => (window.location.href = "/cart")}
                 >
                   <CheckCircle className="w-5 h-5 mr-2" />
                   Go to Cart & Checkout
                 </Button>
               ) : (
-                <Button 
-                  onClick={handleAddToCart} 
+                <Button
+                  onClick={handleAddToCart}
                   size="lg"
                   className="w-full h-14 text-lg"
                   disabled={product.stock_quantity <= 0}
@@ -271,28 +358,38 @@ const ProductDetail = () => {
                   Add to Cart
                 </Button>
               )}
-              
-              <div className="flex gap-3">
-                <Button variant="outline" size="lg" className="flex-1">
-                  <Heart className="w-5 h-5 mr-2" />
-                  Add to Wishlist
-                </Button>
-                <Button variant="outline" size="lg" className="flex-1">
-                  <Share2 className="w-5 h-5 mr-2" />
-                  Share
-                </Button>
-              </div>
+
+                <div className="flex gap-3">
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="flex-1"
+                    onClick={handleWishlistToggle}
+                  >
+                    <Heart className={`w-5 h-5 mr-2 ${isInWishlist ? 'fill-red-500 text-red-500' : ''}`} />
+                    {isInWishlist ? 'Remove from Wishlist' : 'Add to Wishlist'}
+                  </Button>
+                  <Button 
+                    variant="outline" 
+                    size="lg" 
+                    className="flex-1"
+                    onClick={handleShare}
+                  >
+                    <Share2 className="w-5 h-5 mr-2" />
+                    Share
+                  </Button>
+                </div>
             </div>
 
             <Separator />
 
             {/* Features */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
                 <Truck className="w-5 h-5 text-primary" />
                 <div>
                   <p className="font-medium">Free Delivery</p>
-                  <p className="text-muted-foreground">On orders above ₹999</p>
+                  <p className="text-muted-foreground">On all orders</p>
                 </div>
               </div>
               <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
@@ -302,17 +399,11 @@ const ProductDetail = () => {
                   <p className="text-muted-foreground">100% secure checkout</p>
                 </div>
               </div>
-              <div className="flex items-center gap-3 p-4 rounded-lg bg-muted/50">
-                <RotateCcw className="w-5 h-5 text-primary" />
-                <div>
-                  <p className="font-medium">Easy Returns</p>
-                  <p className="text-muted-foreground">7-day return policy</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
