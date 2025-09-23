@@ -147,8 +147,8 @@ const updateTwitterCardTags = (seo: SEOConfig) => {
       meta.setAttribute('content', content);
     } else {
       meta = document.createElement('meta');
-      meta.name = name;
-      meta.content = content;
+      meta.setAttribute('name', name);
+      meta.setAttribute('content', content);
       document.head.appendChild(meta);
     }
   });

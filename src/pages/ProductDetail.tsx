@@ -72,7 +72,7 @@ const ProductDetail = () => {
 
   // Update SEO for product page
   useProductSEO({
-    id: product.id,
+    id: parseInt(product.id),
     name: product.name,
     price: Number(product.selling_price || product.price),
     description: product.description || `Premium ${product.name} from Brander Store. High-quality product with excellent customer ratings.`,

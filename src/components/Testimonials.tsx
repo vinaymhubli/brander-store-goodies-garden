@@ -6,30 +6,30 @@ export const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
-      name: "Sarah Johnson",
-      role: "Interior Designer",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b2e8fd44?w=150&h=150&fit=crop&crop=face",
+      name: "Priya Sharma",
+      role: "Fashion Designer",
+      image: "https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=150&h=150&fit=crop&crop=face",
       rating: 5,
       text: "The quality of products is exceptional. Every piece I've purchased has exceeded my expectations. The attention to detail and craftsmanship is remarkable.",
-      product: "Damascus Steel Collection"
+      product: "Elegance Pearl Hairclip"
     },
     {
       id: 2,
-      name: "Michael Chen",
+      name: "Arjun Patel",
       role: "Chef & Restaurant Owner",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
       rating: 5,
       text: "As a professional chef, I demand the best tools. These kitchen essentials have transformed my culinary experience. Absolutely worth every penny.",
-      product: "Professional Kitchen Tools"
+      product: "Heat Mat Pro - Food Heating Pad"
     },
     {
       id: 3,
-      name: "Emma Thompson",
-      role: "Jewelry Enthusiast",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+      name: "Ananya Reddy",
+      role: "Beauty Influencer",
+      image: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
       rating: 5,
-      text: "The Royal Diamond Heritage Necklace is breathtaking. The craftsmanship is museum-quality and I receive compliments every time I wear it.",
-      product: "Royal Jewelry Collection"
+      text: "The hair accessories are simply stunning! They hold my hair perfectly while adding such elegant charm to my look. I get compliments everywhere I go.",
+      product: "Twist & Shine Hairpin"
     }
   ];
 
@@ -111,16 +111,16 @@ export const Testimonials = () => {
             <div className="flex items-center space-x-2">
               <div className="flex -space-x-2">
                 <Avatar className="w-8 h-8 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1494790108755-2616b2e8fd44?w=50&h=50&fit=crop&crop=face" alt="" />
-                  <AvatarFallback className="bg-gray-100 text-xs">SJ</AvatarFallback>
+                  <AvatarImage src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=50&h=50&fit=crop&crop=face" alt="" />
+                  <AvatarFallback className="bg-gray-100 text-xs">PS</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-8 h-8 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face" alt="" />
-                  <AvatarFallback className="bg-gray-100 text-xs">MC</AvatarFallback>
+                  <AvatarImage src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face" alt="" />
+                  <AvatarFallback className="bg-gray-100 text-xs">AP</AvatarFallback>
                 </Avatar>
                 <Avatar className="w-8 h-8 border-2 border-white">
-                  <AvatarImage src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face" alt="" />
-                  <AvatarFallback className="bg-gray-100 text-xs">ET</AvatarFallback>
+                  <AvatarImage src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=50&h=50&fit=crop&crop=face" alt="" />
+                  <AvatarFallback className="bg-gray-100 text-xs">AR</AvatarFallback>
                 </Avatar>
                 <div className="w-8 h-8 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-xs font-semibold">
                   +2K
