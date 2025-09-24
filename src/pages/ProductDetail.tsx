@@ -27,7 +27,7 @@ import { Footer } from "@/components/Footer";
 
 const ProductDetail = () => {
   const { id } = useParams<{ id: string }>();
-  const { cartItems, addToCart } = useCart();
+  const { cartItems, addToCart, updateQuantity } = useCart();
   const { items: wishlistItems, addItem: addToWishlist, removeItem: removeFromWishlist } = useWishlist();
   const { toast } = useToast();
   const [quantity, setQuantity] = useState(1);
@@ -120,14 +120,18 @@ const ProductDetail = () => {
         )
       : 0;
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     try {
-      addToCart(product);
+      // Add the product with the selected quantity
+      await addToCart(product, quantity);
 
       toast({
         title: "Added to cart",
-        description: `${product.name} has been added to your cart.`,
+        description: `${quantity} ${product.name}${quantity > 1 ? 's' : ''} added to your cart.`,
       });
+      
+      // Reset quantity to 1 after adding
+      setQuantity(1);
     } catch (error) {
       console.error("Error adding item to cart:", error);
       toast({

@@ -73,7 +73,7 @@ export const useCart = () => {
   }, [user, toast]);
 
   // Add item to cart
-  const addToCart = async (product: Tables<'products'>) => {
+  const addToCart = async (product: Tables<'products'>, quantityToAdd: number = 1) => {
     if (!user) {
       toast({
         title: "Authentication required",
@@ -91,7 +91,7 @@ export const useCart = () => {
         // Update quantity
         const { error } = await supabase
           .from('cart_items')
-          .update({ quantity: existingItem.quantity + 1 })
+          .update({ quantity: existingItem.quantity + quantityToAdd })
           .eq('id', existingItem.id);
 
         if (error) throw error;
@@ -102,7 +102,7 @@ export const useCart = () => {
           .insert({
             user_id: user.id,
             product_id: product.id,
-            quantity: 1
+            quantity: quantityToAdd
           });
 
         if (error) throw error;
