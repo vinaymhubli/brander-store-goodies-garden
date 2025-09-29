@@ -24,6 +24,7 @@ import { AdminProducts } from "./pages/admin/AdminProducts";
 import { AdminCategories } from "./pages/admin/AdminCategories";
 import { AdminOrders } from "./pages/admin/AdminOrders";
 import { AdminUsers } from "./pages/admin/AdminUsers";
+import { GuestOrderTracking } from "./pages/GuestOrderTracking";
 
 const queryClient = new QueryClient();
 
@@ -131,6 +132,15 @@ const App = () => (
                 <>
                   <BreadcrumbNavigation />
                   <OrderSuccess />
+                </>
+              }
+            />
+            <Route
+              path="/track-order"
+              element={
+                <>
+                  <BreadcrumbNavigation />
+                  <GuestOrderTracking />
                 </>
               }
             />

@@ -19,15 +19,14 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '',
     );
 
-    const { data: { user } } = await supabaseClient.auth.getUser(
-      req.headers.get('Authorization')?.replace('Bearer ', '') ?? ''
-    );
-    
-    if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+    // Check if user is authenticated (optional for guest checkout)
+    let user = null;
+    const authHeader = req.headers.get('Authorization');
+    if (authHeader) {
+      const { data: { user: authUser } } = await supabaseClient.auth.getUser(
+        authHeader.replace('Bearer ', '')
       );
+      user = authUser;
     }
 
     const { 
@@ -84,7 +83,7 @@ serve(async (req) => {
     const { data: order, error: orderError } = await supabaseClient
       .from('orders')
       .insert({
-        user_id: user.id,
+        user_id: user?.id || null, // Allow null for guest orders
         total_amount: totalAmount,
         status: 'pending',
         shipping_address: shippingAddress
@@ -124,14 +123,16 @@ serve(async (req) => {
       );
     }
 
-    // Clear user's cart
-    const { error: clearCartError } = await supabaseClient
-      .from('cart_items')
-      .delete()
-      .eq('user_id', user.id);
+    // Clear user's cart (only if user is authenticated)
+    if (user) {
+      const { error: clearCartError } = await supabaseClient
+        .from('cart_items')
+        .delete()
+        .eq('user_id', user.id);
 
-    if (clearCartError) {
-      console.error('Error clearing cart:', clearCartError);
+      if (clearCartError) {
+        console.error('Error clearing cart:', clearCartError);
+      }
     }
 
     console.log('Order created successfully:', order.id);

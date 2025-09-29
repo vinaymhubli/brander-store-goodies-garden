@@ -39,22 +39,17 @@ export default function OrderSuccess() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!user) {
-      navigate("/login");
-      return;
-    }
-
     if (!orderId) {
       navigate("/");
       return;
     }
 
     fetchOrder();
-  }, [user, orderId, navigate]);
+  }, [orderId, navigate]);
 
   const fetchOrder = async () => {
     try {
-      const { data, error } = await supabase
+      let query = supabase
         .from("orders")
         .select(`
           *,
@@ -69,9 +64,14 @@ export default function OrderSuccess() {
             )
           )
         `)
-        .eq("id", orderId)
-        .eq("user_id", user?.id)
-        .single();
+        .eq("id", orderId);
+
+      // If user is logged in, filter by user_id, otherwise get any order with this ID
+      if (user) {
+        query = query.eq("user_id", user.id);
+      }
+
+      const { data, error } = await query.single();
 
       if (error) {
         console.error("Error fetching order:", error);
@@ -247,9 +247,15 @@ export default function OrderSuccess() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button asChild variant="outline">
-              <Link to="/my-orders">View All Orders</Link>
-            </Button>
+            {user ? (
+              <Button asChild variant="outline">
+                <Link to="/my-orders">View All Orders</Link>
+              </Button>
+            ) : (
+              <Button asChild variant="outline">
+                <Link to="/track-order">Track Your Orders</Link>
+              </Button>
+            )}
             <Button asChild>
               <Link to="/">
                 <Home className="w-4 h-4 mr-2" />

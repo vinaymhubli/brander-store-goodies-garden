@@ -97,6 +97,13 @@ export const Navigation = () => {
                 About Us
                 <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
               </Link>
+              <Link
+                to="/track-order"
+                className="relative text-gray-800 hover:text-purple-600 px-4 py-2 font-medium transition-all duration-300 group"
+              >
+                Track Order
+                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-purple-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></span>
+              </Link>
             </div>
           </div>
 
@@ -154,15 +161,19 @@ export const Navigation = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Link to="/login">
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-full"
-                >
-                  <User className="h-5 w-5" />
-                </Button>
-              </Link>
+              <div className="flex items-center space-x-2">
+                <Link to="/login">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hover:bg-green-50 hover:text-green-600 transition-all duration-300"
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+                <span className="text-gray-400">or</span>
+                <span className="text-sm text-gray-600">Shop as Guest</span>
+              </div>
             )}
             <Link to="/cart">
               <Button
@@ -220,6 +231,12 @@ export const Navigation = () => {
               >
                 About Us
               </Link>
+              <Link
+                to="/track-order"
+                className="block px-4 py-3 font-medium text-gray-800 hover:text-purple-600 hover:bg-purple-50 rounded-xl transition-all duration-300"
+              >
+                Track Order
+              </Link>
 
               {/* Divider */}
               <div className="border-t border-gray-200 my-4"></div>
@@ -266,15 +283,20 @@ export const Navigation = () => {
                     </Button>
                   </>
                 ) : (
-                  <Link to="/login" className="block">
-                    <Button
-                      variant="ghost"
-                      className="w-full justify-start px-4 py-3 hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-xl"
-                    >
-                      <User className="h-5 w-5 mr-3" />
-                      Sign In
-                    </Button>
-                  </Link>
+                  <div className="space-y-2">
+                    <Link to="/login" className="block">
+                      <Button
+                        variant="ghost"
+                        className="w-full justify-start px-4 py-3 hover:bg-green-50 hover:text-green-600 transition-all duration-300 rounded-xl"
+                      >
+                        <User className="h-5 w-5 mr-3" />
+                        Sign In
+                      </Button>
+                    </Link>
+                    <div className="text-center text-sm text-gray-500">
+                      or continue as guest
+                    </div>
+                  </div>
                 )}
 
                 <Link to="/cart" className="block">

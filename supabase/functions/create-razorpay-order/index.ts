@@ -24,13 +24,12 @@ serve(async (req) => {
       }
     );
 
-    const { data: { user } } = await supabaseClient.auth.getUser();
-    
-    if (!user) {
-      return new Response(
-        JSON.stringify({ error: 'Unauthorized' }),
-        { status: 401, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    // Check if user is authenticated (optional for guest checkout)
+    let user = null;
+    const authHeader = req.headers.get('Authorization');
+    if (authHeader) {
+      const { data: { user: authUser } } = await supabaseClient.auth.getUser();
+      user = authUser;
     }
 
     const { cartItems, shippingAddress, totalAmount } = await req.json();
@@ -57,7 +56,7 @@ serve(async (req) => {
       currency: 'INR',
       receipt: `order_${Date.now()}`,
       notes: {
-        user_id: user.id,
+        user_id: user?.id || 'guest',
         cart_items: JSON.stringify(cartItems.map((item: any) => ({ id: item.id, quantity: item.quantity })))
       }
     };

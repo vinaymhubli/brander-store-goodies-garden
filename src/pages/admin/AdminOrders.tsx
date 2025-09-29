@@ -256,8 +256,17 @@ export const AdminOrders = () => {
                   <TableCell className="font-medium">{order.id.slice(0, 8)}...</TableCell>
                   <TableCell>
                     <div>
-                      <div className="font-medium">{order.profiles?.full_name || 'N/A'}</div>
-                      <div className="text-sm text-muted-foreground">{order.profiles?.email || 'N/A'}</div>
+                      <div className="font-medium">
+                        {order.profiles?.full_name || order.shipping_address?.fullName || 'Guest Customer'}
+                      </div>
+                      <div className="text-sm text-muted-foreground">
+                        {order.profiles?.email || order.shipping_address?.email || 'N/A'}
+                      </div>
+                      {order.shipping_address?.phone && (
+                        <div className="text-xs text-muted-foreground">
+                          📞 {order.shipping_address.phone}
+                        </div>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell>₹{order.total_amount}</TableCell>
@@ -313,8 +322,11 @@ export const AdminOrders = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h4 className="font-semibold">Customer Information</h4>
-                  <p>{selectedOrder.profiles?.full_name || 'N/A'}</p>
-                  <p className="text-muted-foreground">{selectedOrder.profiles?.email || 'N/A'}</p>
+                  <p>{selectedOrder.profiles?.full_name || selectedOrder.shipping_address?.fullName || 'Guest Customer'}</p>
+                  <p className="text-muted-foreground">{selectedOrder.profiles?.email || selectedOrder.shipping_address?.email || 'N/A'}</p>
+                  {selectedOrder.shipping_address?.phone && (
+                    <p className="text-muted-foreground">📞 {selectedOrder.shipping_address.phone}</p>
+                  )}
                 </div>
                 <div>
                   <h4 className="font-semibold">Order Information</h4>
@@ -347,6 +359,21 @@ export const AdminOrders = () => {
                   </TableBody>
                 </Table>
               </div>
+              
+              {selectedOrder.shipping_address && (
+                <div>
+                  <h4 className="font-semibold mb-2">Shipping Address</h4>
+                  <div className="bg-muted p-4 rounded-lg">
+                    <p><strong>Name:</strong> {selectedOrder.shipping_address.fullName}</p>
+                    <p><strong>Email:</strong> {selectedOrder.shipping_address.email}</p>
+                    <p><strong>Phone:</strong> {selectedOrder.shipping_address.phone}</p>
+                    <p><strong>Address:</strong> {selectedOrder.shipping_address.address}</p>
+                    <p><strong>City:</strong> {selectedOrder.shipping_address.city}</p>
+                    <p><strong>State:</strong> {selectedOrder.shipping_address.state}</p>
+                    <p><strong>PIN Code:</strong> {selectedOrder.shipping_address.pinCode}</p>
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </DialogContent>

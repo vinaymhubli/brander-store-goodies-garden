@@ -32,10 +32,12 @@ export default function Checkout() {
     state: "",
     pinCode: "",
     phone: "",
+    email: "",
   });
 
   // Handle cart empty check with proper timing
   useEffect(() => {
+    console.log('Checkout useEffect - cartLoading:', cartLoading, 'cartItems:', cartItems.length, 'pageReady:', pageReady);
     if (!cartLoading) {
       if (cartItems.length === 0) {
         console.log('No items in cart, redirecting to cart page');
@@ -44,7 +46,7 @@ export default function Checkout() {
       }
       setPageReady(true);
     }
-  }, [cartItems, cartLoading, navigate]);
+  }, [cartItems, cartLoading, navigate, pageReady]);
 
   // Ensure Razorpay script is loaded
   useEffect(() => {
@@ -65,14 +67,8 @@ export default function Checkout() {
     
     // Validate shipping form
     if (!shippingData.fullName || !shippingData.address || !shippingData.city || 
-        !shippingData.state || !shippingData.pinCode || !shippingData.phone) {
+        !shippingData.state || !shippingData.pinCode || !shippingData.phone || !shippingData.email) {
       toast.error('Please fill in all shipping details');
-      return;
-    }
-
-    if (!user) {
-      toast.error('Please login to place an order');
-      navigate('/login');
       return;
     }
 
@@ -135,7 +131,7 @@ export default function Checkout() {
         },
         prefill: {
           name: shippingData.fullName,
-          email: user?.email,
+          email: user?.email || shippingData.email,
           contact: shippingData.phone
         },
         theme: {
@@ -205,6 +201,14 @@ export default function Checkout() {
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-foreground mb-2">Checkout</h1>
           <p className="text-muted-foreground">Complete your order securely</p>
+          {!user && (
+            <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg max-w-md mx-auto">
+              <p className="text-sm text-blue-800">
+                <strong>Guest Checkout:</strong> You can complete your purchase without creating an account. 
+                Your order details will be sent to your email.
+              </p>
+            </div>
+          )}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -235,6 +239,17 @@ export default function Checkout() {
                       placeholder="Enter phone number"
                     />
                   </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="email">Email Address</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={shippingData.email}
+                    onChange={(e) => setShippingData(prev => ({ ...prev, email: e.target.value }))}
+                    placeholder="Enter email address"
+                  />
                 </div>
                 
                 <div>

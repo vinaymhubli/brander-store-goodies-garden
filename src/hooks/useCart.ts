@@ -11,16 +11,59 @@ export interface CartItemWithProduct {
   products: Tables<'products'>;
 }
 
+// Guest cart interface for localStorage
+export interface GuestCartItem {
+  id: string;
+  product_id: string;
+  quantity: number;
+  products: Tables<'products'>;
+}
+
 export const useCart = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const [cartItems, setCartItems] = useState<CartItemWithProduct[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Load guest cart from localStorage
+  const loadGuestCart = useCallback(() => {
+    console.log('loadGuestCart called');
+    try {
+      const guestCart = localStorage.getItem('guest_cart');
+      console.log('Guest cart from localStorage:', guestCart);
+      if (guestCart) {
+        const parsedCart: GuestCartItem[] = JSON.parse(guestCart);
+        console.log('Parsed guest cart:', parsedCart);
+        setCartItems(parsedCart);
+      } else {
+        console.log('No guest cart found, setting empty array');
+        setCartItems([]);
+      }
+    } catch (error) {
+      console.error('Error loading guest cart:', error);
+      setCartItems([]);
+    } finally {
+      console.log('Setting isLoading to false');
+      setIsLoading(false);
+    }
+  }, []);
+
+  // Save guest cart to localStorage
+  const saveGuestCart = useCallback((items: CartItemWithProduct[]) => {
+    try {
+      localStorage.setItem('guest_cart', JSON.stringify(items));
+    } catch (error) {
+      console.error('Error saving guest cart:', error);
+    }
+  }, []);
+
   // Fetch cart items from database
   const fetchCartItems = useCallback(async () => {
+    console.log('fetchCartItems called - user:', !!user, 'isLoading:', isLoading);
     if (!user) {
-      setCartItems([]);
+      console.log('Loading guest cart');
+      loadGuestCart();
+      setIsLoading(false);
       return;
     }
 
@@ -75,10 +118,32 @@ export const useCart = () => {
   // Add item to cart
   const addToCart = async (product: Tables<'products'>, quantityToAdd: number = 1) => {
     if (!user) {
+      // Handle guest cart
+      const existingItem = cartItems.find(item => item.product_id === product.id);
+      
+      let updatedItems: CartItemWithProduct[];
+      if (existingItem) {
+        updatedItems = cartItems.map(item => 
+          item.product_id === product.id 
+            ? { ...item, quantity: item.quantity + quantityToAdd }
+            : item
+        );
+      } else {
+        const newItem: CartItemWithProduct = {
+          id: `guest_${Date.now()}_${product.id}`,
+          product_id: product.id,
+          quantity: quantityToAdd,
+          products: product
+        };
+        updatedItems = [...cartItems, newItem];
+      }
+      
+      setCartItems(updatedItems);
+      saveGuestCart(updatedItems);
+      
       toast({
-        title: "Authentication required",
-        description: "Please log in to add items to cart",
-        variant: "destructive",
+        title: "Success",
+        description: `${product.name} added to cart`,
       });
       return;
     }
@@ -128,7 +193,13 @@ export const useCart = () => {
 
   // Remove item from cart
   const removeFromCart = async (itemId: string) => {
-    if (!user) return;
+    if (!user) {
+      // Handle guest cart
+      const updatedItems = cartItems.filter(item => item.id !== itemId);
+      setCartItems(updatedItems);
+      saveGuestCart(updatedItems);
+      return;
+    }
 
     try {
       const { error } = await supabase
@@ -150,7 +221,19 @@ export const useCart = () => {
 
   // Update quantity
   const updateQuantity = async (itemId: string, quantity: number) => {
-    if (!user || quantity < 1) return;
+    if (quantity < 1) return;
+
+    if (!user) {
+      // Handle guest cart
+      const updatedItems = cartItems.map(item => 
+        item.id === itemId 
+          ? { ...item, quantity }
+          : item
+      );
+      setCartItems(updatedItems);
+      saveGuestCart(updatedItems);
+      return;
+    }
 
     try {
       const { error } = await supabase
@@ -172,7 +255,12 @@ export const useCart = () => {
 
   // Clear entire cart
   const clearCart = async () => {
-    if (!user) return;
+    if (!user) {
+      // Handle guest cart
+      setCartItems([]);
+      localStorage.removeItem('guest_cart');
+      return;
+    }
 
     try {
       const { error } = await supabase
@@ -227,6 +315,50 @@ export const useCart = () => {
       supabase.removeChannel(channel);
     };
   }, [fetchCartItems, user]);
+
+  // Fallback to prevent infinite loading
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      if (isLoading) {
+        console.warn('Cart loading timeout, setting loading to false');
+        setIsLoading(false);
+      }
+    }, 5000); // 5 second timeout
+
+    return () => clearTimeout(timeout);
+  }, [isLoading]);
+
+  // Sync guest cart to database when user logs in
+  useEffect(() => {
+    if (user && cartItems.length > 0 && cartItems[0].id.startsWith('guest_')) {
+      // User logged in with guest cart items, sync to database
+      const syncGuestCartToDatabase = async () => {
+        try {
+          for (const item of cartItems) {
+            const { error } = await supabase
+              .from('cart_items')
+              .insert({
+                user_id: user.id,
+                product_id: item.product_id,
+                quantity: item.quantity
+              });
+            
+            if (error) {
+              console.error('Error syncing cart item:', error);
+            }
+          }
+          
+          // Clear guest cart and fetch from database
+          localStorage.removeItem('guest_cart');
+          await fetchCartItems();
+        } catch (error) {
+          console.error('Error syncing guest cart:', error);
+        }
+      };
+      
+      syncGuestCartToDatabase();
+    }
+  }, [user, cartItems, fetchCartItems]);
 
   return {
     cartItems,
