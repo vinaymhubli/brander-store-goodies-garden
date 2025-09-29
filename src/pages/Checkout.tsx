@@ -182,7 +182,8 @@ export default function Checkout() {
 
   const subtotal = getTotalPrice();
   const shipping = 0;
-  const tax = subtotal * 0.18; // 18% GST
+  // const tax = subtotal * 0.18; // 18% GST - Commented out as all orders are GST included
+  const tax = 0; // GST included in product prices
   const total = subtotal + shipping + tax;
 
   return (
@@ -349,10 +350,10 @@ export default function Checkout() {
                     <span>Shipping</span>
                     <span>₹{shipping.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between text-muted-foreground">
+                  {/* <div className="flex justify-between text-muted-foreground">
                     <span>Tax (GST 18%)</span>
                     <span>₹{tax.toFixed(2)}</span>
-                  </div>
+                  </div> */}
                   <Separator />
                   <div className="flex justify-between text-xl font-bold text-foreground">
                     <span>Total</span>

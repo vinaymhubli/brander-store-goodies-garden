@@ -1,6 +1,8 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
+import { Resend } from 'https://esm.sh/resend@2.0.0';
+import { createOrderConfirmationEmail } from './email-template.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -136,6 +138,55 @@ serve(async (req) => {
     }
 
     console.log('Order created successfully:', order.id);
+
+    // Send order confirmation email
+    try {
+      const resendApiKey = Deno.env.get('RESEND_API_KEY');
+      if (resendApiKey) {
+        const resend = new Resend(resendApiKey);
+        
+        // Create tracking URL
+        const trackingUrl = `https://brandter.shop/track-order`;
+        
+        // Get order items for email
+        const { data: orderItemsData } = await supabaseClient
+          .from('order_items')
+          .select(`
+            *,
+            products (
+              id,
+              name,
+              image_url,
+              selling_price,
+              price
+            )
+          `)
+          .eq('order_id', order.id);
+
+        const emailData = createOrderConfirmationEmail(
+          order.id,
+          shippingAddress.fullName || 'Customer',
+          shippingAddress.email,
+          totalAmount,
+          orderItemsData || [],
+          shippingAddress,
+          trackingUrl
+        );
+
+        const { data: emailResult, error: emailError } = await resend.emails.send(emailData);
+        
+        if (emailError) {
+          console.error('Error sending email:', emailError);
+        } else {
+          console.log('Order confirmation email sent:', emailResult);
+        }
+      } else {
+        console.warn('RESEND_API_KEY not found, skipping email');
+      }
+    } catch (emailError) {
+      console.error('Error sending order confirmation email:', emailError);
+      // Don't fail the order if email fails
+    }
 
     return new Response(
       JSON.stringify({ 

@@ -80,11 +80,22 @@ export const GuestOrderTracking = () => {
         
         setOrders(filteredOrders);
       } else {
-        // Search by order ID
-        const { data, error } = await query.eq('id', searchValue);
+        // Search by order ID (handle both full UUID and partial ID)
+        const { data, error } = await query;
         
         if (error) throw error;
-        setOrders(data || []);
+        
+        // Filter by order ID - handle both full UUID and partial matches
+        const filteredOrders = data?.filter(order => {
+          const fullId = order.id;
+          const partialId = fullId.slice(-8).toUpperCase();
+          const searchUpper = searchValue.toUpperCase();
+          
+          return fullId.toUpperCase().includes(searchUpper) || 
+                 partialId.includes(searchUpper);
+        }) || [];
+        
+        setOrders(filteredOrders);
       }
     } catch (error: any) {
       console.error('Search error:', error);
