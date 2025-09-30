@@ -15,7 +15,7 @@ const Cart = () => {
     keywords: ['shopping cart', 'cart', 'checkout', 'hair accessories', 'kitchen appliances'],
     type: 'website',
   });
-  const { cartItems, removeFromCart, updateQuantity, clearCart, getTotalPrice } = useCart();
+  const { cartItems, removeFromCart, updateQuantity, clearCart, getTotalPrice, isLoading } = useCart();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -31,6 +31,83 @@ const Cart = () => {
       description: `${name} has been removed from your cart`,
     });
   };
+
+  // Show loading state while fetching cart data
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-indigo-50">
+        <Navigation />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="text-center mb-8">
+            <div className="flex items-center justify-center mb-4">
+              <RefreshCw className="w-8 h-8 text-purple-600 animate-spin mr-3" />
+              <h1 className="text-4xl font-bold text-gray-900">Loading your cart...</h1>
+            </div>
+            <p className="text-gray-600">Please wait while we fetch your cart items.</p>
+          </div>
+          
+          {/* Skeleton loader for cart items */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2 space-y-4">
+              {[1, 2].map((i) => (
+                <Card key={i} className="shadow-lg border-0 bg-white/90 backdrop-blur-sm">
+                  <CardContent className="p-6">
+                    <div className="flex items-center space-x-6">
+                      <div className="w-24 h-24 bg-gray-200 rounded-lg animate-pulse"></div>
+                      <div className="flex-1">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse mb-2"></div>
+                        <div className="h-8 bg-gray-200 rounded animate-pulse mb-3 w-24"></div>
+                        <div className="flex items-center space-x-3">
+                          <div className="h-4 bg-gray-200 rounded animate-pulse w-16"></div>
+                          <div className="flex items-center space-x-2 bg-gray-100 rounded-lg p-1">
+                            <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-8 w-12 bg-gray-200 rounded animate-pulse"></div>
+                            <div className="h-8 w-8 bg-gray-200 rounded animate-pulse"></div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse mb-2 w-20"></div>
+                        <div className="h-10 w-10 bg-gray-200 rounded animate-pulse"></div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            
+            <div>
+              <Card className="shadow-xl border-0 bg-white/95 backdrop-blur-sm sticky top-4">
+                <CardHeader className="bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-t-lg">
+                  <CardTitle className="text-xl">Order Summary</CardTitle>
+                </CardHeader>
+                <CardContent className="p-6">
+                  <div className="space-y-4 mb-6">
+                    <div className="flex justify-between">
+                      <div className="h-4 bg-gray-200 rounded animate-pulse w-24"></div>
+                      <div className="h-4 bg-gray-200 rounded animate-pulse w-16"></div>
+                    </div>
+                    <div className="flex justify-between">
+                      <div className="h-4 bg-gray-200 rounded animate-pulse w-16"></div>
+                      <div className="h-4 bg-gray-200 rounded animate-pulse w-12"></div>
+                    </div>
+                    <div className="border-t pt-4">
+                      <div className="flex justify-between">
+                        <div className="h-6 bg-gray-200 rounded animate-pulse w-12"></div>
+                        <div className="h-6 bg-gray-200 rounded animate-pulse w-20"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="h-12 bg-gray-200 rounded-lg animate-pulse mb-3"></div>
+                  <div className="h-10 bg-gray-200 rounded-lg animate-pulse"></div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (cartItems.length === 0) {
     return (

@@ -15,6 +15,7 @@ import { useCart } from "@/hooks/useCart";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
 import { useWishlist } from "@/hooks/useWishlist";
+import { useCartCountStore } from "@/store/cartCountStore";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -26,11 +27,10 @@ import {
 export const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
-  const { cartCount } = useCart();
-  const { items: wishlistItems } = useWishlist();
   const { user, signOut, profile } = useAuth();
   const { toast } = useToast();
-  const wishlistCount = wishlistItems.length;
+  const { cartItems } = useCart();
+  const { cartItemCount } = useCartCountStore();
 
   const handleWishlistClick = () => {
     navigate("/wishlist");
@@ -122,10 +122,6 @@ export const Navigation = () => {
                 </span>
               )} */}
             </Button>
-            {/* <Button variant="ghost" size="icon" className="hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-full relative">
-              <Bell className="h-5 w-5" />
-              <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-xs rounded-full h-2 w-2"></span>
-            </Button> */}
 
             {/* User Menu */}
             {user ? (
@@ -182,11 +178,11 @@ export const Navigation = () => {
                 className="relative hover:bg-purple-50 hover:text-purple-600 transition-all duration-300 rounded-full"
               >
                 <ShoppingCart className="h-5 w-5" />
-                {/* {cartCount > 0 && (
+                {cartItemCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                    {cartCount}
+                    {cartItemCount}
                   </span>
-                )} */}
+                )}
               </Button>
             </Link>
           </div>
@@ -257,12 +253,6 @@ export const Navigation = () => {
                   )} */}
                 </Button>
 
-                {/* <Button variant="ghost" className="w-full justify-start px-4 py-3 hover:bg-blue-50 hover:text-blue-600 transition-all duration-300 rounded-xl relative">
-                  <Bell className="h-5 w-5 mr-3" />
-                  Notifications
-                  <span className="absolute right-4 bg-blue-500 text-white text-xs rounded-full h-2 w-2"></span>
-                </Button> */}
-
                 {user ? (
                   <>
                     <Button
@@ -306,11 +296,11 @@ export const Navigation = () => {
                   >
                     <ShoppingCart className="h-5 w-5 mr-3" />
                     Cart
-                    {/* {cartCount > 0 && (
+                    {cartItemCount > 0 && (
                       <span className="absolute right-4 bg-purple-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center font-semibold">
-                        {cartCount}
+                        {cartItemCount}
                       </span>
-                    )} */}
+                    )}
                   </Button>
                 </Link>
               </div>
